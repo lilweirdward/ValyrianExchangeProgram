@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Apis.Sheets.v4" Version="1.46.0.1981" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Braavos.Entities\Braavos.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

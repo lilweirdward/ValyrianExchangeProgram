@@ -1,0 +1,27 @@
+// Icon message
+.icon-message {
+  border: $icon-border-width solid currentColor;
+  border-bottom: 0;
+  border-radius: $border-radius;
+  border-right: 0;
+
+  &::before {
+    border: $icon-border-width solid currentColor;
+    border-bottom-right-radius: $border-radius;
+    border-left: 0;
+    border-top: 0;
+    height: .8em;
+    left: 65%;
+    top: 35%;
+    width: .75em;
+  }
+  &::after {
+    background: currentColor;
+    border-radius: $border-radius;
+    height: .35em;
+    left: 7%;
+    top: 100%;
+    transform: translate(0, -.32em) rotate(45deg);
+    width: $icon-border-width;
+  }
+}

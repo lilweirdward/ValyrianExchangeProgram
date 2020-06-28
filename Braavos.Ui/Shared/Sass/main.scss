@@ -1,0 +1,86 @@
+﻿$primary-color: #baa032;
+$secondary-color: #c8c8c8;
+$dark-color: #191919;
+$hamburger-layer-color: white;
+
+@import "spectre/src/variables";
+
+.wrapper {
+    padding: 0 20vw;
+
+    @media (max-width: $size-md) {
+        padding: 1rem 10vw;
+    }
+
+    @media (max-width: $size-sm) {
+        padding: 1rem 5vw;
+    }
+}
+
+.navbar {
+    background-color: $dark-color;
+    padding: 1rem 20vw;
+    @media (max-width: $size-md) {
+        padding: 1rem 10vw;
+    }
+    @media (max-width: $size-sm) {
+        padding: 1rem 5vw;
+    }
+
+    .btn.btn-link {
+        color: $secondary-color;
+        @media (max-width: $size-sm) {
+            color: $dark-color;
+        }
+    }
+    img.logo {
+        height: 3rem;
+    }
+}
+
+.py-xl {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.py-lg {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+@import "spectre/src/spectre";
+@import "icons.css/src/icons";
+@import "hamburgers/hamburgers";
+
+.panel .columns .column {
+    @extend .d-flex;
+    align-items: center;
+}
+
+.table {
+    @media (max-width: $size-md) {
+        display: block;
+        overflow-x: auto;
+        padding-bottom: .75rem;
+        white-space: nowrap;
+    }
+}
+
+.dropdown {
+    .dropdown-toggle:focus {
+        .hamburger-inner {
+            $y-offset: $hamburger-layer-spacing + $hamburger-layer-height;
+
+            transform: translate3d(0, $y-offset, 0) rotate(45deg);
+
+            &::before {
+                transform: rotate(-45deg) translate3d($hamburger-layer-width / -7, $hamburger-layer-spacing * -1, 0);
+                opacity: 0;
+            }
+
+            &::after {
+                transform: translate3d(0, $y-offset * -2, 0) rotate(-90deg);
+            }
+        }
+    }
+}
