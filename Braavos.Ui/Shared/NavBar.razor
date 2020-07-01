@@ -13,7 +13,7 @@
             </NavLink>
         </section>
         <section class="navbar-section">
-            <a href="#" class="btn btn-link">Log In</a>
+            <button class="btn btn-link" @onclick="@OnLogInCallback">Log In</button>
         </section>
     </header>
 </div>
@@ -43,7 +43,7 @@
         else
         {
             <section class="navbar-section">
-                <a href="#" class="btn btn-link">Log In</a>
+                <a href="#" class="btn btn-link" @onclick="@OnLogInCallback">Log In</a>
             </section>
         }
     </header>
@@ -56,5 +56,8 @@
 
     [Parameter]
     public bool NavigationIsVisible { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnLogInCallback { get; set; }
 
 }

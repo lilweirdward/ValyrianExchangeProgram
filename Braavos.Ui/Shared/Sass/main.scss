@@ -150,3 +150,11 @@ video.full-screen {
         }
     }
 }
+
+./*modal {
+    .btn.btn-clear {
+        &::before {
+            content: "\2715";
+        }
+    }
+}*/

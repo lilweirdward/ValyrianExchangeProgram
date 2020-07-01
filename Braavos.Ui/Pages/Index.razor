@@ -1,6 +1,8 @@
 ﻿@page "/"
 
-<NavBar BackgroundIsVisible="false" NavigationIsVisible="false" />
+<NavBar BackgroundIsVisible="false" NavigationIsVisible="false" OnLogInCallback="OpenLoginModal" />
+
+<LoginPortal @bind-Visible="loginIsVisible" />
 
 <video class="full-screen" playsinline autoplay muted loop id="bgvid">
     <source src="vid/home-background.webm" type="video/webm" />
@@ -16,20 +18,10 @@
     </div>
 </div>
 
-@*<div class="wrapper">
-    <div class="container">
-        <div class="columns">
-            <div class="col-12">
-                <img class="img-fit-cover d-block p-centered" src="img/braavos-banner.png" />
-            </div>
-        </div>
-    </div>
+@code {
 
-    <h1>Valerian Exchange Program</h1>
+    private bool loginIsVisible = false;
 
-    <p>
-        Welcome to the VEP! If this is your first time seeing this new system, please take the time to <a href="#">log in</a> 
-        with the secret code that you were given by a VEP administrator. If you do not have a secret code, please 
-        <a href="#">contact a VEP administrator</a> for assistance.
-    </p>
-</div>*@
+    private void OpenLoginModal() => loginIsVisible = true;
+
+}
