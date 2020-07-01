@@ -1,0 +1,218 @@
+﻿@page "/account"
+
+<NavBar BackgroundIsVisible="true" NavigationIsVisible="true" />
+
+<div class="wrapper hero bg-gray" style="margin-top: 100px">
+    <div class="container">
+        @*<figure class="avatar avatar-xl">
+                <img src="img/avatar.jpg" alt="lilweirdward-avatar" />
+            </figure>*@
+        <h1>lilweirdward <small>of Land of Too Much Fun</small></h1>
+        <div>
+            <div class="chip bg-dark text-light">
+                <figure class="avatar avatar-sm bg-primary" data-initial="S"></figure>
+                Seller
+            </div>
+            <div class="chip bg-dark text-light">
+                <img src="img/ccc.jpg" class="avatar avatar-sm" />
+                CCC
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="wrapper py-xl">
+    <div class="container">
+        <div class="text-center">
+            <h1>Your Current Balance</h1>
+            <div class="columns">
+                <div class="column text-right">
+                    <h1 class="text-success">+$36m</h1>
+                    <p class="text-uppercase text-gray">Cash Equivalents</p>
+                </div>
+                <div class="divider-vert"></div>
+                <div class="column text-left">
+                    <h1 class="text-success"><small>+400</small></h1>
+                    <p class="text-uppercase text-gray">Tech Equivalents</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="wrapper py-xl">
+    <div class="container">
+        <h1>My Account</h1>
+        <div class="columns m-2">
+            <div class="column">
+                Open Slots: <strong>5</strong>
+            </div>
+            <div class="column text-right text-italic">
+                Last Updated: 2020-06-27 05:27:31 (server time)
+            </div>
+        </div>
+        <div class="panel py-lg px-2 my-2">
+            <div class="columns">
+                <div class="column col-auto">
+                    <i class="icon icon-plus c-hand"></i>
+                </div>
+                <div class="column col-auto">
+                    <h4 class="m-0">Incoming Aid From</h4>
+                </div>
+                <div class="column">
+                    <span class="text-gray">(4 nations)</span>
+                </div>
+            </div>
+            <div class="divider my-2"></div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Ruler</th>
+                        <th>Nation</th>
+                        <th>Alliance</th>
+                        <th>Status</th>
+                        <th>Open Slots</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>javaswiller</td>
+                        <td>swillerland</td>
+                        <td>
+                            Freehold of the Wolves
+                            <div class="chip bg-dark text-light">
+                                <img src="img/ftw.jpg" class="avatar avatar-sm" />
+                                FTW
+                            </div>
+                        </td>
+                        <td>
+                            <div class="chip bg-dark text-light">
+                                <figure class="avatar avatar-sm bg-primary" data-initial="B"></figure>
+                                Buyer
+                            </div>
+                        </td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>blackpony</td>
+                        <td>the Mad Ninja</td>
+                        <td>
+                            Freehold of the Wolves
+                            <div class="chip bg-dark text-light">
+                                <img src="img/ftw.jpg" class="avatar avatar-sm" />
+                                FTW
+                            </div>
+                        </td>
+                        <td>
+                            <div class="chip bg-dark text-light">
+                                <figure class="avatar avatar-sm bg-primary" data-initial="B"></figure>
+                                Buyer
+                            </div>
+                        </td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>moon55</td>
+                        <td>Peprustan</td>
+                        <td>
+                            Freehold of the Wolves
+                            <div class="chip bg-dark text-light">
+                                <img src="img/ftw.jpg" class="avatar avatar-sm" />
+                                FTW
+                            </div>
+                        </td>
+                        <td>
+                            <div class="chip bg-dark text-light">
+                                <figure class="avatar avatar-sm bg-primary" data-initial="B"></figure>
+                                Buyer
+                            </div>
+                        </td>
+                        <td>6</td>
+                    </tr>
+                    <tr>
+                        <td>Thuru</td>
+                        <td>Thuru</td>
+                        <td>
+                            Christian Coalition of Countries
+                            <div class="chip bg-dark text-light">
+                                <img src="img/ccc.jpg" class="avatar avatar-sm" />
+                                CCC
+                            </div>
+                        </td>
+                        <td>
+                            <div class="chip bg-dark text-light">
+                                <figure class="avatar avatar-sm bg-primary" data-initial="B"></figure>
+                                Buyer
+                            </div>
+                        </td>
+                        <td>6</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="panel py-lg px-2 my-2">
+            <div class="columns">
+                <div class="column col-auto">
+                    <i class="icon icon-plus c-hand"></i>
+                </div>
+                <div class="column col-auto">
+                    <h4 class="m-0">Recent Credit History</h4>
+                </div>
+                <div class="column">
+                    <span class="text-gray">+2 out, -1 in</span>
+                </div>
+            </div>
+            <div class="divider my-2"></div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Other Ruler</th>
+                        <th>Type</th>
+                        <th>Money</th>
+                        <th>Tech</th>
+                        <th>Soldiers</th>
+                        <th>Credit (Money)</th>
+                        <th>Credit (Tech)</th>
+                        <th>Sent On</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Shadowfury</td>
+                        <td>Outgoing</td>
+                        <td>0</td>
+                        <td>100</td>
+                        <td>0</td>
+                        <td class="text-success text-bold">+9</td>
+                        <td class="text-success">+100</td>
+                        <td>2020-06-12</td>
+                    </tr>
+                    <tr>
+                        <td>Prince Oberyn</td>
+                        <td>Outgoing</td>
+                        <td>0</td>
+                        <td>100</td>
+                        <td>0</td>
+                        <td class="text-success text-bold">+9</td>
+                        <td class="text-success">+100</td>
+                        <td>2020-06-12</td>
+                    </tr>
+                    <tr>
+                        <td>Master Ice</td>
+                        <td>Incoming</td>
+                        <td>9,000,000</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td class="text-error text-bold">-9</td>
+                        <td class="text-error">-100</td>
+                        <td>2020-06-8</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code {
+
+}

@@ -16,10 +16,10 @@ namespace Braavos.Repository
             var service = new SheetsService(new BaseClientService.Initializer
             {
                 ApplicationName = "Braavos.Repository",
-                ApiKey = "junk"
+                ApiKey = "AIzaSyDxWWMLw4OjQGIqZbOOnTff_H0QtJEFBOM"
             });
 
-            var spreadsheetId = "morejunk";
+            var spreadsheetId = "1lFh6N2L0XNECk1uNBEsSpLNwBrCr8ovrPs-w-_2YB90";
             var request = service.Spreadsheets.Values.Get(spreadsheetId, "VAid!C2:T");
 
             var response = await request.ExecuteAsync();

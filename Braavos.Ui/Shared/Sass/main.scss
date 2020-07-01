@@ -5,6 +5,58 @@ $hamburger-layer-color: white;
 
 @import "spectre/src/variables";
 
+.home-banner-full {
+    position: relative;
+    height: 100vh;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    h1 {
+        width: 50vw;
+        font-size: 3rem;
+        color: $light-color;
+        text-transform: uppercase;
+        font-weight: bold;
+
+        @media (max-width: $size-md) {
+            width: 80vw;
+            font-size: 2rem;
+        }
+
+        @media (max-width: $size-sm) {
+            width: 90vw;
+        }
+    }
+
+    .btn {
+        height: auto;
+        line-height: inherit;
+        color: $light-color;
+        border-color: $light-color;
+        background-color: transparent;
+    }
+}
+
+video.full-screen {
+    object-fit: cover;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.video-full-cover {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, .5);
+}
+
 .wrapper {
     padding: 0 20vw;
 
@@ -18,13 +70,27 @@ $hamburger-layer-color: white;
 }
 
 .navbar {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100vw;
     background-color: $dark-color;
     padding: 1rem 20vw;
+    z-index: 100;
     @media (max-width: $size-md) {
         padding: 1rem 10vw;
     }
     @media (max-width: $size-sm) {
         padding: 1rem 5vw;
+    }
+
+    &.no-bg {
+        background-color: transparent;
+
+        .btn.btn-link {
+            @media (max-width: $size-sm) {
+                color: $light-color;
+            }
+        }
     }
 
     .btn.btn-link {
