@@ -8,7 +8,7 @@
         @if (NavigationIsVisible)
         {
             <section class="navbar-section">
-                <a href="#" class="btn btn-link">My Account</a>
+                <NavLink href="account" class="btn btn-link">My Account</NavLink>
                 <a href="#" class="btn btn-link">How It Works</a>
             </section>
         }
@@ -20,7 +20,14 @@
         <section class="navbar-section">
             @if (isLoggedIn)
             {
-                <button class="btn btn-link" @onclick="(async () => await LogOut())">Log Out</button>
+                if (NavigationIsVisible)
+                {
+                    <button class="btn btn-link" @onclick="(async () => await LogOut())">Log Out</button>
+                }
+                else
+                {
+                    <NavLink href="account" class="btn btn-link">My Account</NavLink>
+                }
             }
             else
             {
@@ -46,7 +53,7 @@
                     </button>
                     <ul class="menu">
                         <li class="menu-item">
-                            <a href="#" class="btn btn-link">My Account</a>
+                            <NavLink href="account" class="btn btn-link">My Account</NavLink>
                         </li>
                         <li class="menu-item">
                             <a href="#" class="btn btn-link">How It Works</a>
@@ -63,7 +70,7 @@
             <section class="navbar-section">
                 @if (isLoggedIn)
                 {
-                    <a href="#" class="btn btn-link" @onclick="(async () => await LogOut())">Log Out</a>
+                    <NavLink href="account" class="btn btn-link">My Account</NavLink>
                 }
                 else
                 {
