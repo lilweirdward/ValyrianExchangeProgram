@@ -1,4 +1,6 @@
 ﻿@page "/account"
+@inject ILoginAccountService loginAccountService
+@inject NavigationManager navManager
 
 <NavBar BackgroundIsVisible="true" NavigationIsVisible="true" />
 
@@ -24,18 +26,9 @@
 <div class="wrapper py-xl">
     <div class="container">
         <div class="text-center">
-            <h1>Your Current Balance</h1>
-            <div class="columns">
-                <div class="column text-right">
-                    <h1 class="text-success">+$36m</h1>
-                    <p class="text-uppercase text-gray">Cash Equivalents</p>
-                </div>
-                <div class="divider-vert"></div>
-                <div class="column text-left">
-                    <h1 class="text-success"><small>+400</small></h1>
-                    <p class="text-uppercase text-gray">Tech Equivalents</p>
-                </div>
-            </div>
+            <h3>Your Current Balance</h3>
+            <h1 class="text-success">+$36m (Credit)</h1>
+            <p class="text-uppercase text-gray m-0">Cash Equivalents</p>
         </div>
     </div>
 </div>
@@ -57,12 +50,15 @@
                     <i class="icon icon-plus c-hand"></i>
                 </div>
                 <div class="column col-auto">
-                    <h4 class="m-0">Incoming Aid From</h4>
+                    <h4 class="m-0">Incoming Cash</h4>
                 </div>
                 <div class="column">
                     <span class="text-gray">(4 nations)</span>
                 </div>
             </div>
+            <p class="text-gray my-1">
+                Please accept cash aid from any of the nations in the following list.
+            </p>
             <div class="divider my-2"></div>
             <table class="table">
                 <thead>
@@ -76,7 +72,10 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>javaswiller</td>
+                        <td>
+                            @*<a href="https://www.cybernations.net/aid_form.asp?Nation_ID=623718&bynation=552285">javaswiller</a>*@
+                            <a href="#">javaswiller</a>
+                        </td>
                         <td>swillerland</td>
                         <td>
                             Freehold of the Wolves
@@ -94,7 +93,9 @@
                         <td>1</td>
                     </tr>
                     <tr>
-                        <td>blackpony</td>
+                        <td>
+                            <a href="#">blackpony</a>
+                        </td>
                         <td>the Mad Ninja</td>
                         <td>
                             Freehold of the Wolves
@@ -112,7 +113,9 @@
                         <td>4</td>
                     </tr>
                     <tr>
-                        <td>moon55</td>
+                        <td>
+                            <a href="#">moon55</a>
+                        </td>
                         <td>Peprustan</td>
                         <td>
                             Freehold of the Wolves
@@ -130,7 +133,9 @@
                         <td>6</td>
                     </tr>
                     <tr>
-                        <td>Thuru</td>
+                        <td>
+                            <a href="#">Thuru</a>
+                        </td>
                         <td>Thuru</td>
                         <td>
                             Christian Coalition of Countries
@@ -150,6 +155,8 @@
                 </tbody>
             </table>
         </div>
+    </div>
+    <div class="container py-xl">
         <div class="panel py-lg px-2 my-2">
             <div class="columns">
                 <div class="column col-auto">
@@ -171,8 +178,7 @@
                         <th>Money</th>
                         <th>Tech</th>
                         <th>Soldiers</th>
-                        <th>Credit (Money)</th>
-                        <th>Credit (Tech)</th>
+                        <th>Credit Change</th>
                         <th>Sent On</th>
                     </tr>
                 </thead>
@@ -183,8 +189,7 @@
                         <td>0</td>
                         <td>100</td>
                         <td>0</td>
-                        <td class="text-success text-bold">+9</td>
-                        <td class="text-success">+100</td>
+                        <td class="text-success">+100 tech sent</td>
                         <td>2020-06-12</td>
                     </tr>
                     <tr>
@@ -193,8 +198,7 @@
                         <td>0</td>
                         <td>100</td>
                         <td>0</td>
-                        <td class="text-success text-bold">+9</td>
-                        <td class="text-success">+100</td>
+                        <td class="text-success">+100 tech sent</td>
                         <td>2020-06-12</td>
                     </tr>
                     <tr>
@@ -203,8 +207,7 @@
                         <td>9,000,000</td>
                         <td>0</td>
                         <td>0</td>
-                        <td class="text-error text-bold">-9</td>
-                        <td class="text-error">-100</td>
+                        <td class="text-error text-bold">-$9m received</td>
                         <td>2020-06-8</td>
                     </tr>
                 </tbody>
@@ -213,6 +216,12 @@
     </div>
 </div>
 
-@code {
+@code {        
+    
+    protected override async Task OnInitializedAsync()
+    {
+        if (!(await loginAccountService.IsLoggedIn()))
+            navManager.NavigateTo("");
+    }
 
 }

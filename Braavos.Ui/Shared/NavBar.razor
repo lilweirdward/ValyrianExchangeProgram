@@ -61,7 +61,14 @@
         else
         {
             <section class="navbar-section">
-                <a href="#" class="btn btn-link" @onclick="() => loginIsVisible = true">Log In</a>
+                @if (isLoggedIn)
+                {
+                    <a href="#" class="btn btn-link" @onclick="(async () => await LogOut())">Log Out</a>
+                }
+                else
+                {
+                    <a href="#" class="btn btn-link" @onclick="() => loginIsVisible = true">Log In</a>
+                }
             </section>
         }
     </header>
