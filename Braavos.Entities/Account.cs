@@ -6,7 +6,6 @@ namespace Braavos.Entities
 {
     public class Account
     {
-        public int Credit { get; set; }
-        public int Debt { get; set; }
+
     }
 }

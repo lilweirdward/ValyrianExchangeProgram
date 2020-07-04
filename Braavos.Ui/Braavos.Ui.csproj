@@ -12,4 +12,9 @@
     <None Include="compilerconfig.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Blazored.LocalStorage" Version="2.1.6" />
+    <PackageReference Include="Blazored.SessionStorage" Version="1.0.12" />
+  </ItemGroup>
+
 </Project>

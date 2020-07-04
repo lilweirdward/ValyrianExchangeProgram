@@ -17,18 +17,18 @@ namespace Braavos.Api.Controllers
 
         public BankAccountController(IBraavosRepository braavosRepository) => _braavosRepository = braavosRepository;
 
-        [HttpGet]
-        public async Task<ActionResult<List<Nation>>> GetBankAccounts()
-        {
-            try
-            {
-                var results = await _braavosRepository.GetCreditAccounts();
-                return Ok(results);
-            }
-            catch (Exception e)
-            {
-                return Problem(e.Message);
-            }
-        }
+        //[HttpGet]
+        //public async Task<ActionResult<List<Nation>>> GetBankAccounts()
+        //{
+        //    try
+        //    {
+        //        var results = await _braavosRepository.GetCreditAccounts();
+        //        return Ok(results);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return Problem(e.Message);
+        //    }
+        //}
     }
 }
