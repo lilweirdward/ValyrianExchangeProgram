@@ -11,6 +11,8 @@ namespace Braavos.Ui.Data
         public string RulerName { get; set; }
         public string UniqueCode { get; set; }
 
+        public LoginAccount() { }
+
         public LoginAccount(int nationId, string uniqueCode) => (NationId, UniqueCode) = (nationId, uniqueCode);
 
         public LoginAccount(string rulerName, string uniqueCode) => (RulerName, UniqueCode) = (rulerName, uniqueCode);

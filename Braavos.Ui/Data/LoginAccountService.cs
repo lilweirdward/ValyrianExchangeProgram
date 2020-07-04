@@ -46,7 +46,7 @@ namespace Braavos.Ui.Data
                 await _sessionStorage.SetItemAsync(AccountKey, account);
         }
 
-        public async Task LogOut(LoginAccount account)
+        public async Task LogOut()
         {
             // Blow both away just in case
             await _localStorage.RemoveItemAsync(AccountKey);

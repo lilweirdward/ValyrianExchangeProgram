@@ -1,4 +1,9 @@
-﻿<div class="hide-sm">
+﻿@inject ILoginAccountService loginAccountService
+@inject NavigationManager navManager;
+
+<LoginPortal @bind-Visible="loginIsVisible" />
+
+<div class="hide-sm">
     <header class="navbar @((BackgroundIsVisible ? "" : "no-bg"))">
         @if (NavigationIsVisible)
         {
@@ -13,7 +18,14 @@
             </NavLink>
         </section>
         <section class="navbar-section">
-            <button class="btn btn-link" @onclick="@OnLogInCallback">Log In</button>
+            @if (isLoggedIn)
+            {
+                <button class="btn btn-link" @onclick="(async () => await LogOut())">Log Out</button>
+            }
+            else
+            {
+                <button class="btn btn-link" @onclick="() => loginIsVisible = true">Log In</button>
+            }
         </section>
     </header>
 </div>
@@ -33,9 +45,15 @@
                         </span>
                     </button>
                     <ul class="menu">
-                        <a href="#" class="btn btn-link">My Account</a>
-                        <a href="#" class="btn btn-link">How It Works</a>
-                        <a href="#" class="btn btn-link">Log Out</a>
+                        <li class="menu-item">
+                            <a href="#" class="btn btn-link">My Account</a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="#" class="btn btn-link">How It Works</a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="#" class="btn btn-link">Log Out</a>
+                        </li>
                     </ul>
                 </div>
             </section>
@@ -43,7 +61,7 @@
         else
         {
             <section class="navbar-section">
-                <a href="#" class="btn btn-link" @onclick="@OnLogInCallback">Log In</a>
+                <a href="#" class="btn btn-link" @onclick="() => loginIsVisible = true">Log In</a>
             </section>
         }
     </header>
@@ -51,13 +69,25 @@
 
 @code {
 
+    private bool loginIsVisible;
+    private bool isLoggedIn;
+
     [Parameter]
     public bool BackgroundIsVisible { get; set; }
 
     [Parameter]
     public bool NavigationIsVisible { get; set; }
 
-    [Parameter]
-    public EventCallback<MouseEventArgs> OnLogInCallback { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        isLoggedIn = await loginAccountService.IsLoggedIn();
+        Console.WriteLine($"isLoggedIn = {isLoggedIn}");
+    }
+
+    private async Task LogOut()
+    {
+        await loginAccountService.LogOut();
+        navManager.NavigateTo("");
+    }
 
 }

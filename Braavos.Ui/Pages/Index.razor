@@ -1,8 +1,6 @@
 ﻿@page "/"
 
-<NavBar BackgroundIsVisible="false" NavigationIsVisible="false" OnLogInCallback="OpenLoginModal" />
-
-<LoginPortal @bind-Visible="loginIsVisible" />
+<NavBar BackgroundIsVisible="false" NavigationIsVisible="false" />
 
 <video class="full-screen" playsinline autoplay muted loop id="bgvid">
     <source src="vid/home-background.webm" type="video/webm" />
@@ -19,9 +17,5 @@
 </div>
 
 @code {
-
-    private bool loginIsVisible = false;
-
-    private void OpenLoginModal() => loginIsVisible = true;
 
 }
