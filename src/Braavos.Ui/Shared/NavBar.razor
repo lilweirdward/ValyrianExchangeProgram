@@ -45,8 +45,9 @@
         @if (NavigationIsVisible)
         {
             <section class="navbar-section">
-                <div class="dropdown dropdown-right">
-                    <button class="hamburger hamburger--slider dropdown-toggle" type="button">
+                <div class="dropdown dropdown-right @((dropdownOpen ? "active" : ""))">
+                    <button class="hamburger hamburger--slider dropdown-toggle" type="button" 
+                            @onfocusin="() => dropdownOpen = true" @onfocusout="() => dropdownOpen = false">
                         <span class="hamburger-box">
                             <span class="hamburger-inner"></span>
                         </span>
@@ -83,6 +84,7 @@
 
 @code {
 
+    private bool dropdownOpen;
     private bool loginIsVisible;
     private bool isLoggedIn;
 
