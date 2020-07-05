@@ -46,7 +46,7 @@
         {
             <section class="navbar-section">
                 <div class="dropdown dropdown-right @((dropdownOpen ? "active" : ""))">
-                    <button class="hamburger hamburger--slider dropdown-toggle" type="button" 
+                    <button class="hamburger hamburger--slider dropdown-toggle" type="button" onclick="this.focus()"
                             @onfocusin="() => dropdownOpen = true" @onfocusout="() => dropdownOpen = false">
                         <span class="hamburger-box">
                             <span class="hamburger-inner"></span>
