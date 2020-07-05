@@ -1,4 +1,5 @@
 ﻿@page "/"
+@inject IJSRuntime jsRuntime
 
 <NavBar BackgroundIsVisible="false" NavigationIsVisible="false" />
 
@@ -17,5 +18,11 @@
 </div>
 
 @code {
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await jsRuntime.InvokeVoidAsync("loadVideo", "bgvid");
+    }
 
 }

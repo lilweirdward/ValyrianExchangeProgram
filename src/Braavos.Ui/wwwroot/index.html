@@ -57,6 +57,17 @@
     </script>
     <!-- End Single Page Apps for GitHub Pages -->
 
+    <script>
+        window.loadVideo = (id) => {
+            var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+            if (isSafari) {
+                // Dumb hack to manually load video tags because Safari is stupid as shit
+                console.log("we're in safari; trying to load the video manually...");
+                document.getElementById(id).load();
+            }
+        }
+    </script>
+
     <script src="_framework/blazor.webassembly.js"></script>
 </body>
 
