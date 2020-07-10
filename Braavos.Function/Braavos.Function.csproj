@@ -4,9 +4,11 @@
     <AzureFunctionsVersion>v3</AzureFunctionsVersion>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.0.0" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.3" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Braavos.Core\Braavos.Core.csproj" />
     <ProjectReference Include="..\src\Braavos.Entities\Braavos.Entities.csproj" />
   </ItemGroup>
   <ItemGroup>
