@@ -1,4 +1,4 @@
-﻿@inject ILoginAccountService loginAccountService
+﻿@inject IUserService userService
 @inject NavigationManager navManager
 
 <div class="modal @((Visible ? "active" : ""))">
@@ -14,20 +14,20 @@
                     <div class="column">
                         <div class="form-group">
                             <label class="form-label" for="nation-id">Nation ID</label>
-                            <input class="form-input" type="text" id="nation-id" />
+                            <input class="form-input" type="text" id="nation-id" @bind="nationId" />
                         </div>
                     </div>
                     <div class="divider-vert" data-content="OR"></div>
                     <div class="column">
                         <div class="form-group">
                             <label class="form-label" for="ruler-name">Ruler Name</label>
-                            <input class="form-input" type="text" id="ruler-name" />
+                            <input class="form-input" type="text" id="ruler-name" @bind="rulerName" />
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="unique-code">Unique Code</label>
-                    <input class="form-input" type="text" id="unique-code" />
+                    <input class="form-input" type="text" id="unique-code" @bind="uniqueCode" />
                 </div>
                 <div class="form-group">
                     <label class="form-checkbox">
@@ -47,6 +47,9 @@
 @code {
 
     private bool rememberMe;
+    private int? nationId;
+    private string rulerName;
+    private string uniqueCode;
 
     [Parameter]
     public bool Visible { get; set; }
@@ -63,9 +66,24 @@
 
     private async Task LogIn()
     {
-        await loginAccountService.LogIn(new Data.LoginAccount(1, "243u82"), rememberMe);
+        var request = nationId is null ? new AuthRequest(rulerName, uniqueCode) : new AuthRequest(nationId.Value, uniqueCode);
+        Console.WriteLine(request);
 
-        navManager.NavigateTo("account");
+        try
+        {
+            await userService.LogIn(request, rememberMe);
+            navManager.NavigateTo("account");
+        }
+        catch (UnauthorizedAccessException)
+        {
+            Console.WriteLine("Unauthorized >:(");
+            // Do stuff because they did a bad thing
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Uh oh :( - " + e.Message);
+            // Do stuff because someone did a bad thing (probably me)
+        }
     }
 
 }

@@ -1,4 +1,4 @@
-﻿@inject ILoginAccountService loginAccountService
+﻿@inject IUserService userService
 @inject NavigationManager navManager;
 
 <LoginPortal @bind-Visible="loginIsVisible" />
@@ -96,13 +96,13 @@
 
     protected override async Task OnInitializedAsync()
     {
-        isLoggedIn = await loginAccountService.IsLoggedIn();
+        isLoggedIn = await userService.IsLoggedIn();
         Console.WriteLine($"isLoggedIn = {isLoggedIn}");
     }
 
     private async Task LogOut()
     {
-        await loginAccountService.LogOut();
+        await userService.LogOut();
         navManager.NavigateTo("");
     }
 

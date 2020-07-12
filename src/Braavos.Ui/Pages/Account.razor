@@ -1,5 +1,5 @@
 ﻿@page "/account"
-@inject ILoginAccountService loginAccountService
+@inject IUserService userService
 @inject NavigationManager navManager
 
 <NavBar BackgroundIsVisible="true" NavigationIsVisible="true" />
@@ -220,7 +220,7 @@
     
     protected override async Task OnInitializedAsync()
     {
-        if (!(await loginAccountService.IsLoggedIn()))
+        if (!(await userService.IsLoggedIn()))
             navManager.NavigateTo("");
     }
 

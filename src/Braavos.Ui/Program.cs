@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Blazored.LocalStorage;
 using Blazored.SessionStorage;
 using Braavos.Ui.Data;
+using System;
 
 namespace Braavos.Ui
 {
@@ -16,7 +17,8 @@ namespace Braavos.Ui
 
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddBlazoredSessionStorage();
-            builder.Services.AddScoped<ILoginAccountService, LoginAccountService>();
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddHttpClient<BraavosClient>(client => client.BaseAddress = new Uri("http://localhost:7071/"));
 
             await builder.Build().RunAsync();
         }

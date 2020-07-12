@@ -1,15 +1,16 @@
-﻿using System;
+﻿using Braavos.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Braavos.Ui.Data
 {
-    public interface ILoginAccountService
+    public interface IUserService
     {
-        Task LogIn(LoginAccount account, bool rememberMe);
+        Task LogIn(AuthRequest account, bool rememberMe);
         Task LogOut();
         Task<bool> IsLoggedIn();
-        Task<LoginAccount> GetAccount();
+        Task<AuthorizedUser> GetAccount();
     }
 }
