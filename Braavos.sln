@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.30128.74
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Braavos.Ui", "src\Braavos.Ui\Braavos.Ui.csproj", "{0B0826C9-C901-4378-9CD5-334C90157ADA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Braavos.Function", "src\Braavos.Function\Braavos.Function.csproj", "{7F2E8293-2583-4A55-B616-92D6DFA97B4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Braavos.Function", "src\Braavos.Function\Braavos.Function.csproj", "{7F2E8293-2583-4A55-B616-92D6DFA97B4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Braavos.Core", "src\Braavos.Core\Braavos.Core.csproj", "{2FF5DCC6-3247-40C1-AB91-1D5B84D91A2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Braavos.Core", "src\Braavos.Core\Braavos.Core.csproj", "{2FF5DCC6-3247-40C1-AB91-1D5B84D91A2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

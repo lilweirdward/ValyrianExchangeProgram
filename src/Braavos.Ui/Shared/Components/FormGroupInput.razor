@@ -1,0 +1,26 @@
+﻿<div class="form-group">
+    <label class="form-label" for="@LabelId">@LabelName</label>
+    <input @oninput="@OnValueChanged" class="form-input" type="text" id="@LabelId" value="@Value" />
+</div>
+
+@code {
+
+    private string LabelId => LabelName.ToLower().Replace(' ', '-');
+
+    [Parameter]
+    public string LabelName { get; set; }
+
+    [Parameter]
+    public string Value { get; set; }
+
+    [Parameter]
+    public EventCallback<string> ValueChanged { get; set; }
+
+    private Task OnValueChanged(ChangeEventArgs e)
+    {
+        Value = e.Value.ToString();
+
+        return ValueChanged.InvokeAsync(Value);
+    }
+
+}

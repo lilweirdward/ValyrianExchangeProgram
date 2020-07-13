@@ -11,5 +11,7 @@
         public AuthRequest(int nationId, string uniqueCode) => (NationId, UniqueCode) = (nationId, uniqueCode);
 
         public AuthRequest(string rulerName, string uniqueCode) => (RulerName, UniqueCode) = (rulerName, uniqueCode);
+
+        public override string ToString() => $"{{ NationId: {NationId}, RulerName: {RulerName}, UniqueCode: {UniqueCode} }}";
     }
 }
