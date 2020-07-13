@@ -1,4 +1,4 @@
-﻿@inject ILoginAccountService loginAccountService
+﻿@inject IUserService userService
 @inject NavigationManager navManager
 
 <div class="modal @((Visible ? "active" : ""))">
@@ -12,29 +12,27 @@
             <div class="container">
                 <div class="columns">
                     <div class="column">
-                        <div class="form-group">
-                            <label class="form-label" for="nation-id">Nation ID</label>
-                            <input class="form-input" type="text" id="nation-id" />
-                        </div>
+                        <FormGroupInput LabelName="Nation ID" 
+                                        @bind-Value="nationId" 
+                                        IsValid="value => this.AllFieldsAreEmpty || int.TryParse(value, out _) || !string.IsNullOrEmpty(this.rulerName)" />
                     </div>
                     <div class="divider-vert" data-content="OR"></div>
                     <div class="column">
-                        <div class="form-group">
-                            <label class="form-label" for="ruler-name">Ruler Name</label>
-                            <input class="form-input" type="text" id="ruler-name" />
-                        </div>
+                        <FormGroupInput LabelName="Ruler Name" 
+                                        @bind-Value="rulerName" 
+                                        IsValid="value => this.AllFieldsAreEmpty || !string.IsNullOrEmpty(value) || int.TryParse(this.nationId, out _)" />
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label" for="unique-code">Unique Code</label>
-                    <input class="form-input" type="text" id="unique-code" />
-                </div>
+                <FormGroupInput LabelName="Unique Code" @bind-Value="uniqueCode" IsValid="value => this.AllFieldsAreEmpty || !string.IsNullOrEmpty(value)" />
                 <div class="form-group">
                     <label class="form-checkbox">
                         <input type="checkbox" @bind="rememberMe" />
                         <i class="form-icon"></i> Remember me
                     </label>
                 </div>
+                <p class="text-error @(loginFailed ? "" : "d-none")">
+                    The login that you entered doesn't match what we have on file. Please try again or contact VEP management for assistance.
+                </p>
             </div>
         </div>
         <div class="modal-footer">
@@ -47,12 +45,18 @@
 @code {
 
     private bool rememberMe;
+    private string nationId;
+    private string rulerName;
+    private string uniqueCode;
+    private bool loginFailed;
 
     [Parameter]
     public bool Visible { get; set; }
 
     [Parameter]
     public EventCallback<bool> VisibleChanged { get; set; }
+
+    private bool AllFieldsAreEmpty => string.IsNullOrEmpty(nationId) && string.IsNullOrEmpty(rulerName) && string.IsNullOrEmpty(uniqueCode);
 
     private Task Toggle()
     {
@@ -63,9 +67,24 @@
 
     private async Task LogIn()
     {
-        await loginAccountService.LogIn(new Data.LoginAccount(1, "243u82"), rememberMe);
+        var request = string.IsNullOrEmpty(nationId) ? new AuthRequest(rulerName, uniqueCode) : new AuthRequest(Convert.ToInt32(nationId), uniqueCode);
+        Console.WriteLine(request.ToString());
 
-        navManager.NavigateTo("account");
+        try
+        {
+            await userService.LogIn(request, rememberMe);
+            navManager.NavigateTo("account");
+        }
+        catch (UnauthorizedAccessException)
+        {
+            Console.WriteLine("Unauthorized >:(");
+            loginFailed = true;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Uh oh :( - " + e.Message);
+            loginFailed = true;
+        }
     }
 
 }

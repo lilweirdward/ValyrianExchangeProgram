@@ -1,13 +1,13 @@
-﻿using Braavos.Entities;
+﻿using Braavos.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Braavos.Repository
+namespace Braavos.Core.Repositories
 {
     public interface IBraavosRepository
     {
-        //Task<List<Nation>> GetCreditAccounts();
+        Task<AuthorizedUser> Authorize(AuthRequest authRequest);
     }
 }

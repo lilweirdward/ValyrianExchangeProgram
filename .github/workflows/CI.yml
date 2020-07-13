@@ -38,3 +38,22 @@ jobs:
         BRANCH: gh-pages # The branch the action should deploy to.
         FOLDER: build/wwwroot # The folder the action should deploy.
         SINGLE_COMMIT: true
+
+  deploy-function:
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.301
+    - name: Publish Function
+      run: dotnet publish src/Braavos.Function/Braavos.Function.csproj --configuration Release --output build
+    - name: Deploy to Azure Functions
+      uses: Azure/functions-action@v1.1.4
+      with:
+        app-name: braavos-tech-exchange
+        package: build
+        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}

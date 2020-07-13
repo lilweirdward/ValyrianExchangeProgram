@@ -1,0 +1,30 @@
+﻿<div class="form-group @(IsValid(Value) ? "" : "has-error")">
+    <label class="form-label" for="@LabelId">@LabelName</label>
+    <input @oninput="@OnValueChanged" class="form-input" type="text" id="@LabelId" value="@Value" />
+    <p class="form-input-hint @(IsValid(Value) ? "d-none" : "")">@LabelName is required or invalid</p>
+</div>
+
+@code {
+
+    private string LabelId => LabelName.ToLower().Replace(' ', '-');
+
+    [Parameter]
+    public string LabelName { get; set; }
+
+    [Parameter]
+    public string Value { get; set; }
+
+    [Parameter]
+    public EventCallback<string> ValueChanged { get; set; }
+
+    [Parameter]
+    public Func<string, bool> IsValid { get; set; }
+
+    private Task OnValueChanged(ChangeEventArgs e)
+    {
+        Value = e.Value.ToString();
+
+        return ValueChanged.InvokeAsync(Value);
+    }
+
+}
