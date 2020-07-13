@@ -31,7 +31,7 @@ jobs:
     - name: Publish client
       run: dotnet publish src/Braavos.Ui/Braavos.Ui.csproj --configuration Release --output build
     - name: Deploy to Github Pages
-      uses: JamesIves/github-pages-deploy-action@releases/v3
+      uses: JamesIves/github-pages-deploy-action@3.5.7
       with:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         BASE_BRANCH: master # The branch the action should deploy from.
