@@ -12,20 +12,27 @@
             <div class="container">
                 <div class="columns">
                     <div class="column">
-                        <FormGroupInput LabelName="Nation ID" @bind-Value="nationId" />
+                        <FormGroupInput LabelName="Nation ID" 
+                                        @bind-Value="nationId" 
+                                        IsValid="value => this.AllFieldsAreEmpty || int.TryParse(value, out _) || !string.IsNullOrEmpty(this.rulerName)" />
                     </div>
                     <div class="divider-vert" data-content="OR"></div>
                     <div class="column">
-                        <FormGroupInput LabelName="Ruler Name" @bind-Value="rulerName" />
+                        <FormGroupInput LabelName="Ruler Name" 
+                                        @bind-Value="rulerName" 
+                                        IsValid="value => this.AllFieldsAreEmpty || !string.IsNullOrEmpty(value) || int.TryParse(this.nationId, out _)" />
                     </div>
                 </div>
-                <FormGroupInput LabelName="Unique Code" @bind-Value="uniqueCode" />
+                <FormGroupInput LabelName="Unique Code" @bind-Value="uniqueCode" IsValid="value => this.AllFieldsAreEmpty || !string.IsNullOrEmpty(value)" />
                 <div class="form-group">
                     <label class="form-checkbox">
                         <input type="checkbox" @bind="rememberMe" />
                         <i class="form-icon"></i> Remember me
                     </label>
                 </div>
+                <p class="text-error @(loginFailed ? "" : "d-none")">
+                    The login that you entered doesn't match what we have on file. Please try again or contact VEP management for assistance.
+                </p>
             </div>
         </div>
         <div class="modal-footer">
@@ -41,12 +48,15 @@
     private string nationId;
     private string rulerName;
     private string uniqueCode;
+    private bool loginFailed;
 
     [Parameter]
     public bool Visible { get; set; }
 
     [Parameter]
     public EventCallback<bool> VisibleChanged { get; set; }
+
+    private bool AllFieldsAreEmpty => string.IsNullOrEmpty(nationId) && string.IsNullOrEmpty(rulerName) && string.IsNullOrEmpty(uniqueCode);
 
     private Task Toggle()
     {
@@ -68,12 +78,12 @@
         catch (UnauthorizedAccessException)
         {
             Console.WriteLine("Unauthorized >:(");
-            // Do stuff because they did a bad thing
+            loginFailed = true;
         }
         catch (Exception e)
         {
             Console.WriteLine("Uh oh :( - " + e.Message);
-            // Do stuff because someone did a bad thing (probably me)
+            loginFailed = true;
         }
     }
 
