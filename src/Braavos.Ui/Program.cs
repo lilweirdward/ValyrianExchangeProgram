@@ -18,7 +18,7 @@ namespace Braavos.Ui
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddBlazoredSessionStorage();
             builder.Services.AddScoped<IUserService, UserService>();
-            builder.Services.AddHttpClient<BraavosClient>(client => client.BaseAddress = new Uri("http://localhost:7071/"));
+            builder.Services.AddHttpClient<BraavosClient>(client => client.BaseAddress = new Uri(builder.Configuration["BraavosFunctionUri"]));
 
             await builder.Build().RunAsync();
         }
