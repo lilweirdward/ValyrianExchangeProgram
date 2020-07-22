@@ -44,5 +44,32 @@ namespace Braavos.Function
                 return new BadRequestObjectResult("Something bad happened :( ");
             }
         }
+
+        [FunctionName(nameof(GetAccountDetails))]
+        public async Task<IActionResult> GetAccountDetails(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
+            ILogger log)
+        {
+            log.LogInformation("C# HTTP trigger function processed a request.");
+
+            var content = await new StreamReader(req.Body).ReadToEndAsync();
+
+            try
+            {
+                var authorizedUser = JsonSerializer.Deserialize<AuthorizedUser>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                var account = await _repository.GetAccountDetails(authorizedUser);
+
+                // Repository will return null if no account exists
+                if (account is null) return new NotFoundResult();
+
+                return new OkObjectResult(account);
+            }
+            catch (Exception e)
+            {
+                log.LogError(e, "Unknown exception caught while processing a request to fetch Account details");
+
+                return new BadRequestObjectResult("Something bad happened :( ");
+            }
+        }
     }
 }
