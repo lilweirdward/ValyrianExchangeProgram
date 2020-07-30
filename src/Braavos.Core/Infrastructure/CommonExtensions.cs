@@ -35,6 +35,8 @@ namespace Braavos.Core.Infrastructure
 
         public static bool IsUnauthorizedStatusCode(this HttpResponseMessage responseMessage) => responseMessage.StatusCode == HttpStatusCode.Unauthorized;
 
+        public static bool IsNotFoundStatusCode(this HttpResponseMessage responseMessage) => responseMessage.StatusCode == HttpStatusCode.NotFound;
+
         public static Role ToRoleFromCode(this string value)
         {
             switch (value)
