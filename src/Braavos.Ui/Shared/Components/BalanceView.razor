@@ -1,0 +1,33 @@
+﻿<div class="text-center">
+    <h3>Your Current Balance</h3>
+    <h1 class="@BalanceCategoryClass">
+        @(BalancePosititivyIndicator)@BalanceAmount (@Balance.Category.ToString())
+    </h1>
+    <p class="text-uppercase text-gray m-0">@Balance.Type.ToString() Equivalents</p>
+</div>
+
+@code {
+
+    [Parameter]
+    public Balance Balance { get; set; }
+
+    private string BalanceCategoryClass => Balance.Category switch
+    {
+        Category.Credit => "text-success",
+        Category.Debt => "text-error",
+        Category.Even => "text-success",
+        _ => "text-gray"
+    };
+
+    private string BalancePosititivyIndicator => Balance.Category switch
+    {
+        Category.Credit => "+",
+        Category.Debt when Balance.Amount != 1 => "-",
+        Category.Even => "",
+        _ => ""
+    };
+
+    private string BalanceAmount => Balance.Category == Category.Even ? Balance.Amount.ToString() :
+        $"{(Balance.Type == BalanceType.Cash ? "$" : "")}{(Balance.Amount != 1 ? Balance.Amount.ToString() : "\u221E")}{(Balance.Type == BalanceType.Cash ? "M" : "")}";
+
+}

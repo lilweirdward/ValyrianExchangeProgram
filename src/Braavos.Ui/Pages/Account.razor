@@ -26,11 +26,7 @@
 
     <div class="wrapper py-xl">
         <div class="container">
-            <div class="text-center">
-                <h3>Your Current Balance</h3>
-                <h1 class="text-success">@account.Balance.ToString()</h1>
-                <p class="text-uppercase text-gray m-0">@account.Balance.Type.ToString() Equivalents</p>
-            </div>
+            <BalanceView Balance="@account.Balance" />
         </div>
     </div>
 
