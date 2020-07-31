@@ -45,31 +45,83 @@ namespace Braavos.Core.Repositories
             return users.FirstOrDefault(user => user.UniqueCode == authRequest.UniqueCode && (user.NationId == authRequest.NationId || user.RulerName == authRequest.RulerName));
         }
 
-        //public async Task<List<Nation>> GetCreditAccounts()
-        //{
-        //    var service = new SheetsService(new BaseClientService.Initializer
-        //    {
-        //        ApplicationName = "Braavos.Repository",
-        //        ApiKey = "junk"
-        //    });
+        public async Task<Account> GetAccountDetails(AuthorizedUser user)
+        {
+            var request = _sheetsService.Spreadsheets.Values.Get(_gSheetsSpreadsheetId, "VAid!B2:AD");
+            var response = await request.ExecuteAsync();
 
-        //    var spreadsheetId = "1lFh6N2L0XNECk1uNBEsSpLNwBrCr8ovrPs-w-_2YB90";
-        //    var request = service.Spreadsheets.Values.Get(spreadsheetId, "VAid!C2:T");
+            var data = response.Values
+                .Where(row => row.Count() == 29)
+                .Select(RowAsUserAndAccount);
 
-        //    var response = await request.ExecuteAsync();
+            if (data.TryFirst(x => x.AuthorizedUser.Equals(user), out var authorizedAccount))
+                return authorizedAccount.Account;
 
-        //    var results = response.Values.Where(row => row.Count() == 18).Select(row => new Nation
-        //    {
-        //        Name = row[0].ToString(),
-        //        Ruler = row[1].ToString(),
-        //        Account = new Account
-        //        {
-        //            Credit = Convert.ToInt32(row[16]),
-        //            Debt = Convert.ToInt32(row[17])
-        //        }
-        //    });
+            return null;
+        }
 
-        //    return results.ToList();
-        //}
+        private (AuthorizedUser AuthorizedUser, Account Account) RowAsUserAndAccount(IList<object> row)
+        {
+            var authorizedUser = new AuthorizedUser
+            {
+                NationId = Convert.ToInt32(row[1]),
+                RulerName = row[3].ToString(),
+                UniqueCode = row[5].ToString()
+            };
+
+            var account = new Account
+            {
+                RulerName = row[3].ToString(),
+                NationName = row[2].ToString(),
+                Role = row[6].ToString().ToRoleFromCode(),
+                Alliance = row[0].ToString(),
+                Balance = RowAsBalance(row),
+                AvailableSlots = row[15].ToString().ToNullableInt()
+            };
+
+            return (authorizedUser, account);
+        }
+
+        private Balance RowAsBalance(IList<object> row)
+        {
+            var credit = Convert.ToInt32(row[19]);
+            var debt = Convert.ToInt32(row[20]);
+
+            // Either credit or debt will always be 0, so the balance amount is always the max of the two
+            var balance = new Balance { Amount = Math.Max(credit, debt) };
+
+            if (balance.Amount == 0)
+                balance.Category = Category.Even; // If the max is 0 then the account has neither credit nor debt
+            else if (balance.Amount == credit)
+                balance.Category = Category.Credit;
+            else
+                balance.Category = Category.Debt;
+
+            var role = row[6].ToString().ToRoleFromCode();
+            switch (role)
+            {
+                // Buyers always show credit as tech, but debt as cash
+                case Role.Buyer:
+                    balance.Type = balance.Category == Category.Credit ? BalanceType.Tech : BalanceType.Cash;
+                    break;
+                // Sellers always show credit as cash, but debt as tech
+                case Role.Seller:
+                case Role.ProbationarySeller:
+                    balance.Type = balance.Category == Category.Credit ? BalanceType.Cash : BalanceType.Tech;
+                    break;
+                // Donors and Collectors are always exchanging cash
+                case Role.Donor:
+                case Role.Collector:
+                    balance.Type = BalanceType.Cash;
+                    break;
+                // Farms and Receivers are always exchanging tech
+                case Role.Farm:
+                case Role.Receiver:
+                    balance.Type = BalanceType.Tech;
+                    break;
+            }
+
+            return balance;
+        }
     }
 }

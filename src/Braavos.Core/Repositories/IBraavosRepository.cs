@@ -9,5 +9,7 @@ namespace Braavos.Core.Repositories
     public interface IBraavosRepository
     {
         Task<AuthorizedUser> Authorize(AuthRequest authRequest);
+
+        Task<Account> GetAccountDetails(AuthorizedUser user);
     }
 }

@@ -1,0 +1,19 @@
+﻿<div class="chip bg-dark text-light">
+    <img src="img/@ImgSrc" class="avatar avatar-sm" />
+    @AllianceName
+</div>
+
+@code {
+
+    [Parameter]
+    public string AllianceName { get; set; }
+
+    private string ImgSrc => AllianceName.ToLower() switch
+    {
+        var name when name.Contains("ccc") => "ccc.jpg",
+        var name when name.Contains("ftw") => "ftw.jpg",
+        var name when name.Contains("haven") => "haven.jpg",
+        _ => "none.jpg"
+    };
+
+}
