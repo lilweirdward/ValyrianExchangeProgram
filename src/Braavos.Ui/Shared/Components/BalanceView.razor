@@ -21,13 +21,17 @@
 
     private string BalancePosititivyIndicator => Balance.Category switch
     {
-        Category.Credit => "+",
+        Category.Credit when Balance.Amount != 1 => "+",
         Category.Debt when Balance.Amount != 1 => "-",
         Category.Even => "",
         _ => ""
     };
 
-    private string BalanceAmount => Balance.Category == Category.Even ? Balance.Amount.ToString() :
-        $"{(Balance.Type == BalanceType.Cash ? "$" : "")}{(Balance.Amount != 1 ? Balance.Amount.ToString() : "\u221E")}{(Balance.Type == BalanceType.Cash ? "M" : "")}";
+    private string BalanceAmount => Balance.Amount switch
+    {
+        1 => "\u221E",
+        var amount when amount != 1 && Balance.Category == Category.Even => Balance.Amount.ToString(),
+        _ => $"{(Balance.Type == BalanceType.Cash ? "$" : "")}{Balance.Amount.ToString()}{(Balance.Type == BalanceType.Cash ? "M" : "")}"
+    };
 
 }

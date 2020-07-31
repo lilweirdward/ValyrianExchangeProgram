@@ -52,5 +52,17 @@ namespace Braavos.Core.Infrastructure
                     return Role.NotParticipating;
             }
         }
+
+        public static string ToCode(this Role value) => value switch
+        {
+            Role.Seller => "S",
+            Role.Buyer => "B",
+            Role.Donor => "D",
+            Role.Farm => "F",
+            Role.Collector => "C",
+            Role.Receiver => "R",
+            Role.ProbationarySeller => "N",
+            _ => "H"
+        };
     }
 }

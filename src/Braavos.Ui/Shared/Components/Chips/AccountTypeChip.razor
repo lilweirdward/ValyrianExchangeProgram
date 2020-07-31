@@ -1,0 +1,19 @@
+﻿<div class="chip bg-dark text-light">
+    <figure class="avatar avatar-sm @BackgroundColor" data-initial="@AccountType.ToCode()"></figure>
+    @AccountType.ToString()
+</div>
+
+@code {
+
+    [Parameter]
+    public Role AccountType { get; set; }
+
+    private string BackgroundColor => AccountType switch
+    {
+        var sendsCash when new List<Role> { Role.Buyer, Role.Donor }.Contains(sendsCash) => "bg-primary",
+        var sendsTech when new List<Role> { Role.Seller, Role.Farm, Role.ProbationarySeller }.Contains(sendsTech) => "bg-third-2",
+        var getsFree when new List<Role> { Role.Collector, Role.Receiver }.Contains(getsFree) => "bg-third-3",
+        _ => "bg-gray"
+    };
+
+}

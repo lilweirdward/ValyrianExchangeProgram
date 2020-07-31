@@ -12,10 +12,7 @@
         <div class="container">
             <h1>@account.RulerName <small>of @account.NationName</small></h1>
             <div>
-                <div class="chip bg-dark text-light">
-                    <figure class="avatar avatar-sm bg-primary" data-initial="S"></figure>
-                    @account.Role.ToString()
-                </div>
+                <AccountTypeChip AccountType="@account.Role" />
                 <div class="chip bg-dark text-light">
                     <img src="img/ccc.jpg" class="avatar avatar-sm" />
                     @account.Alliance
