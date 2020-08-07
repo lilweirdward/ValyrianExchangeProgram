@@ -1,5 +1,6 @@
 ﻿using Braavos.Core.Entities;
 using Braavos.Core.Infrastructure;
+using Google.Apis.Auth.OAuth2.Requests;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
@@ -54,10 +55,13 @@ namespace Braavos.Core.Repositories
                 .Where(row => row.Count() == 29)
                 .Select(RowAsUserAndAccount);
 
-            if (data.TryFirst(x => x.AuthorizedUser.Equals(user), out var authorizedAccount))
-                return authorizedAccount.Account;
+            if (!data.TryFirst(x => x.AuthorizedUser.Equals(user), out var authorizedAccount))
+                return null;
 
-            return null;
+            var account = authorizedAccount.Account;
+            account.PotentialTransactions = GetPotentialTransactions(data.Select(x => x.Account), account);
+
+            return account;
         }
 
         private (AuthorizedUser AuthorizedUser, Account Account) RowAsUserAndAccount(IList<object> row)
@@ -122,6 +126,41 @@ namespace Braavos.Core.Repositories
             }
 
             return balance;
+        }
+
+        private List<Account> GetPotentialTransactions(IEnumerable<Account> allAccounts, Account currentAccount)
+        {
+            // Exit early if account has no free aid slots
+            if (currentAccount.AvailableSlots == 0)
+                return new List<Account>();
+
+            // Filter out anyone who doesn't have free slots
+            allAccounts = allAccounts.Where(account => account.AvailableSlots > 0);
+
+            // Build the 4 primary lists
+            var sendingCash = allAccounts
+                .Where(account => account.Role == Role.Buyer || account.Role == Role.Donor)
+                .Where(account => account.Balance.Category == Category.Even);
+            var receivingCash = allAccounts
+                .Where(account => account.Role == Role.Collector || account.Role == Role.Seller || account.Role == Role.ProbationarySeller)
+                .Where(account => account.Balance.Category == Category.Even);
+            var sendingTech = allAccounts
+                .Where(account => account.Role == Role.Farm || account.Role == Role.Seller || account.Role == Role.ProbationarySeller)
+                .Where(account => account.Balance.Amount > 0 && account.Balance.Category == Category.Debt);
+            var receivingTech = allAccounts
+                .Where(account => account.Role == Role.Buyer || account.Role == Role.Receiver)
+                .Where(account => account.Balance.Amount > 0 && account.Balance.Category == Category.Credit);
+
+            // Potential transactions are always the inverse of whichever list the current account is in
+            // i.e. an account that is sending cash has potential transactions with nations that are receiving cash
+            return currentAccount switch
+            {
+                var account when sendingCash.Contains(account) => receivingCash.ToList(),
+                var account when receivingCash.Contains(account) => sendingCash.ToList(),
+                var account when sendingTech.Contains(account) => receivingTech.ToList(),
+                var account when receivingTech.Contains(account) => sendingTech.ToList(),
+                _ => new List<Account>()
+            };
         }
     }
 }
