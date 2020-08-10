@@ -6,6 +6,7 @@ namespace Braavos.Core.Entities
 {
     public class Account
     {
+        public int Id { get; set; }
         public string RulerName { get; set; }
         public string NationName { get; set; }
         public Role Role { get; set; }
@@ -20,6 +21,7 @@ namespace Braavos.Core.Entities
                 return false;
 
             return
+                Id == otherAccount.Id &&
                 RulerName == otherAccount.RulerName &&
                 NationName == otherAccount.NationName &&
                 Role == otherAccount.Role &&
@@ -32,7 +34,8 @@ namespace Braavos.Core.Entities
         {
             unchecked
             {
-                var hashCode = RulerName.GetHashCode();
+                var hashCode = Id.GetHashCode();
+                hashCode = (hashCode * 397) ^ RulerName.GetHashCode();
                 hashCode = (hashCode * 397) ^ NationName.GetHashCode();
                 hashCode = (hashCode * 397) ^ Role.GetHashCode();
                 hashCode = (hashCode * 397) ^ Alliance.GetHashCode();

@@ -75,6 +75,7 @@ namespace Braavos.Core.Repositories
 
             var account = new Account
             {
+                Id = Convert.ToInt32(row[1]),
                 RulerName = row[3].ToString(),
                 NationName = row[2].ToString(),
                 Role = row[6].ToString().ToRoleFromCode(),
@@ -138,18 +139,10 @@ namespace Braavos.Core.Repositories
             allAccounts = allAccounts.Where(account => account.AvailableSlots > 0);
 
             // Build the 4 primary lists
-            var sendingCash = allAccounts
-                .Where(account => account.Role == Role.Buyer || account.Role == Role.Donor)
-                .Where(account => account.Balance.Category == Category.Even);
-            var receivingCash = allAccounts
-                .Where(account => account.Role == Role.Collector || account.Role == Role.Seller || account.Role == Role.ProbationarySeller)
-                .Where(account => account.Balance.Category == Category.Even);
-            var sendingTech = allAccounts
-                .Where(account => account.Role == Role.Farm || account.Role == Role.Seller || account.Role == Role.ProbationarySeller)
-                .Where(account => account.Balance.Amount > 0 && account.Balance.Category == Category.Debt);
-            var receivingTech = allAccounts
-                .Where(account => account.Role == Role.Buyer || account.Role == Role.Receiver)
-                .Where(account => account.Balance.Amount > 0 && account.Balance.Category == Category.Credit);
+            var sendingCash = allAccounts.Where(account => account.OwesCash());
+            var receivingCash = allAccounts.Where(account => account.ExpectsCash());
+            var sendingTech = allAccounts.Where(account => account.OwesTech());
+            var receivingTech = allAccounts.Where(account => account.ExpectsTech());
 
             // Potential transactions are always the inverse of whichever list the current account is in
             // i.e. an account that is sending cash has potential transactions with nations that are receiving cash
