@@ -1,0 +1,74 @@
+﻿<div class="panel py-lg px-2 my-2">
+    <div class="columns">
+        <div class="column col-auto" @onclick="@(() => isVisible = !isVisible)">
+            <i class="icon @(isVisible ? "icon-minus" : "icon-plus") c-hand"></i>
+        </div>
+        <div class="column col-auto">
+            <h4 class="m-0">Recent Credit History</h4>
+        </div>
+        <div class="column">
+            <span class="text-gray">
+                +@AllTransactions.Count(x => x.AccountChangeType == Category.Credit) credits,
+                -@AllTransactions.Count(x => x.AccountChangeType == Category.Debt) debts
+            </span>
+        </div>
+    </div>
+    @if (isVisible)
+    {
+        <div class="divider my-2"></div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Other Ruler</th>
+                    <th>Type</th>
+                    <th>Money</th>
+                    <th>Tech</th>
+                    <th>Soldiers</th>
+                    <th>Credit Change</th>
+                    <th>Sent On</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var transaction in AllTransactions)
+                {
+                    <tr>
+                        <td>
+                            @transaction.OtherRuler
+                        </td>
+                        <td>
+                            @transaction.Type.ToString()
+                        </td>
+                        <td>
+                            @transaction.Money.ToString("C0")
+                        </td>
+                        <td>
+                            @transaction.Tech
+                        </td>
+                        <td>
+                            @transaction.Soldiers
+                        </td>
+                        <td class="@(transaction.AccountChangeType == Category.Credit ? "text-success" : "text-error text-bold")">
+                            @(transaction.AccountChangeType == Category.Credit ? "+" : "-")
+                            @(transaction.Money > 0 ? "$9m" : "100 tech")
+                            @(transaction.Type == TransactionType.Incoming ? "received" : "sent")
+                        </td>
+                        <td>
+                            @transaction.SentOn.ToString("yyyy-MM-dd")
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+@code {
+
+    private bool isVisible = true;
+
+    [Parameter]
+    public Account Account { get; set; }
+
+    private List<Transaction> AllTransactions => Account.RecentTransactions;
+
+}

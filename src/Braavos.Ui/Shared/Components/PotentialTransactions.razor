@@ -1,0 +1,130 @@
+﻿<div class="panel py-lg px-2 my-2">
+    @if (Account.AvailableSlots == 0)
+    {
+        <div class="empty bg-white">
+            <p class="empty-title h5">You are not expected to interact with VEP today</p>
+            <p>
+                Your nation does not have any free foreign aid slots, so you are not expected to send or receive any transactions today. Please
+                check again tomorrow for the updated status of your nation.
+            </p>
+        </div>
+    }
+    else
+    {
+        <div class="columns">
+            <div class="column col-auto" @onclick="@(() => isVisible = !isVisible)">
+                <i class="icon @(isVisible ? "icon-minus" : "icon-plus") c-hand"></i>
+            </div>
+            <div class="column col-auto">
+                <h4 class="m-0">
+                    @switch (this.Account)
+                    {
+                        case var account when (account.OwesTech()):
+                            <span>Outgoing Tech</span>
+                            break;
+                        case var account when (account.OwesCash()):
+                            <span>Outgoing Cash</span>
+                            break;
+                        case var account when (account.ExpectsCash()):
+                            <span>Incoming Cash</span>
+                            break;
+                        case var account when (account.ExpectsTech()):
+                            <span>Incoming Tech</span>
+                            break;
+                        default:
+                            <span>Potential Transactions</span>
+                            break;
+                    }
+                </h4>
+            </div>
+            <div class="column">
+                <span class="text-gray">(@Account.PotentialTransactions.Count() nations)</span>
+            </div>
+        </div>
+        @if (isVisible)
+        {
+            <p class="text-gray my-1">
+                Please 
+                @switch (this.Account)
+                {
+                    case var account when (account.OwesTech()):
+                        <span>send tech to</span>
+                        break;
+                    case var account when (account.OwesCash()):
+                        <span>send cash to</span>
+                        break;
+                    case var account when (account.ExpectsCash()):
+                        <span>accept cash from</span>
+                        break;
+                    case var account when (account.ExpectsTech()):
+                        <span>accept tech from</span>
+                        break;
+                    default:
+                        <span>Potential Transactions</span>
+                        break;
+                }
+                 any of the nations in the following list.
+            </p>
+            <div class="divider my-2"></div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Ruler</th>
+                        <th>Nation</th>
+                        <th>Alliance</th>
+                        <th>Status</th>
+                        <th>Open Slots</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var transaction in Account.PotentialTransactions)
+                            {
+                        <tr>
+                            <td>
+                                @if (Account.OwesCash() || Account.OwesTech())
+                                {
+                                    <a href="https://www.cybernations.net/nation_drill_display.asp?Nation_ID=@(transaction.Id)" target="_blank">@transaction.RulerName</a>
+                                }
+                                else
+                                {
+                                    @transaction.RulerName
+                                }
+                            </td>
+                            <td>
+                                @transaction.NationName
+                            </td>
+                            <td>
+                                @GetAllianceFullName(transaction.Alliance) <AllianceChip AllianceName="@transaction.Alliance" />
+                            </td>
+                            <td>
+                                <AccountTypeChip AccountType="@transaction.Role" />
+                            </td>
+                            <td>
+                                @transaction.AvailableSlots
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    }
+</div>
+
+@code {
+
+    private bool isVisible = true;
+
+    [Parameter]
+    public Account Account { get; set; }
+
+    private Func<string, string> GetAllianceFullName => allianceInitials => allianceInitials switch
+    {
+        "1FTW" => "Freehold of the Wolves",
+        "3CCC" => "Christian Coalition of Countries",
+        "5Haven" => "Haven",
+        "6TOBR" => "The Order of the Black Rose",
+        "7RELB" => "Revenge of the Liberal Entente",
+        _ => ""
+    };
+
+}
