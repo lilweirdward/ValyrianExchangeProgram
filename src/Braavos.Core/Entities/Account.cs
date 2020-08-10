@@ -14,6 +14,7 @@ namespace Braavos.Core.Entities
         public Balance Balance { get; set; }
         public int? AvailableSlots { get; set; }
         public List<Account> PotentialTransactions { get; set; }
+        public List<Transaction> RecentTransactions { get; set; }
 
         public override bool Equals(object obj)
         {

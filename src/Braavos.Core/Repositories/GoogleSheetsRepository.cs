@@ -7,6 +7,7 @@ using Google.Apis.Sheets.v4.Data;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -60,6 +61,7 @@ namespace Braavos.Core.Repositories
 
             var account = authorizedAccount.Account;
             account.PotentialTransactions = GetPotentialTransactions(data.Select(x => x.Account), account);
+            account.RecentTransactions = await GetRecentTransactions(account);
 
             return account;
         }
@@ -154,6 +156,55 @@ namespace Braavos.Core.Repositories
                 var account when receivingTech.Contains(account) => sendingTech.ToList(),
                 _ => new List<Account>()
             };
+        }
+
+        private async Task<List<Transaction>> GetRecentTransactions(Account currentAccount)
+        {
+            // Get all the transactions from the Hist tab
+            var request = _sheetsService.Spreadsheets.Values.Get(_gSheetsSpreadsheetId, "Hist!A2:Q");
+            var data = (await request.ExecuteAsync()).Values.Where(row => row.Count == 17).Select(row => new
+            {
+                DeclaringRuler = row[0],
+                ReceivingRuler = row[1],
+                Money = row[3],
+                Tech = row[4],
+                Soldiers = row[5],
+                Start = row[8],
+                Type = row[11],
+                CT = row[13],
+                CC = row[14],
+                TC = row[15],
+                TT = row[16]
+            }).Where(x => x.Type.ToString() == "1");
+
+            // Convert relevant transactions into real objects
+            var outgoingTransactions = data
+                .Where(x => x.DeclaringRuler.ToString() == currentAccount.RulerName)
+                .Select(row => new Transaction
+                {
+                    OtherRuler = row.ReceivingRuler.ToString(),
+                    Type = TransactionType.Outgoing,
+                    Money = int.Parse(row.Money.ToString(), NumberStyles.AllowThousands),
+                    Tech = Convert.ToInt32(row.Tech),
+                    Soldiers = Convert.ToInt32(row.Soldiers),
+                    AccountChangeType = Category.Credit,
+                    SentOn = DateTime.Parse(row.Start.ToString())
+                });
+
+            var incomingTransactions = data
+                .Where(x => x.ReceivingRuler.ToString() == currentAccount.RulerName)
+                .Select(row => new Transaction
+                {
+                    OtherRuler = row.DeclaringRuler.ToString(),
+                    Type = TransactionType.Incoming,
+                    Money = int.Parse(row.Money.ToString(), NumberStyles.AllowThousands),
+                    Tech = Convert.ToInt32(row.Tech),
+                    Soldiers = int.Parse(row.Soldiers.ToString(), NumberStyles.AllowThousands),
+                    AccountChangeType = Category.Debt,
+                    SentOn = DateTime.Parse(row.Start.ToString())
+                });
+
+            return outgoingTransactions.MergeWith(incomingTransactions).OrderByDescending(t => t.SentOn).ToList();
         }
     }
 }

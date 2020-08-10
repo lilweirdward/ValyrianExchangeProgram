@@ -1,6 +1,7 @@
 ﻿using Braavos.Core.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -31,6 +32,13 @@ namespace Braavos.Core.Infrastructure
             // At this point I'm fine with whatever default the out param gives me
             int.TryParse(value, out var parsedValue);
             return parsedValue;
+        }
+
+        public static IEnumerable<T> MergeWith<T>(this IEnumerable<T> currentList, IEnumerable<T> otherList)
+        {
+            var result = currentList.ToList();
+            result.AddRange(otherList);
+            return result;
         }
 
         public static bool IsUnauthorizedStatusCode(this HttpResponseMessage responseMessage) => responseMessage.StatusCode == HttpStatusCode.Unauthorized;

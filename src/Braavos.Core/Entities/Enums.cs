@@ -27,4 +27,10 @@ namespace Braavos.Core.Entities
         Debt,
         Even
     }
+
+    public enum TransactionType
+    {
+        Incoming,
+        Outgoing
+    }
 }
