@@ -74,10 +74,12 @@ namespace Braavos.Core.Infrastructure
         };
 
         public static bool OwesCash(this Account account) => 
-            (account.Role == Role.Buyer || account.Role == Role.Donor) && account.Balance.Category == Category.Even;
+            (account.Role == Role.Buyer || account.Role == Role.Donor) &&
+            (account.Balance.Amount > 0 && account.Balance.Category == Category.Debt || account.Balance.Category == Category.Even);
 
         public static bool ExpectsCash(this Account account) =>
-            (account.Role == Role.Collector || account.Role == Role.Seller || account.Role == Role.ProbationarySeller) && account.Balance.Category == Category.Even;
+            (account.Role == Role.Collector || account.Role == Role.Seller || account.Role == Role.ProbationarySeller) && 
+            (account.Balance.Amount > 0 && account.Balance.Category == Category.Credit || account.Balance.Category == Category.Even);
 
         public static bool OwesTech(this Account account) =>
             (account.Role == Role.Farm || account.Role == Role.Seller || account.Role == Role.ProbationarySeller) && 
