@@ -32,7 +32,7 @@ namespace Braavos.Core.Repositories
 
         public async Task<AuthorizedUser> Authorize(AuthRequest authRequest)
         {
-            var request = _sheetsService.Spreadsheets.Values.Get(_gSheetsSpreadsheetId, "VAid!C2:G");
+            var request = _sheetsService.Spreadsheets.Values.Get(_gSheetsSpreadsheetId, "VAid!B2:F");
             var response = await request.ExecuteAsync();
 
             var users = response.Values
@@ -49,7 +49,7 @@ namespace Braavos.Core.Repositories
 
         public async Task<Account> GetAccountDetails(AuthorizedUser user)
         {
-            var request = _sheetsService.Spreadsheets.Values.Get(_gSheetsSpreadsheetId, "VAid!B2:AD");
+            var request = _sheetsService.Spreadsheets.Values.Get(_gSheetsSpreadsheetId, "VAid!A2:AC");
             var response = await request.ExecuteAsync();
 
             var data = response.Values
