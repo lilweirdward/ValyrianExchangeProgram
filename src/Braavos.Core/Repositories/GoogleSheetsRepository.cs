@@ -60,7 +60,7 @@ namespace Braavos.Core.Repositories
                 return null;
 
             var account = authorizedAccount.Account;
-            account.PotentialTransactions = GetPotentialTransactions(data.Select(x => x.Account), account);
+            account.PotentialTransactions = await GetPotentialTransactions(data.Select(x => x.Account), account);
             account.RecentTransactions = await GetRecentTransactions(account);
 
             return account;
@@ -131,20 +131,17 @@ namespace Braavos.Core.Repositories
             return balance;
         }
 
-        private List<Account> GetPotentialTransactions(IEnumerable<Account> allAccounts, Account currentAccount)
+        private async Task<List<Account>> GetPotentialTransactions(IEnumerable<Account> allAccounts, Account currentAccount)
         {
             // Exit early if account has no free aid slots
             if (currentAccount.AvailableSlots == 0)
                 return new List<Account>();
 
-            // Filter out anyone who doesn't have free slots
-            allAccounts = allAccounts.Where(account => account.AvailableSlots > 0);
-
             // Build the 4 primary lists
-            var sendingCash = allAccounts.Where(account => account.OwesCash());
-            var receivingCash = allAccounts.Where(account => account.ExpectsCash());
-            var sendingTech = allAccounts.Where(account => account.OwesTech());
-            var receivingTech = allAccounts.Where(account => account.ExpectsTech());
+            var sendingCash = await QuerySheetsForRulerNames("L1IC");
+            var receivingCash = await QuerySheetsForRulerNames("L2CT", "B");
+            var sendingTech = await QuerySheetsForRulerNames("L3IT");
+            var receivingTech = await QuerySheetsForRulerNames("L4TT");
 
             // Potential transactions are always the inverse of whichever list the current account is in
             // i.e. an account that is sending cash has potential transactions with nations that are receiving cash
@@ -156,6 +153,13 @@ namespace Braavos.Core.Repositories
                 var account when receivingTech.Contains(account) => sendingTech.ToList(),
                 _ => new List<Account>()
             };
+
+            async Task<IEnumerable<Account>> QuerySheetsForRulerNames(string sheetName, string column = "A")
+            {
+                var request = _sheetsService.Spreadsheets.Values.Get(_gSheetsSpreadsheetId, $"{sheetName}!{column}5:{column}");
+                return (await request.ExecuteAsync()).Values.Where(row => row[0] != null)
+                    .Select(row => allAccounts.FirstOrDefault(account => account.RulerName == row[0].ToString()));
+            }
         }
 
         private async Task<List<Transaction>> GetRecentTransactions(Account currentAccount)
