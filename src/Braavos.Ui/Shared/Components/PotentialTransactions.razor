@@ -20,10 +20,10 @@
                     @switch (this.Account)
                     {
                         case var account when (account.OwesTech()):
-                            <span>Outgoing Tech</span>
+                            <span>Tech Targets</span>
                             break;
                         case var account when (account.OwesCash()):
-                            <span>Outgoing Cash</span>
+                            <span>Cash Targets</span>
                             break;
                         case var account when (account.ExpectsCash()):
                             <span>Incoming Cash</span>
