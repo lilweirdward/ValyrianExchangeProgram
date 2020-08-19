@@ -139,7 +139,7 @@ namespace Braavos.Core.Repositories
 
             // Build the 4 primary lists
             var sendingCash = await QuerySheetsForRulerNames("L1IC");
-            var receivingCash = await QuerySheetsForRulerNames("L2CT", "B");
+            var receivingCash = await QuerySheetsForRulerNames("L2CT", "B", 6);
             var sendingTech = await QuerySheetsForRulerNames("L3IT");
             var receivingTech = await QuerySheetsForRulerNames("L4TT");
 
@@ -154,9 +154,9 @@ namespace Braavos.Core.Repositories
                 _ => new List<Account>()
             };
 
-            async Task<IEnumerable<Account>> QuerySheetsForRulerNames(string sheetName, string column = "A")
+            async Task<IEnumerable<Account>> QuerySheetsForRulerNames(string sheetName, string column = "A", int startingRow = 5)
             {
-                var request = _sheetsService.Spreadsheets.Values.Get(_gSheetsSpreadsheetId, $"{sheetName}!{column}5:{column}");
+                var request = _sheetsService.Spreadsheets.Values.Get(_gSheetsSpreadsheetId, $"{sheetName}!{column}{startingRow}:{column}");
                 return (await request.ExecuteAsync()).Values.Where(row => row[0] != null)
                     .Select(row => allAccounts.FirstOrDefault(account => account.RulerName == row[0].ToString()));
             }
