@@ -5,7 +5,14 @@
 
 <NavBar BackgroundIsVisible="true" NavigationIsVisible="true" />
 
-@if (account is { })
+@if (account is null)
+{
+    <div id="loading-wrapper">
+        <!-- I know this is ugly but it's from here: https://loading.io/css/ -->
+        <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+    </div>
+}
+else
 {
 
     <div class="wrapper hero bg-gray" style="margin-top: 100px">

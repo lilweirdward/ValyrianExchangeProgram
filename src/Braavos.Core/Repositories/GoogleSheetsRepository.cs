@@ -44,7 +44,9 @@ namespace Braavos.Core.Repositories
                     UniqueCode = row[4].ToString()
                 });
 
-            return users.FirstOrDefault(user => user.UniqueCode == authRequest.UniqueCode && (user.NationId == authRequest.NationId || user.RulerName == authRequest.RulerName));
+            return users.FirstOrDefault(user => 
+                user.UniqueCode == authRequest.UniqueCode && 
+                (user.NationId == authRequest.NationId || user.RulerName.Equals(authRequest.RulerName, StringComparison.InvariantCultureIgnoreCase)));
         }
 
         public async Task<Account> GetAccountDetails(AuthorizedUser user)
@@ -162,7 +164,7 @@ namespace Braavos.Core.Repositories
             }
         }
 
-        private async Task<List<Transaction>> GetRecentTransactions(Account currentAccount)
+        private async Task<List<Transaction>> GetRecentTransactions(Account currentAccount, int daysIncluded = 30)
         {
             // Get all the transactions from the Hist tab
             var request = _sheetsService.Spreadsheets.Values.Get(_gSheetsSpreadsheetId, "Hist!A2:Q");
@@ -184,6 +186,7 @@ namespace Braavos.Core.Repositories
             // Convert relevant transactions into real objects
             var outgoingTransactions = data
                 .Where(x => x.DeclaringRuler.ToString() == currentAccount.RulerName)
+                .Where(x => DateTime.Parse(x.Start.ToString()) >= DateTime.Today.AddDays(-daysIncluded))
                 .Select(row => new Transaction
                 {
                     OtherRuler = row.ReceivingRuler.ToString(),
@@ -197,6 +200,7 @@ namespace Braavos.Core.Repositories
 
             var incomingTransactions = data
                 .Where(x => x.ReceivingRuler.ToString() == currentAccount.RulerName)
+                .Where(x => DateTime.Parse(x.Start.ToString()) >= DateTime.Today.AddDays(-daysIncluded))
                 .Select(row => new Transaction
                 {
                     OtherRuler = row.DeclaringRuler.ToString(),

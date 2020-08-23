@@ -8,11 +8,16 @@
         </div>
         <div class="column">
             <span class="text-gray">
-                +@AllTransactions.Count(x => x.AccountChangeType == Category.Credit) credits,
-                -@AllTransactions.Count(x => x.AccountChangeType == Category.Debt) debts
+                +@AllTransactions.Count(x => x.AccountChangeType == Category.Credit) out,
+                -@AllTransactions.Count(x => x.AccountChangeType == Category.Debt) in
             </span>
         </div>
     </div>
+    <p class="text-gray my-1">
+        Your last 30 days' credit changes, as recorded in the VEP. Your balance includes additional transactions 
+        and credits that may not be reflected here. Please contact VEP Management if you have any concerns about 
+        your recent credit history.
+    </p>
     @if (isVisible)
     {
         <div class="divider my-2"></div>
@@ -39,7 +44,7 @@
                             @transaction.Type.ToString()
                         </td>
                         <td>
-                            @transaction.Money.ToString("C0")
+                            @transaction.Money.ToString("N0", System.Globalization.CultureInfo.InvariantCulture)
                         </td>
                         <td>
                             @transaction.Tech

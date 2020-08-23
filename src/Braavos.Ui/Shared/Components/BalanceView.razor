@@ -1,9 +1,9 @@
 ﻿<div class="text-center">
     <h3>Your Current Balance</h3>
     <h1 class="@BalanceCategoryClass">
-        @(BalancePosititivyIndicator)@BalanceAmount (@Balance.Category.ToString())
+        @(BalancePosititivyIndicator)@BalanceAmount @Balance.Type.ToString() (@Balance.Category.ToString())
     </h1>
-    <p class="text-uppercase text-gray m-0">@Balance.Type.ToString() Equivalents</p>
+    <p class="text-uppercase text-gray m-0">@BalanceDescription</p>
 </div>
 
 @code {
@@ -32,6 +32,16 @@
         1 => "\u221E",
         var amount when amount != 1 && Balance.Category == Category.Even => Balance.Amount.ToString(),
         _ => $"{(Balance.Type == BalanceType.Cash ? "$" : "")}{Balance.Amount.ToString()}{(Balance.Type == BalanceType.Cash ? "M" : "")}"
+    };
+
+    private string BalanceDescription => Balance.Category switch
+    {
+        Category.Credit when Balance.Amount != 1 => $"Your nation is due {BalanceAmount} {Balance.Type} from other VEP accounts.",
+        Category.Debt when Balance.Amount != 1 => $"Your nation owes {BalanceAmount} {Balance.Type} to its VEP account.",
+        Category.Credit when Balance.Amount == 1 => $"Your nation receives infinite {Balance.Type} and will always show a Credit balance",
+        Category.Debt when Balance.Amount == 1 => $"Your nation produces infinite {Balance.Type} and will always show a Debt balance.",
+        Category.Even => "Your account currently has an even balance!",
+        _ => ""
     };
 
 }

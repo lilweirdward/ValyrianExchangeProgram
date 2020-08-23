@@ -36,7 +36,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" @onclick="@LogIn">Log In</button>
+            <button class="btn btn-primary @(isLoading ? "disabled loading" : "")" @onclick="@LogIn">Log In</button>
             <button class="btn btn-link" @onclick="@Toggle">Close</button>
         </div>
     </div>
@@ -48,6 +48,7 @@
     private string nationId;
     private string rulerName;
     private string uniqueCode;
+    private bool isLoading;
     private bool loginFailed;
 
     [Parameter]
@@ -67,11 +68,14 @@
 
     private async Task LogIn()
     {
-        var request = string.IsNullOrEmpty(nationId) ? new AuthRequest(rulerName, uniqueCode) : new AuthRequest(Convert.ToInt32(nationId), uniqueCode);
+        var request = string.IsNullOrEmpty(nationId) ? 
+            new AuthRequest(rulerName.Trim(), uniqueCode.Trim()) : 
+            new AuthRequest(Convert.ToInt32(nationId.Trim()), uniqueCode.Trim());
         Console.WriteLine(request.ToString());
 
         try
         {
+            isLoading = true;
             await userService.LogIn(request, rememberMe);
             navManager.NavigateTo("account");
         }
@@ -85,6 +89,8 @@
             Console.WriteLine("Uh oh :( - " + e.Message);
             loginFailed = true;
         }
+
+        isLoading = false;
     }
 
 }
