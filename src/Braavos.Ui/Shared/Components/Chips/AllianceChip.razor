@@ -1,6 +1,6 @@
 ﻿<div class="chip bg-dark text-light">
     <img src="img/@ImgSrc" class="avatar avatar-sm" />
-    @AllianceName
+    @(System.Text.RegularExpressions.Regex.IsMatch(AllianceName, "[0-9]{1}[a-zA-Z]+") ? AllianceName.Substring(1) : AllianceName)
 </div>
 
 @code {
