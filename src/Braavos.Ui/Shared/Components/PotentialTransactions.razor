@@ -117,13 +117,13 @@
     [Parameter]
     public Account Account { get; set; }
 
-    private Func<string, string> GetAllianceFullName => allianceInitials => allianceInitials switch
+    private Func<string, string> GetAllianceFullName => allianceInitials => allianceInitials.Substring(1) switch
     {
-        "1FTW" => "Freehold of the Wolves",
-        "3CCC" => "Christian Coalition of Countries",
-        "5Haven" => "Haven",
-        "6TOBR" => "The Order of the Black Rose",
-        "7RELB" => "Revenge of the Liberal Entente",
+        "FTW" => "Freehold of the Wolves",
+        "CCC" => "Christian Coalition of Countries",
+        "Haven" => "Haven",
+        "TOBR" => "The Order of the Black Rose",
+        "RELB" => "Revenge of the Liberal Entente",
         _ => ""
     };
 
