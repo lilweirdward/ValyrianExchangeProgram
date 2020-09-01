@@ -93,8 +93,8 @@ namespace Braavos.Core.Repositories
 
         private Balance RowAsBalance(IList<object> row)
         {
-            var credit = Convert.ToInt32(row[19]);
-            var debt = Convert.ToInt32(row[20]);
+            var credit = int.Parse(row[19].ToString(), NumberStyles.AllowThousands);
+            var debt = int.Parse(row[20].ToString(), NumberStyles.AllowThousands);
 
             // Either credit or debt will always be 0, so the balance amount is always the max of the two
             var balance = new Balance { Amount = Math.Max(credit, debt) };
