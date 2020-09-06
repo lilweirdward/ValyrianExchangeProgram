@@ -33,4 +33,11 @@ namespace Braavos.Core.Entities
         Incoming,
         Outgoing
     }
+
+    public enum TransactionStatus
+    {
+        Pending,
+        Approved,
+        Expired
+    }
 }

@@ -8,6 +8,7 @@ namespace Braavos.Core.Entities
     {
         public string OtherRuler { get; set; }
         public TransactionType Type { get; set; }
+        public TransactionStatus Status { get; set; }
         public int Money { get; set; }
         public int Tech { get; set; }
         public int Soldiers { get; set; }

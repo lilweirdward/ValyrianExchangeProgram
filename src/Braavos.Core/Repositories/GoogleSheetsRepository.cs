@@ -66,6 +66,11 @@ namespace Braavos.Core.Repositories
             account.PotentialTransactions = await GetPotentialTransactions(data.Select(x => x.Account), account);
             account.RecentTransactions = await GetRecentTransactions(account);
 
+            // Cross reference to not suggest potential transactions that are also recent (active) transactions
+            account.PotentialTransactions = account.PotentialTransactions
+                .Where(potential => !account.RecentTransactions.Any(t => t.Status == TransactionStatus.Approved && t.OtherRuler == potential.RulerName))
+                .ToList();
+
             return account;
         }
 
@@ -181,6 +186,7 @@ namespace Braavos.Core.Repositories
             {
                 DeclaringRuler = row[0],
                 ReceivingRuler = row[1],
+                Status = row[2],
                 Money = row[3],
                 Tech = row[4],
                 Soldiers = row[5],
@@ -200,6 +206,7 @@ namespace Braavos.Core.Repositories
                 {
                     OtherRuler = row.ReceivingRuler.ToString(),
                     Type = TransactionType.Outgoing,
+                    Status = (TransactionStatus) Enum.Parse(typeof(TransactionStatus), row.Status.ToString()),
                     Money = int.Parse(row.Money.ToString(), NumberStyles.AllowThousands),
                     Tech = Convert.ToInt32(row.Tech),
                     Soldiers = Convert.ToInt32(row.Soldiers),
@@ -214,6 +221,7 @@ namespace Braavos.Core.Repositories
                 {
                     OtherRuler = row.DeclaringRuler.ToString(),
                     Type = TransactionType.Incoming,
+                    Status = (TransactionStatus)Enum.Parse(typeof(TransactionStatus), row.Status.ToString()),
                     Money = int.Parse(row.Money.ToString(), NumberStyles.AllowThousands),
                     Tech = Convert.ToInt32(row.Tech),
                     Soldiers = int.Parse(row.Soldiers.ToString(), NumberStyles.AllowThousands),
