@@ -13,6 +13,7 @@ namespace Braavos.Core.Entities
         public string Alliance { get; set; }
         public Balance Balance { get; set; }
         public int? AvailableSlots { get; set; }
+        public VepMeta Metadata { get; set; }
         public List<Account> PotentialTransactions { get; set; }
         public List<Transaction> RecentTransactions { get; set; }
 

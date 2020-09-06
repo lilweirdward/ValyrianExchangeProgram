@@ -62,6 +62,7 @@ namespace Braavos.Core.Repositories
                 return null;
 
             var account = authorizedAccount.Account;
+            account.Metadata = await GetAdditionalMetadata();
             account.PotentialTransactions = await GetPotentialTransactions(data.Select(x => x.Account), account);
             account.RecentTransactions = await GetRecentTransactions(account);
 
@@ -131,6 +132,14 @@ namespace Braavos.Core.Repositories
             }
 
             return balance;
+        }
+
+        private async Task<VepMeta> GetAdditionalMetadata()
+        {
+            var request = _sheetsService.Spreadsheets.Values.Get(_gSheetsSpreadsheetId, "Lists!D5");
+            var data = (await request.ExecuteAsync()).Values.FirstOrDefault();
+
+            return data is null ? null : new VepMeta(Convert.ToInt32(data[0]));
         }
 
         private async Task<List<Account>> GetPotentialTransactions(IEnumerable<Account> allAccounts, Account currentAccount)

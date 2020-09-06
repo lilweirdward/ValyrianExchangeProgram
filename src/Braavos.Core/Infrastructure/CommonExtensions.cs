@@ -78,14 +78,31 @@ namespace Braavos.Core.Infrastructure
             (account.Balance.Amount > 0 && account.Balance.Category == Category.Debt || account.Balance.Category == Category.Even);
 
         public static bool ExpectsCash(this Account account) =>
-            (account.Role == Role.Collector || account.Role == Role.Seller || account.Role == Role.ProbationarySeller) && 
-            (account.Balance.Amount > 0 && account.Balance.Category == Category.Credit || account.Balance.Category == Category.Even);
+            account.IsSeller() && (
+                account.HasCreditBalance(amount => amount > 0) ||
+                account.HasDebtBalance(amount => amount <= account.Metadata.SellerDebtOverride)) ||
+            account.Role == Role.Collector && account.HasCreditBalance(amount => amount == 0) ||
+            account.Balance.Category == Category.Even;
 
         public static bool OwesTech(this Account account) =>
-            (account.Role == Role.Farm || account.Role == Role.Seller || account.Role == Role.ProbationarySeller) && 
-            account.Balance.Amount > 0 && account.Balance.Category == Category.Debt;
+            account.IsSeller() && account.HasDebtBalance(amount => amount > account.Metadata.SellerDebtOverride) ||
+            account.IsFarm() && account.HasDebtBalance(amount => amount > 0);
 
         public static bool ExpectsTech(this Account account) =>
             (account.Role == Role.Buyer || account.Role == Role.Receiver) && account.Balance.Amount > 0 && account.Balance.Category == Category.Credit;
+
+        public static bool IsSeller(this Account account) => account.Role == Role.Seller || account.Role == Role.ProbationarySeller;
+
+        public static bool IsBuyer(this Account account) => account.Role == Role.Buyer;
+
+        public static bool IsFarm(this Account account) => account.Role == Role.Farm;
+
+        public static bool IsDonor(this Account account) => account.Role == Role.Donor;
+
+        public static bool HasDebtBalance(this Account account, Func<int, bool> balanceFunc)
+            => account.Balance.Category == Category.Debt && balanceFunc(account.Balance.Amount);
+
+        public static bool HasCreditBalance(this Account account, Func<int, bool> balanceFunc)
+            => account.Balance.Category == Category.Credit && balanceFunc(account.Balance.Amount);
     }
 }
