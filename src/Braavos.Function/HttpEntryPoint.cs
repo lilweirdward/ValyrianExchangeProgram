@@ -12,11 +12,11 @@ using Braavos.Core.Repositories;
 
 namespace Braavos.Function
 {
-    public class EntryPoint
+    public class HttpEntryPoint
     {
         private readonly IBraavosRepository _repository;
 
-        public EntryPoint(IBraavosRepository repository) => _repository = repository;
+        public HttpEntryPoint(IBraavosRepository repository) => _repository = repository;
 
         [FunctionName(nameof(Authenticate))]
         public async Task<IActionResult> Authenticate(
