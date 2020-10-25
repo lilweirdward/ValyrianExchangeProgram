@@ -1,4 +1,6 @@
 ﻿using Braavos.Core.Infrastructure;
+using Braavos.Core.Parsers;
+using Braavos.Core.Parsers.DataObjects;
 using Braavos.Core.Repositories;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
@@ -18,6 +20,7 @@ namespace Braavos.Function
             builder.Services.AddOptions<FunctionOptions>()
                 .Configure<IConfiguration>((settings, configuration) => { configuration.GetSection("FunctionOptions").Bind(settings); });
             builder.Services.AddScoped<IBraavosRepository, GoogleSheetsRepository>();
+            builder.Services.AddScoped<IDataParser<CnNation>, CnNationParser>();
         }
     }
 }
