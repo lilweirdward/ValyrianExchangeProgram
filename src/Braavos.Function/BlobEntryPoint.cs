@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Braavos.Core.Parsers;
 using Braavos.Core.Parsers.DataObjects;
+using Braavos.Core.Repositories;
+using Braavos.Core.Repositories.DataObjects;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
 
 namespace Braavos.Function
@@ -13,8 +16,11 @@ namespace Braavos.Function
     public class BlobEntryPoint
     {
         private readonly IDataParser<CnNation> _dataParser;
+        private readonly ICnDbRepository _cnDbRepository;
+        private readonly IMapper _mapper;
 
-        public BlobEntryPoint(IDataParser<CnNation> dataParser) => _dataParser = dataParser;
+        public BlobEntryPoint(IDataParser<CnNation> dataParser, ICnDbRepository cnDbRepository, IMapper mapper) => 
+            (_dataParser, _cnDbRepository, _mapper) = (dataParser, cnDbRepository, mapper);
 
         [FunctionName(nameof(CnNationsImporter))]
         public async Task CnNationsImporter([BlobTrigger("nations/{name}", Connection = "AzureWebJobsStorage")]Stream myBlob, string name, ILogger log)
@@ -37,6 +43,19 @@ namespace Braavos.Function
             log.LogInformation($"File successfully parsed. {allNationData.Count} records found.");
 
             // Upload data to DB
+            try
+            {
+                await _cnDbRepository.UpsertNations(allNationData.Select(_mapper.Map<Nation>).ToList());
+            }
+            catch (Exception e)
+            {
+                log.LogError($"Critical error encountered while upserting nation data to the DB. \n Message: {e.Message}\n StackTrace: {e.StackTrace}");
+                return;
+            }
+
+            log.LogInformation($"Data uploaded successfully.");
+
+            // Move the file to the archive
 
             log.LogInformation($"{nameof(CnNationsImporter)} trigger function completed successfully!");
         }
