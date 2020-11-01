@@ -19,6 +19,7 @@ namespace Braavos.Function
                 .Configure<IConfiguration>((settings, configuration) => { configuration.GetSection("FunctionOptions").Bind(settings); });
             builder.Services.AddScoped<IBraavosRepository, GoogleSheetsRepository>();
             builder.Services.AddScoped<IDataParser<CnNation>, CnNationParser>();
+            builder.Services.AddScoped<ICnDbRepository, CnDbRepository>();
 
             builder.Services.AddAutoMapper(typeof(Startup));
         }

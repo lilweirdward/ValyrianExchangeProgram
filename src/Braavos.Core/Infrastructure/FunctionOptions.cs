@@ -8,5 +8,6 @@ namespace Braavos.Core.Infrastructure
     {
         public string GoogleSheetsApiKey { get; set; }
         public string GoogleSheetsSpreadsheetId { get; set; }
+        public string DbConnectionString { get; set; }
     }
 }
