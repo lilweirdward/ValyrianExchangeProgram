@@ -61,6 +61,7 @@ namespace Braavos.Core.Parsers.DataObjects
         public int Votes { get; set; }
 
         [Name("Strength")]
+        [NumberStyles(NumberStyles.Number)]
         public decimal Strength { get; set; }
 
         [Name("DEFCON")]
