@@ -45,7 +45,7 @@ namespace Braavos.Function
             // Upload data to DB
             try
             {
-                await _cnDbRepository.UpsertNations(allNationData.Select(_mapper.Map<Nation>).ToList());
+                await _cnDbRepository.UpsertNations(allNationData.Select(_mapper.Map<Nation>).ToList(), name);
             }
             catch (Exception e)
             {

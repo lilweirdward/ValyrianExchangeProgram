@@ -26,7 +26,7 @@ namespace Braavos.Core.Repositories.DataObjects
         public int CruiseMissiles { get; set; }
         public int Nukes { get; set; }
         public RecentActivity RecentActivity { get; set; }
-        public DateTime UpdatedOn { get; set; }
+        public DateTime? UpdatedOn { get; set; }
         public string UpdatedBy { get; set; }
 
         //public object Alliance { get; set; }

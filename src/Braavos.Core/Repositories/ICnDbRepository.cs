@@ -8,6 +8,6 @@ namespace Braavos.Core.Repositories
 {
     public interface ICnDbRepository
     {
-        Task UpsertNations(IReadOnlyCollection<Nation> data);
+        Task UpsertNations(IReadOnlyCollection<Nation> data, string dataFileName);
     }
 }
