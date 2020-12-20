@@ -1,0 +1,80 @@
+CREATE TABLE `nation` (
+ `id` int(11) NOT NULL,
+ `nation_name` varchar(50) NOT NULL,
+ `ruler_name` varchar(50) NOT NULL,
+ `alliance_id` int(11) DEFAULT NULL,
+ `alliance_date` datetime NOT NULL,
+ `alliance_status` varchar(25) NOT NULL,
+ `government_type` int(11) NOT NULL,
+ `religion` int(11) NOT NULL,
+ `team` int(11) NOT NULL,
+ `created` datetime NOT NULL,
+ `technology` float NOT NULL,
+ `infrastructure` float NOT NULL,
+ `base_land` float NOT NULL,
+ `votes` int(11) NOT NULL,
+ `defcon` int(11) NOT NULL,
+ `base_soldiers` int(11) NOT NULL,
+ `tanks` int(11) NOT NULL,
+ `cruise_missiles` int(11) NOT NULL,
+ `nukes` int(11) NOT NULL,
+ `recent_activity` int(11) NOT NULL,
+ `audit_updated_on` datetime DEFAULT NULL,
+ `audit_updated_by` varchar(500) DEFAULT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1
+
+
+
+CREATE TABLE `aid` (
+ `declaring_id` int(11) NOT NULL,
+ `declaring_ruler` varchar(50) NOT NULL,
+ `declaring_nation` varchar(50) NOT NULL,
+ `declaring_alliance` varchar(50) NOT NULL,
+ `declaring_alliance_id` int(11) NOT NULL,
+ `declaring_team` varchar(25) NOT NULL,
+ `receiving_id` int(11) NOT NULL,
+ `receiving_ruler` varchar(50) NOT NULL,
+ `receiving_nation` varchar(50) NOT NULL,
+ `receiving_alliance` varchar(50) NOT NULL,
+ `receiving_alliance_id` int(11) NOT NULL,
+ `receiving_team` varchar(25) NOT NULL,
+ `status` varchar(25) NOT NULL,
+ `money` int(11) NOT NULL,
+ `technology` int(11) NOT NULL,
+ `soldiers` int(11) NOT NULL,
+ `date` datetime DEFAULT NULL,
+ `reason` varchar(25) NOT NULL,
+ `aid_id` int(11) NOT NULL,
+ `audit_updated_on` datetime DEFAULT NULL,
+ `audit_updated_by` varchar(500) DEFAULT NULL,
+ PRIMARY KEY ('aid_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1
+
+
+
+CREATE TABLE `war_stats` (
+ `declaring_id` int(11) NOT NULL,
+ `declaring_ruler` varchar(50) NOT NULL,
+ `declaring_nation` varchar(50) NOT NULL,
+ `declaring_alliance` varchar(50) NOT NULL,
+ `declaring_alliance_id` int(11) NOT NULL,
+ `declaring_team` varchar(25) NOT NULL,
+ `receiving_id` int(11) NOT NULL,
+ `receiving_ruler` varchar(50) NOT NULL,
+ `receiving_nation` varchar(50) NOT NULL,
+ `receiving_alliance` varchar(50) NOT NULL,
+ `receiving_alliance_id` int(11) NOT NULL,
+ `receiving_team` varchar(25) NOT NULL,
+ `war_status` varchar(25) NOT NULL,
+ `begin_date` datetime DEFAULT NULL,
+ `end_date` datetime DEFAULT NULL,
+ `reason` varchar(25) NOT NULL,
+ `war_id` int(11) NOT NULL,
+ `destruction` int(11) NOT NULL,
+ `attack_percent` int(11) NOT NULL,
+ `defend_percent` int(11) NOT NULL,
+ `audit_updated_on` datetime DEFAULT NULL,
+ `audit_updated_by` varchar(500) DEFAULT NULL,
+ PRIMARY KEY (`war_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1
