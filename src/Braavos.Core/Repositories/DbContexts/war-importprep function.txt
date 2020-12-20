@@ -1,7 +1,7 @@
-            modelBuilder.Entity<Aid>(entity =>
+            modelBuilder.Entity<War>(entity =>
             {
-                entity.ToTable("aid");
-                entity.HasKey(e => e.AidId);
+                entity.ToTable("war_stats");
+                entity.HasKey(e => e.WarId);
                 entity.Property(e => e.DeclaringID).HasColumnName("declaring_id");
                 entity.Property(e => e.DeclaringRuler).HasColumnName("declaring_ruler");
                 entity.Property(e => e.DeclaringNation).HasColumnName("declaring_nation");
@@ -14,13 +14,14 @@
                 entity.Property(e => e.ReceivingAlliance).HasColumnName("receiving_alliance");
                 entity.Property(e => e.ReceivingAllianceID).HasColumnName("receiving_alliance_id");
                 entity.Property(e => e.ReceivingTeam).HasColumnName("receiving_team");
-                entity.Property(e => e.Status).HasColumnName("status");
-                entity.Property(e => e.Money).HasColumnName("money");
-                entity.Property(e => e.Technology).HasColumnName("technology");
-                entity.Property(e => e.Soldiers).HasColumnName("soldiers");
-                entity.Property(e => e.Date).HasColumnName("date");
+                entity.Property(e => e.WarStatus).HasColumnName("war_status");
+                entity.Property(e => e.BeginDate).HasColumnName("begin_date");
+                entity.Property(e => e.EndDate).HasColumnName("end_date");
                 entity.Property(e => e.Reason).HasColumnName("reason");
-	entity.Property(e => e.AidId).HasColumnName("aid_id");
-                entity.Property(e => e.UpdatedBy).HasColumnName("audit_updated_by");
+                entity.Property(e => e.WarID).HasColumnName("war_id");
+                entity.Property(e => e.Destruction).HasColumnName("destruction");
+				entity.Property(e => e.AttackPercent).HasColumnName("attack_percent");
+				entity.Property(e => e.DefendPercent).HasColumnName("defend_percent");
+				entity.Property(e => e.UpdatedBy).HasColumnName("audit_updated_by");
                 entity.Property(e => e.UpdatedOn).HasColumnName("audit_updated_on");
             }

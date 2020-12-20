@@ -24,30 +24,7 @@ CREATE TABLE `nation` (
  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1
 
-CREATE TABLE `aid` (
- `declaring_id` int(11) NOT NULL,
- `declaring_ruler` varchar(50) NOT NULL,
- `declaring_nation` varchar(50) NOT NULL,
- `declaring_alliance` varchar(50) NOT NULL,
- `declaring_alliance_id` int(11) NOT NULL,
- `declaring_team` varchar(25) NOT NULL,
- `receiving_id` int(11) NOT NULL,
- `receiving_ruler` varchar(50) NOT NULL,
- `receiving_nation` varchar(50) NOT NULL,
- `receiving_alliance` varchar(50) NOT NULL,
- `receiving_alliance_id` int(11) NOT NULL,
- `receiving_team` varchar(25) NOT NULL,
- `status` varchar(25) NOT NULL,
- `money` int(11) NOT NULL,
- `technology` int(11) NOT NULL,
- `soldiers` int(11) NOT NULL,
- `date` datetime DEFAULT NULL,
- `reason` varchar(25) NOT NULL,
- `aid_id` int(11) NOT NULL,
- `audit_updated_on` datetime DEFAULT NULL,
- `audit_updated_by` varchar(500) DEFAULT NULL,
- PRIMARY KEY ('aid_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1
+
 
 CREATE TABLE `aid` (
  `declaring_id` int(11) NOT NULL,
