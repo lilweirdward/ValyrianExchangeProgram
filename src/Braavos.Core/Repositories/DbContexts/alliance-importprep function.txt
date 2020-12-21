@@ -1,0 +1,28 @@
+            modelBuilder.Entity<Alliance>(entity =>
+            {
+                entity.ToTable("alliance");
+                entity.HasKey(e => e.AllianceID);
+                entity.Property(e => e.Alliance).HasColumnName("alliance");
+                entity.Property(e => e.AllianceID).HasColumnName("alliance_id");
+                entity.Property(e => e.Updated).HasColumnName("updated");
+                entity.Property(e => e.TotalNations).HasColumnName("total_nations");
+                entity.Property(e => e.ActiveNations).HasColumnName("active_nations");
+                entity.Property(e => e.PercentActive).HasColumnName("percent_active");
+                entity.Property(e => e.Strength).HasColumnName("strength");
+                entity.Property(e => e.AverageStrength).HasColumnName("average_strength");
+                entity.Property(e => e.Score).HasColumnName("score");
+                entity.Property(e => e.Land).HasColumnName("land");
+                entity.Property(e => e.Infrastructure).HasColumnName("infrastructure");
+                entity.Property(e => e.Technology).HasColumnName("technology");
+                entity.Property(e => e.War).HasColumnName("war");
+                entity.Property(e => e.Peace).HasColumnName("peace");
+                entity.Property(e => e.Soldiers).HasColumnName("soldiers");
+                entity.Property(e => e.Tanks).HasColumnName("tanks");
+                entity.Property(e => e.Cruise).HasColumnName("cruise");
+                entity.Property(e => e.Nukes).HasColumnName("nukes");
+	entity.Property(e => e.Aircraft).HasColumnName("aircraft");
+	entity.Property(e => e.Navy).HasColumnName("navy");
+	entity.Property(e => e.Anarchy).HasColumnName("anarchy");
+	entity.Property(e => e.UpdatedBy).HasColumnName("audit_updated_by");
+                entity.Property(e => e.UpdatedOn).HasColumnName("audit_updated_on");
+            }

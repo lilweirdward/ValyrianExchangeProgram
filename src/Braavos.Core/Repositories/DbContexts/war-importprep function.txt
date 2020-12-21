@@ -1,6 +1,6 @@
             modelBuilder.Entity<War>(entity =>
             {
-                entity.ToTable("war_stats");
+                entity.ToTable("war");
                 entity.HasKey(e => e.WarId);
                 entity.Property(e => e.DeclaringID).HasColumnName("declaring_id");
                 entity.Property(e => e.DeclaringRuler).HasColumnName("declaring_ruler");

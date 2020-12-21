@@ -22,8 +22,72 @@ CREATE TABLE `nation` (
  `audit_updated_on` datetime DEFAULT NULL,
  `audit_updated_by` varchar(500) DEFAULT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+CREATE TABLE `audit_nation` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `change_timestamp` datetime NOT NULL,
+  `change_code` char(1) NOT NULL,
+  `nation_id` int(11) NOT NULL,
+  `nation_name` varchar(50) NOT NULL,
+  `ruler_name` varchar(50) NOT NULL,
+  `alliance_id` int(11) NOT NULL,
+  `alliance_date` datetime NOT NULL,
+  `alliance_status` varchar(25) NOT NULL,
+  `government_type` int(11) NOT NULL,
+  `religion` int(11) NOT NULL,
+  `team` int(11) NOT NULL,
+  `created` datetime NOT NULL,
+  `technology` float NOT NULL,
+  `infrastructure` float NOT NULL,
+  `base_land` float NOT NULL,
+  `votes` int(11) NOT NULL,
+  `strength` float NOT NULL,
+  `defcon` int(11) NOT NULL,
+  `base_soldiers` int(11) NOT NULL,
+  `tanks` int(11) NOT NULL,
+  `cruise_missiles` int(11) NOT NULL,
+  `nukes` int(11) NOT NULL,
+  `recent_activity` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2050 DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `todays_file_nation` (
+  `nation_id` int(11) NOT NULL,
+  `nation_name` varchar(50) NOT NULL,
+  `ruler_name` varchar(50) NOT NULL,
+  `alliance_id` int(11) DEFAULT NULL,
+  `alliance_date` datetime NOT NULL,
+  `alliance_status` varchar(25) NOT NULL,
+  `government_type` int(11) NOT NULL,
+  `religion` int(11) NOT NULL,
+  `team` int(11) NOT NULL,
+  `created` datetime NOT NULL,
+  `technology` float NOT NULL,
+  `infrastructure` float NOT NULL,
+  `base_land` float NOT NULL,
+  `votes` int(11) NOT NULL,
+  `strength` float NOT NULL,
+  `defcon` int(11) NOT NULL,
+  `base_soldiers` int(11) NOT NULL,
+  `tanks` int(11) NOT NULL,
+  `cruise_missiles` int(11) NOT NULL,
+  `nukes` int(11) NOT NULL,
+  `recent_activity` int(11) NOT NULL,
+  `connected_resource_1` varchar(25) DEFAULT NULL,
+  `connected_resource_2` varchar(25) DEFAULT NULL,
+  `connected_resource_3` varchar(25) DEFAULT NULL,
+  `connected_resource_4` varchar(25) DEFAULT NULL,
+  `connected_resource_5` varchar(25) DEFAULT NULL,
+  `connected_resource_6` varchar(25) DEFAULT NULL,
+  `connected_resource_7` varchar(25) DEFAULT NULL,
+  `connected_resource_8` varchar(25) DEFAULT NULL,
+  `connected_resource_9` varchar(25) DEFAULT NULL,
+  `connected_resource_10` varchar(25) DEFAULT NULL,
+  `file_name` varchar(500) NOT NULL,
+  PRIMARY KEY (`nation_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;	
 
 
 CREATE TABLE `aid` (
@@ -49,11 +113,61 @@ CREATE TABLE `aid` (
  `audit_updated_on` datetime DEFAULT NULL,
  `audit_updated_by` varchar(500) DEFAULT NULL,
  PRIMARY KEY ('aid_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+CREATE TABLE `audit_aid` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `change_timestamp` datetime NOT NULL,
+ `change_code` char(1) NOT NULL,
+ `declaring_id` int(11) NOT NULL,
+ `declaring_ruler` varchar(50) NOT NULL,
+ `declaring_nation` varchar(50) NOT NULL,
+ `declaring_alliance` varchar(50) NOT NULL,
+ `declaring_alliance_id` int(11) NOT NULL,
+ `declaring_team` varchar(25) NOT NULL,
+ `receiving_id` int(11) NOT NULL,
+ `receiving_ruler` varchar(50) NOT NULL,
+ `receiving_nation` varchar(50) NOT NULL,
+ `receiving_alliance` varchar(50) NOT NULL,
+ `receiving_alliance_id` int(11) NOT NULL,
+ `receiving_team` varchar(25) NOT NULL,
+ `status` varchar(25) NOT NULL,
+ `money` int(11) NOT NULL,
+ `technology` int(11) NOT NULL,
+ `soldiers` int(11) NOT NULL,
+ `date` datetime DEFAULT NULL,
+ `reason` varchar(25) NOT NULL,
+ `aid_id` int(11) NOT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2050 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `todays_file_aid` (
+ `declaring_id` int(11) NOT NULL,
+ `declaring_ruler` varchar(50) NOT NULL,
+ `declaring_nation` varchar(50) NOT NULL,
+ `declaring_alliance` varchar(50) NOT NULL,
+ `declaring_alliance_id` int(11) NOT NULL,
+ `declaring_team` varchar(25) NOT NULL,
+ `receiving_id` int(11) NOT NULL,
+ `receiving_ruler` varchar(50) NOT NULL,
+ `receiving_nation` varchar(50) NOT NULL,
+ `receiving_alliance` varchar(50) NOT NULL,
+ `receiving_alliance_id` int(11) NOT NULL,
+ `receiving_team` varchar(25) NOT NULL,
+ `status` varchar(25) NOT NULL,
+ `money` int(11) NOT NULL,
+ `technology` int(11) NOT NULL,
+ `soldiers` int(11) NOT NULL,
+ `date` datetime DEFAULT NULL,
+ `reason` varchar(25) NOT NULL,
+ `aid_id` int(11) NOT NULL,
+ `audit_updated_on` datetime DEFAULT NULL,
+ `audit_updated_by` varchar(500) DEFAULT NULL,
+ PRIMARY KEY (`aid_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
-
-CREATE TABLE `war_stats` (
+CREATE TABLE `war` (
  `declaring_id` int(11) NOT NULL,
  `declaring_ruler` varchar(50) NOT NULL,
  `declaring_nation` varchar(50) NOT NULL,
@@ -77,4 +191,144 @@ CREATE TABLE `war_stats` (
  `audit_updated_on` datetime DEFAULT NULL,
  `audit_updated_by` varchar(500) DEFAULT NULL,
  PRIMARY KEY (`war_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+CREATE TABLE `audit_war` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `change_timestamp` datetime NOT NULL,
+ `change_code` char(1) NOT NULL,
+ `declaring_id` int(11) NOT NULL,
+ `declaring_ruler` varchar(50) NOT NULL,
+ `declaring_nation` varchar(50) NOT NULL,
+ `declaring_alliance` varchar(50) NOT NULL,
+ `declaring_alliance_id` int(11) NOT NULL,
+ `declaring_team` varchar(25) NOT NULL,
+ `receiving_id` int(11) NOT NULL,
+ `receiving_ruler` varchar(50) NOT NULL,
+ `receiving_nation` varchar(50) NOT NULL,
+ `receiving_alliance` varchar(50) NOT NULL,
+ `receiving_alliance_id` int(11) NOT NULL,
+ `receiving_team` varchar(25) NOT NULL,
+ `war_status` varchar(25) NOT NULL,
+ `begin_date` datetime DEFAULT NULL,
+ `end_date` datetime DEFAULT NULL,
+ `reason` varchar(25) NOT NULL,
+ `war_id` int(11) NOT NULL,
+ `destruction` int(11) NOT NULL,
+ `attack_percent` int(11) NOT NULL,
+ `defend_percent` int(11) NOT NULL,
+ `audit_updated_on` datetime DEFAULT NULL,
+ `audit_updated_by` varchar(500) DEFAULT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2050 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `todays_file_war` (
+ `declaring_id` int(11) NOT NULL,
+ `declaring_ruler` varchar(50) NOT NULL,
+ `declaring_nation` varchar(50) NOT NULL,
+ `declaring_alliance` varchar(50) NOT NULL,
+ `declaring_alliance_id` int(11) NOT NULL,
+ `declaring_team` varchar(25) NOT NULL,
+ `receiving_id` int(11) NOT NULL,
+ `receiving_ruler` varchar(50) NOT NULL,
+ `receiving_nation` varchar(50) NOT NULL,
+ `receiving_alliance` varchar(50) NOT NULL,
+ `receiving_alliance_id` int(11) NOT NULL,
+ `receiving_team` varchar(25) NOT NULL,
+ `war_status` varchar(25) NOT NULL,
+ `begin_date` datetime DEFAULT NULL,
+ `end_date` datetime DEFAULT NULL,
+ `reason` varchar(25) NOT NULL,
+ `war_id` int(11) NOT NULL,
+ `destruction` int(11) NOT NULL,
+ `attack_percent` int(11) NOT NULL,
+ `defend_percent` int(11) NOT NULL,
+ `audit_updated_on` datetime DEFAULT NULL,
+ `audit_updated_by` varchar(500) DEFAULT NULL,
+ PRIMARY KEY (`war_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+CREATE TABLE `alliance` (
+ `alliance` varchar(50) NOT NULL,
+ `alliance_id` int(11) NOT NULL,
+ `updated` datetime DEFAULT NULL,
+ `total_nations` int(11) NOT NULL,
+ `active_nations` int(11) NOT NULL,
+ `percent_active` int(11) NOT NULL,
+ `strength` int(11) NOT NULL,
+ `average strength` int(11) NOT NULL,
+ `score` int(11) NOT NULL,
+ `land` int(11) NOT NULL,
+ `infrastructure` int(11) NOT NULL,
+ `technology` int(11) NOT NULL,
+ `war` int(11) NOT NULL,
+ `peace` int(11) NOT NULL,
+ `soldiers` int(11) NOT NULL,
+ `tanks` int(11) NOT NULL,
+ `cruise` int(11) NOT NULL,
+ `nukes` int(11) NOT NULL,
+ `aircraft` int(11) NOT NULL,
+ `navy` int(11) NOT NULL,
+ `anarchy` int(11) NOT NULL, 
+ `audit_updated_on` datetime DEFAULT NULL,
+ `audit_updated_by` varchar(500) DEFAULT NULL,
+ PRIMARY KEY (`alliance_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+CREATE TABLE `audit_alliance` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `change_timestamp` datetime NOT NULL,
+ `change_code` char(1) NOT NULL,
+ `alliance` varchar(50) NOT NULL,
+ `alliance_id` int(11) NOT NULL,
+ `updated` datetime DEFAULT NULL,
+ `total_nations` int(11) NOT NULL,
+ `active_nations` int(11) NOT NULL,
+ `percent_active` int(11) NOT NULL,
+ `strength` int(11) NOT NULL,
+ `average strength` int(11) NOT NULL,
+ `score` int(11) NOT NULL,
+ `land` int(11) NOT NULL,
+ `infrastructure` int(11) NOT NULL,
+ `technology` int(11) NOT NULL,
+ `war` int(11) NOT NULL,
+ `peace` int(11) NOT NULL,
+ `soldiers` int(11) NOT NULL,
+ `tanks` int(11) NOT NULL,
+ `cruise` int(11) NOT NULL,
+ `nukes` int(11) NOT NULL,
+ `aircraft` int(11) NOT NULL,
+ `navy` int(11) NOT NULL,
+ `anarchy` int(11) NOT NULL, 
+ `audit_updated_on` datetime DEFAULT NULL,
+ `audit_updated_by` varchar(500) DEFAULT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+CREATE TABLE `todays_file_alliance` (
+ `alliance` varchar(50) NOT NULL,
+ `alliance_id` int(11) NOT NULL,
+ `updated` datetime DEFAULT NULL,
+ `total_nations` int(11) NOT NULL,
+ `active_nations` int(11) NOT NULL,
+ `percent_active` int(11) NOT NULL,
+ `strength` int(11) NOT NULL,
+ `average strength` int(11) NOT NULL,
+ `score` int(11) NOT NULL,
+ `land` int(11) NOT NULL,
+ `infrastructure` int(11) NOT NULL,
+ `technology` int(11) NOT NULL,
+ `war` int(11) NOT NULL,
+ `peace` int(11) NOT NULL,
+ `soldiers` int(11) NOT NULL,
+ `tanks` int(11) NOT NULL,
+ `cruise` int(11) NOT NULL,
+ `nukes` int(11) NOT NULL,
+ `aircraft` int(11) NOT NULL,
+ `navy` int(11) NOT NULL,
+ `anarchy` int(11) NOT NULL, 
+ `audit_updated_on` datetime DEFAULT NULL,
+ `audit_updated_by` varchar(500) DEFAULT NULL,
+ PRIMARY KEY (`alliance_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
