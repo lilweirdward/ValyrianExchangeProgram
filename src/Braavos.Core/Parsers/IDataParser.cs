@@ -3,8 +3,8 @@ using System.IO;
 
 namespace Braavos.Core.Parsers
 {
-    public interface IDataParser<T>
+    public interface IDataParser
     {
-        IAsyncEnumerable<T> Parse(Stream dataStream);
+        IAsyncEnumerable<T> Parse<T>(Stream dataStream);
     }
 }

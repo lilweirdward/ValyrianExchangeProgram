@@ -8,14 +8,17 @@ using System.Threading.Tasks;
 
 namespace Braavos.Core.Parsers
 {
-    public class CnNationParser : IDataParser<CnNation>
+    public class CnFileParser : IDataParser
     {
-        public async IAsyncEnumerable<CnNation> Parse(Stream dataStream)
+        /// <summary>
+        /// Generic wrapper for CSV reader that works for CN files
+        /// </summary>
+        public async IAsyncEnumerable<T> Parse<T>(Stream dataStream)
         {
             using (var reader = new StreamReader(dataStream))
             using (var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture) { Delimiter = "|" }))
             {
-                await foreach (var nationRecord in csv.GetRecordsAsync<CnNation>())
+                await foreach (var nationRecord in csv.GetRecordsAsync<T>())
                     yield return nationRecord;
             }
         }
