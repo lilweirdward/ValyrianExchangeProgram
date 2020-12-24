@@ -16,6 +16,7 @@ namespace Braavos.Core.Repositories.DbContexts
 
         public DbSet<Nation> Nations { get; set; }
         private DbSet<TodaysNationData> TodaysNationData { get; set; }
+        private DbSet<TodaysWarData> TodaysWarData { get; set; }
 
         public CybernationsDbContext(IOptions<FunctionOptions> options) => _connectionString = options.Value.DbConnectionString;
         
@@ -53,6 +54,28 @@ namespace Braavos.Core.Repositories.DbContexts
                 entity.Property(e => e.CruiseMissiles).HasColumnName("cruise_missiles");
                 entity.Property(e => e.Nukes).HasColumnName("nukes");
                 entity.Property(e => e.RecentActivity).HasColumnName("recent_activity");
+                entity.Property(e => e.UpdatedBy).HasColumnName("audit_updated_by");
+                entity.Property(e => e.UpdatedOn).HasColumnName("audit_updated_on");
+            });
+
+            modelBuilder.Entity<War>(entity =>
+            {
+                entity.ToTable("war");
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.AttackingNationId).HasColumnName("attacking_nation_id");
+                entity.Property(e => e.AttackingAllianceId).HasColumnName("attacking_alliance_id");
+                entity.Property(e => e.AttackingTeam).HasColumnName("attacking_team");
+                entity.Property(e => e.DefendingNationId).HasColumnName("defending_nation_id");
+                entity.Property(e => e.DefendingAllianceId).HasColumnName("defending_alliance_id");
+                entity.Property(e => e.DefendingTeam).HasColumnName("defending_team");
+                entity.Property(e => e.WarStatus).HasColumnName("war_status");
+                entity.Property(e => e.BeginDate).HasColumnName("begin_date");
+                entity.Property(e => e.EndDate).HasColumnName("end_date");
+                entity.Property(e => e.Reason).HasColumnName("reason");
+                entity.Property(e => e.Destruction).HasColumnName("destruction");
+                entity.Property(e => e.AttackPercent).HasColumnName("attack_percent");
+                entity.Property(e => e.DefendPercent).HasColumnName("defend_percent");
                 entity.Property(e => e.UpdatedBy).HasColumnName("audit_updated_by");
                 entity.Property(e => e.UpdatedOn).HasColumnName("audit_updated_on");
             });
@@ -97,6 +120,27 @@ namespace Braavos.Core.Repositories.DbContexts
                 entity.Property(e => e.FileName).HasColumnName("file_name");
             });
 
+            modelBuilder.Entity<TodaysWarData>(entity =>
+            {
+                entity.ToTable("todays_file_war");
+                entity.HasKey(e => e.WarId);
+                entity.Property(e => e.WarId).HasColumnName("war_id");
+                entity.Property(e => e.AttackingNationId).HasColumnName("attacking_nation_id");
+                entity.Property(e => e.AttackingAllianceId).HasColumnName("attacking_alliance_id");
+                entity.Property(e => e.AttackingTeam).HasColumnName("attacking_team");
+                entity.Property(e => e.DefendingNationId).HasColumnName("defending_nation_id");
+                entity.Property(e => e.DefendingAllianceId).HasColumnName("defending_alliance_id");
+                entity.Property(e => e.DefendingTeam).HasColumnName("defending_team");
+                entity.Property(e => e.WarStatus).HasColumnName("war_status");
+                entity.Property(e => e.BeginDate).HasColumnName("begin_date");
+                entity.Property(e => e.EndDate).HasColumnName("end_date");
+                entity.Property(e => e.Reason).HasColumnName("reason");
+                entity.Property(e => e.Destruction).HasColumnName("destruction");
+                entity.Property(e => e.AttackPercent).HasColumnName("attack_percent");
+                entity.Property(e => e.DefendPercent).HasColumnName("defend_percent");
+                entity.Property(e => e.FileName).HasColumnName("file_name");
+            });
+
             #endregion
         }
 
@@ -110,6 +154,19 @@ namespace Braavos.Core.Repositories.DbContexts
 
             // Add the data and save
             TodaysNationData.AddRange(todaysNationData);
+            await SaveChangesAsync();
+        }
+
+        public async Task InsertTempData(IReadOnlyCollection<TodaysWarData> todaysWarData)
+        {
+            // Truncate the table since it's only for temp data
+            await Database.ExecuteSqlRawAsync("TRUNCATE TABLE todays_file_war;");
+
+            // Turn of change detection to speed up EF performance
+            ChangeTracker.AutoDetectChangesEnabled = false;
+
+            // Add the data and save
+            TodaysWarData.AddRange(todaysWarData);
             await SaveChangesAsync();
         }
 

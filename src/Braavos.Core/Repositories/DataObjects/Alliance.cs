@@ -6,7 +6,7 @@ namespace Braavos.Core.Repositories.DataObjects
 {
     public class Alliance
     {
-        public string Alliance { get; set; }
+        public string Name { get; set; }
         public int AllianceID { get; set; }
         public DateTime Updated { get; set; }
         public int TotalNations { get; set; }

@@ -22,7 +22,16 @@ namespace Braavos.Core.Repositories
             await _cnDbContext.InsertTempData(data.Select(rec => new TodaysNationData(rec, dataFileName)).ToList());
 
             // Execute the proc that merges the data into the main table
-            await _cnDbContext.ExecuteSqlCommand("CALL proc_update_nation_data();");
+            await _cnDbContext.ExecuteSqlCommand("CALL update_nation_data();");
+        }
+
+        public async Task UpsertWar(IReadOnlyCollection<War> data, string dataFileName)
+        {
+            // Load today's data into the temp table for quicker uploading
+            await _cnDbContext.InsertTempData(data.Select(rec => new TodaysWarData(rec, dataFileName)).ToList());
+
+            // Execute the proc that merges the data into the main table
+            await _cnDbContext.ExecuteSqlCommand("CALL update_war_data();");
         }
     }
 }

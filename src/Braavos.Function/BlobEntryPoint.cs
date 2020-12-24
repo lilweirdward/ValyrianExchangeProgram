@@ -36,6 +36,8 @@ namespace Braavos.Function
             {
                 await foreach (var fileRecord in _dataParser.Parse<CnNation>(myBlob))
                     allNationData.Add(fileRecord);
+
+                log.LogInformation($"File successfully parsed. {allNationData.Count} records found.");
             }
             catch (Exception e)
             {
@@ -43,22 +45,18 @@ namespace Braavos.Function
                 return;
             }
 
-            log.LogInformation($"File successfully parsed. {allNationData.Count} records found.");
-
             // Upload data to DB
             try
             {
                 await _cnDbRepository.UpsertNations(allNationData.Select(_mapper.Map<Nation>).ToList(), name);
+
+                log.LogInformation($"Data uploaded successfully.");
             }
             catch (Exception e)
             {
                 log.LogError($"Critical error encountered while upserting nation data to the DB. \n Message: {e.Message}\n StackTrace: {e.StackTrace}");
                 return;
             }
-
-            log.LogInformation($"Data uploaded successfully.");
-
-            // Move the file to the archive
 
             log.LogInformation($"{nameof(CnNationsImporter)} trigger function completed successfully!");
         }
@@ -78,7 +76,37 @@ namespace Braavos.Function
         [FunctionName(nameof(CnWarImporter))]
         public async Task CnWarImporter([BlobTrigger("war/{name}", Connection = "AzureWebJobsStorage")] Stream myBlob, string name, ILogger log)
         {
+            log.LogInformation($"CnNationsImporter trigger function processing blob... \n Name:{name} \n Size: {myBlob.Length} Bytes");
 
+            // Convert CSV to data
+            var allWarData = new List<CnWar>();
+            try
+            {
+                await foreach (var fileRecord in _dataParser.Parse<CnWar>(myBlob))
+                    allWarData.Add(fileRecord);
+
+                log.LogInformation($"File successfully parsed. {allWarData.Count} records found.");
+            }
+            catch (Exception e)
+            {
+                log.LogError($"Critical error encountered while parsing blob. \n Message: {e.Message}\n StackTrace: {e.StackTrace}");
+                return;
+            }
+
+            // Upload data to DB
+            try
+            {
+                await _cnDbRepository.UpsertWar(allWarData.Select(_mapper.Map<War>).ToList(), name);
+
+                log.LogInformation($"Data uploaded successfully.");
+            }
+            catch (Exception e)
+            {
+                log.LogError($"Critical error encountered while upserting war data to the DB. \n Message: {e.Message}\n StackTrace: {e.StackTrace}");
+                return;
+            }
+
+            log.LogInformation($"{nameof(CnNationsImporter)} trigger function completed successfully!");
         }
 
         /// <summary>

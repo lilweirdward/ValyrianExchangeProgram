@@ -63,4 +63,11 @@ namespace Braavos.Core.Repositories.DataObjects
         ActiveThreeWeeksAgo = 4,
         ActiveMoreThanThreeWeeksAgo = 5
     }
+
+    public enum WarStatus
+    {
+        Active = 1,
+        Expired = 2,
+        Peace = 3
+    }
 }

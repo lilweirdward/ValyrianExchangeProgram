@@ -39,6 +39,34 @@ namespace Braavos.Function
 
                     return RecentActivity.ActiveMoreThanThreeWeeksAgo;
                 }));
+
+            CreateMap<CnWar, War>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.WarId))
+                .ForMember(dest => dest.AttackingNationId, opt => opt.MapFrom(src => src.DeclaringId))
+                .ForMember(dest => dest.AttackingAllianceId, opt => opt.MapFrom(src => src.DeclaringAllianceId))
+                .ForMember(dest => dest.AttackingTeam, opt => opt.MapFrom((src, dest) =>
+                {
+                    if (Enum.TryParse<Team>(src.DeclaringTeam, out var team))
+                        return team;
+
+                    return Team.None;
+                }))
+                .ForMember(dest => dest.DefendingNationId, opt => opt.MapFrom(src => src.ReceivingId))
+                .ForMember(dest => dest.DefendingAllianceId, opt => opt.MapFrom(src => src.ReceivingAllianceId))
+                .ForMember(dest => dest.DefendingTeam, opt => opt.MapFrom((src, dest) =>
+                {
+                    if (Enum.TryParse<Team>(src.ReceivingTeam, out var team))
+                        return team;
+
+                    return Team.None;
+                }))
+                .ForMember(dest => dest.WarStatus, opt => opt.MapFrom((src, dest) =>
+                {
+                    if (Enum.TryParse<WarStatus>(src.WarStatus, out var warStatus))
+                        return warStatus;
+
+                    return WarStatus.Expired;
+                }));
         }
     }
 }
