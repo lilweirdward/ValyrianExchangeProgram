@@ -67,7 +67,37 @@ namespace Braavos.Function
         [FunctionName(nameof(CnAidImporter))]
         public async Task CnAidImporter([BlobTrigger("aid/{name}", Connection = "AzureWebJobsStorage")]Stream myBlob, string name, ILogger log)
         {
+            log.LogInformation($"CnAidImporter trigger function processing blob... \n Name:{name} \n Size: {myBlob.Length} Bytes");
 
+            // Convert CSV to data
+            var allAidData = new List<CnAid>();
+            try
+            {
+                await foreach (var fileRecord in _dataParser.Parse<CnAid>(myBlob))
+                    allAidData.Add(fileRecord);
+
+                log.LogInformation($"File successfully parsed. {allAidData.Count} records found.");
+            }
+            catch (Exception e)
+            {
+                log.LogError($"Critical error encountered while parsing blob. \n Message: {e.Message}\n StackTrace: {e.StackTrace}");
+                return;
+            }
+
+            // Upload data to DB
+            try
+            {
+                await _cnDbRepository.UpsertAid(allAidData.Select(_mapper.Map<Aid>).ToList(), name);
+
+                log.LogInformation($"Data uploaded successfully.");
+            }
+            catch (Exception e)
+            {
+                log.LogError($"Critical error encountered while upserting aid data to the DB. \n Message: {e.Message}\n StackTrace: {e.StackTrace}");
+                return;
+            }
+
+            log.LogInformation($"{nameof(CnAidImporter)} trigger function completed successfully!");
         }
 
         /// <summary>
@@ -76,7 +106,7 @@ namespace Braavos.Function
         [FunctionName(nameof(CnWarImporter))]
         public async Task CnWarImporter([BlobTrigger("war/{name}", Connection = "AzureWebJobsStorage")] Stream myBlob, string name, ILogger log)
         {
-            log.LogInformation($"CnNationsImporter trigger function processing blob... \n Name:{name} \n Size: {myBlob.Length} Bytes");
+            log.LogInformation($"CnAidImporter trigger function processing blob... \n Name:{name} \n Size: {myBlob.Length} Bytes");
 
             // Convert CSV to data
             var allWarData = new List<CnWar>();
@@ -106,7 +136,7 @@ namespace Braavos.Function
                 return;
             }
 
-            log.LogInformation($"{nameof(CnNationsImporter)} trigger function completed successfully!");
+            log.LogInformation($"{nameof(CnWarImporter)} trigger function completed successfully!");
         }
 
         /// <summary>

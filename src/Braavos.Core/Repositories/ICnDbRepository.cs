@@ -10,5 +10,7 @@ namespace Braavos.Core.Repositories
     {
         Task UpsertNations(IReadOnlyCollection<Nation> data, string dataFileName);
         Task UpsertWar(IReadOnlyCollection<War> data, string dataFileName);
+        Task UpsertAid(IReadOnlyCollection<Aid> data, string dataFileName);
+        Task UpsertAlliances(IReadOnlyCollection<Alliance> data, string dataFileName);
     }
 }

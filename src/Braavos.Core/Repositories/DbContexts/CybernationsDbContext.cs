@@ -17,6 +17,7 @@ namespace Braavos.Core.Repositories.DbContexts
         public DbSet<Nation> Nations { get; set; }
         private DbSet<TodaysNationData> TodaysNationData { get; set; }
         private DbSet<TodaysWarData> TodaysWarData { get; set; }
+        private DbSet<TodaysAidData> TodaysAidData { get; set; }
 
         public CybernationsDbContext(IOptions<FunctionOptions> options) => _connectionString = options.Value.DbConnectionString;
         
@@ -76,6 +77,27 @@ namespace Braavos.Core.Repositories.DbContexts
                 entity.Property(e => e.Destruction).HasColumnName("destruction");
                 entity.Property(e => e.AttackPercent).HasColumnName("attack_percent");
                 entity.Property(e => e.DefendPercent).HasColumnName("defend_percent");
+                entity.Property(e => e.UpdatedBy).HasColumnName("audit_updated_by");
+                entity.Property(e => e.UpdatedOn).HasColumnName("audit_updated_on");
+            });
+
+            modelBuilder.Entity<Aid>(entity =>
+            {
+                entity.ToTable("aid");
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id).HasColumnName("aid_id");
+                entity.Property(e => e.SendingNationId).HasColumnName("sending_nation_id");
+                entity.Property(e => e.SendingAllianceId).HasColumnName("sending_alliance_id");
+                entity.Property(e => e.SendingTeam).HasColumnName("sending_team");
+                entity.Property(e => e.ReceivingNationId).HasColumnName("receiving_nation_id");
+                entity.Property(e => e.ReceivingAllianceId).HasColumnName("receiving_alliance_id");
+                entity.Property(e => e.ReceivingTeam).HasColumnName("receiving_team");
+                entity.Property(e => e.Status).HasColumnName("status");
+                entity.Property(e => e.Money).HasColumnName("money");
+                entity.Property(e => e.Technology).HasColumnName("technology");
+                entity.Property(e => e.Soldiers).HasColumnName("soldiers");
+                entity.Property(e => e.Date).HasColumnName("date");
+                entity.Property(e => e.Reason).HasColumnName("reason");
                 entity.Property(e => e.UpdatedBy).HasColumnName("audit_updated_by");
                 entity.Property(e => e.UpdatedOn).HasColumnName("audit_updated_on");
             });
@@ -141,6 +163,26 @@ namespace Braavos.Core.Repositories.DbContexts
                 entity.Property(e => e.FileName).HasColumnName("file_name");
             });
 
+            modelBuilder.Entity<TodaysAidData>(entity =>
+            {
+                entity.ToTable("todays_file_aid");
+                entity.HasKey(e => e.AidId);
+                entity.Property(e => e.AidId).HasColumnName("aid_id");
+                entity.Property(e => e.SendingNationId).HasColumnName("sending_nation_id");
+                entity.Property(e => e.SendingAllianceId).HasColumnName("sending_alliance_id");
+                entity.Property(e => e.SendingTeam).HasColumnName("sending_team");
+                entity.Property(e => e.ReceivingNationId).HasColumnName("receiving_nation_id");
+                entity.Property(e => e.ReceivingAllianceId).HasColumnName("receiving_alliance_id");
+                entity.Property(e => e.ReceivingTeam).HasColumnName("receiving_team");
+                entity.Property(e => e.Status).HasColumnName("status");
+                entity.Property(e => e.Money).HasColumnName("money");
+                entity.Property(e => e.Technology).HasColumnName("technology");
+                entity.Property(e => e.Soldiers).HasColumnName("soldiers");
+                entity.Property(e => e.Date).HasColumnName("date");
+                entity.Property(e => e.Reason).HasColumnName("reason");
+                entity.Property(e => e.FileName).HasColumnName("file_name");
+            });
+
             #endregion
         }
 
@@ -167,6 +209,19 @@ namespace Braavos.Core.Repositories.DbContexts
 
             // Add the data and save
             TodaysWarData.AddRange(todaysWarData);
+            await SaveChangesAsync();
+        }
+
+        public async Task InsertTempData(IReadOnlyCollection<TodaysAidData> todaysAidData)
+        {
+            // Truncate the table since it's only for temp data
+            await Database.ExecuteSqlRawAsync("TRUNCATE TABLE todays_file_aid;");
+
+            // Turn of change detection to speed up EF performance
+            ChangeTracker.AutoDetectChangesEnabled = false;
+
+            // Add the data and save
+            TodaysAidData.AddRange(todaysAidData);
             await SaveChangesAsync();
         }
 
