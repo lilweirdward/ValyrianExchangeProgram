@@ -8,6 +8,11 @@ on:
     branches:
     - master
 
+env:
+  AZURE_FUNCTIONAPP_NAME: braavos-tech-exchange
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: 'build'
+  DOTNET_VERSION: '3.1.300'
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,11 +32,11 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.301
+        dotnet-version: ${{ env.DOTNET_VERSION }}
     - name: Publish client
       run: dotnet publish src/Braavos.Ui/Braavos.Ui.csproj --configuration Release --output build
     - name: Deploy to Github Pages
-      uses: JamesIves/github-pages-deploy-action@3.5.7
+      uses: JamesIves/github-pages-deploy-action@3.7.1
       with:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         BASE_BRANCH: master # The branch the action should deploy from.
@@ -48,12 +53,12 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.301
+        dotnet-version: ${{ env.DOTNET_VERSION }}
     - name: Publish Function
       run: dotnet publish src/Braavos.Function/Braavos.Function.csproj --configuration Release --output build
     - name: Deploy to Azure Functions
-      uses: Azure/functions-action@v1.1.4
+      uses: Azure/functions-action@v1
       with:
-        app-name: braavos-tech-exchange
-        package: build
+        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+        package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
         publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
