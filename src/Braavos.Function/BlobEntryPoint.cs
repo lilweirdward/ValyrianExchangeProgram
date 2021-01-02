@@ -145,7 +145,37 @@ namespace Braavos.Function
         [FunctionName(nameof(CnAlliancesImporter))]
         public async Task CnAlliancesImporter([BlobTrigger("alliances/{name}", Connection = "AzureWebJobsStorage")] Stream myBlob, string name, ILogger log)
         {
+            log.LogInformation($"CnAlliancesImporter trigger function processing blob... \n Name:{name} \n Size: {myBlob.Length} Bytes");
 
+            // Convert CSV to data
+            var allAllianceData = new List<CnAlliance>();
+            try
+            {
+                await foreach (var fileRecord in _dataParser.Parse<CnAlliance>(myBlob))
+                    allAllianceData.Add(fileRecord);
+
+                log.LogInformation($"File successfully parsed. {allAllianceData.Count} records found.");
+            }
+            catch (Exception e)
+            {
+                log.LogError($"Critical error encountered while parsing blob. \n Message: {e.Message}\n StackTrace: {e.StackTrace}");
+                return;
+            }
+
+            // Upload data to DB
+            try
+            {
+                await _cnDbRepository.UpsertAlliances(allAllianceData.Select(_mapper.Map<Alliance>).ToList(), name);
+
+                log.LogInformation($"Data uploaded successfully.");
+            }
+            catch (Exception e)
+            {
+                log.LogError($"Critical error encountered while upserting alliance data to the DB. \n Message: {e.Message}\n StackTrace: {e.StackTrace}");
+                return;
+            }
+
+            log.LogInformation($"{nameof(CnAlliancesImporter)} trigger function completed successfully!");
         }
     }
 }

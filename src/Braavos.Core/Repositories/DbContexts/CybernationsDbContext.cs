@@ -18,6 +18,7 @@ namespace Braavos.Core.Repositories.DbContexts
         private DbSet<TodaysNationData> TodaysNationData { get; set; }
         private DbSet<TodaysWarData> TodaysWarData { get; set; }
         private DbSet<TodaysAidData> TodaysAidData { get; set; }
+        private DbSet<TodaysAllianceData> TodaysAllianceData { get; set; }
 
         public CybernationsDbContext(IOptions<FunctionOptions> options) => _connectionString = options.Value.DbConnectionString;
         
@@ -98,6 +99,35 @@ namespace Braavos.Core.Repositories.DbContexts
                 entity.Property(e => e.Soldiers).HasColumnName("soldiers");
                 entity.Property(e => e.Date).HasColumnName("date");
                 entity.Property(e => e.Reason).HasColumnName("reason");
+                entity.Property(e => e.UpdatedBy).HasColumnName("audit_updated_by");
+                entity.Property(e => e.UpdatedOn).HasColumnName("audit_updated_on");
+            });
+
+            modelBuilder.Entity<Alliance>(entity =>
+            {
+                entity.ToTable("alliance");
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Name).HasColumnName("name");
+                entity.Property(e => e.Updated).HasColumnName("updated");
+                entity.Property(e => e.TotalNations).HasColumnName("total_nations");
+                entity.Property(e => e.ActiveNations).HasColumnName("active_nations");
+                entity.Property(e => e.PercentActive).HasColumnName("percent_active");
+                entity.Property(e => e.Strength).HasColumnName("strength");
+                entity.Property(e => e.AverageStrength).HasColumnName("average_strength");
+                entity.Property(e => e.Score).HasColumnName("score");
+                entity.Property(e => e.Land).HasColumnName("land");
+                entity.Property(e => e.Infrastructure).HasColumnName("infrastructure");
+                entity.Property(e => e.Technology).HasColumnName("technology");
+                entity.Property(e => e.War).HasColumnName("war");
+                entity.Property(e => e.Peace).HasColumnName("peace");
+                entity.Property(e => e.Soldiers).HasColumnName("soldiers");
+                entity.Property(e => e.Tanks).HasColumnName("tanks");
+                entity.Property(e => e.Cruise).HasColumnName("cruise");
+                entity.Property(e => e.Nukes).HasColumnName("nukes");
+                entity.Property(e => e.Aircraft).HasColumnName("aircraft");
+                entity.Property(e => e.Navy).HasColumnName("navy");
+                entity.Property(e => e.Anarchy).HasColumnName("anarchy");
                 entity.Property(e => e.UpdatedBy).HasColumnName("audit_updated_by");
                 entity.Property(e => e.UpdatedOn).HasColumnName("audit_updated_on");
             });
@@ -183,6 +213,34 @@ namespace Braavos.Core.Repositories.DbContexts
                 entity.Property(e => e.FileName).HasColumnName("file_name");
             });
 
+            modelBuilder.Entity<TodaysAllianceData>(entity =>
+            {
+                entity.ToTable("todays_file_alliance");
+                entity.HasKey(e => e.AllianceId);
+                entity.Property(e => e.AllianceId).HasColumnName("alliance_id");
+                entity.Property(e => e.Name).HasColumnName("name");
+                entity.Property(e => e.Updated).HasColumnName("updated");
+                entity.Property(e => e.TotalNations).HasColumnName("total_nations");
+                entity.Property(e => e.ActiveNations).HasColumnName("active_nations");
+                entity.Property(e => e.PercentActive).HasColumnName("percent_active");
+                entity.Property(e => e.Strength).HasColumnName("strength");
+                entity.Property(e => e.AverageStrength).HasColumnName("average_strength");
+                entity.Property(e => e.Score).HasColumnName("score");
+                entity.Property(e => e.Land).HasColumnName("land");
+                entity.Property(e => e.Infrastructure).HasColumnName("infrastructure");
+                entity.Property(e => e.Technology).HasColumnName("technology");
+                entity.Property(e => e.War).HasColumnName("war");
+                entity.Property(e => e.Peace).HasColumnName("peace");
+                entity.Property(e => e.Soldiers).HasColumnName("soldiers");
+                entity.Property(e => e.Tanks).HasColumnName("tanks");
+                entity.Property(e => e.Cruise).HasColumnName("cruise");
+                entity.Property(e => e.Nukes).HasColumnName("nukes");
+                entity.Property(e => e.Aircraft).HasColumnName("aircraft");
+                entity.Property(e => e.Navy).HasColumnName("navy");
+                entity.Property(e => e.Anarchy).HasColumnName("anarchy");
+                entity.Property(e => e.FileName).HasColumnName("file_name");
+            });
+
             #endregion
         }
 
@@ -222,6 +280,19 @@ namespace Braavos.Core.Repositories.DbContexts
 
             // Add the data and save
             TodaysAidData.AddRange(todaysAidData);
+            await SaveChangesAsync();
+        }
+
+        public async Task InsertTempData(IReadOnlyCollection<TodaysAllianceData> todaysAllianceData)
+        {
+            // Truncate the table since it's only for temp data
+            await Database.ExecuteSqlRawAsync("TRUNCATE TABLE todays_file_alliance;");
+
+            // Turn of change detection to speed up EF performance
+            ChangeTracker.AutoDetectChangesEnabled = false;
+
+            // Add the data and save
+            TodaysAllianceData.AddRange(todaysAllianceData);
             await SaveChangesAsync();
         }
 

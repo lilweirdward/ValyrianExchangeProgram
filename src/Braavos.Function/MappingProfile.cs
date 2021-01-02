@@ -94,6 +94,16 @@ namespace Braavos.Function
 
                     return AidStatus.Expired;
                 }));
+
+            CreateMap<CnAlliance, Alliance>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.AllianceId))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Alliance))
+                .ForMember(dest => dest.Strength, opt => opt.MapFrom(src => (int)decimal.Round(src.Strength)))
+                .ForMember(dest => dest.AverageStrength, opt => opt.MapFrom(src => (int)decimal.Round(src.AverageStrength)))
+                .ForMember(dest => dest.Score, opt => opt.MapFrom(src => decimal.Round(src.Score, 2)))
+                .ForMember(dest => dest.Infrastructure, opt => opt.MapFrom(src => (int)decimal.Round(src.Infrastructure)))
+                .ForMember(dest => dest.Technology, opt => opt.MapFrom(src => (int)decimal.Round(src.Technology)))
+                .ForMember(dest => dest.Land, opt => opt.MapFrom(src => (int)decimal.Round(src.Land)));
         }
     }
 }

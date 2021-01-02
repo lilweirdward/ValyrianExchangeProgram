@@ -43,9 +43,13 @@ namespace Braavos.Core.Repositories
             await _cnDbContext.ExecuteSqlCommand("CALL update_aid_data();");
         }
 
-        public Task UpsertAlliances(IReadOnlyCollection<Alliance> data, string dataFileName)
+        public async Task UpsertAlliances(IReadOnlyCollection<Alliance> data, string dataFileName)
         {
-            throw new System.NotImplementedException();
+            // Load today's data into the temp table for quicker uploading
+            await _cnDbContext.InsertTempData(data.Select(rec => new TodaysAllianceData(rec, dataFileName)).ToList());
+
+            // Execute the proc that merges the data into the main table
+            await _cnDbContext.ExecuteSqlCommand("CALL update_alliance_data();");
         }
     }
 }

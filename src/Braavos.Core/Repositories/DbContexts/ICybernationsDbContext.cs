@@ -14,6 +14,7 @@ namespace Braavos.Core.Repositories.DbContexts
         Task InsertTempData(IReadOnlyCollection<TodaysNationData> todaysNationData);
         Task InsertTempData(IReadOnlyCollection<TodaysWarData> todaysWarData);
         Task InsertTempData(IReadOnlyCollection<TodaysAidData> todaysAidData);
+        Task InsertTempData(IReadOnlyCollection<TodaysAllianceData> todaysAllianceData);
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
         Task ExecuteSqlCommand(string sql, params object[] parameters);
     }
