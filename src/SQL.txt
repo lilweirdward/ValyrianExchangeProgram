@@ -1,0 +1,773 @@
+CREATE TABLE `nation` (
+ `id` int(11) NOT NULL,
+ `nation_name` varchar(50) NOT NULL,
+ `ruler_name` varchar(50) NOT NULL,
+ `alliance_id` int(11) DEFAULT NULL,
+ `alliance_date` datetime NOT NULL,
+ `alliance_status` varchar(25) NOT NULL,
+ `government_type` int(11) NOT NULL,
+ `religion` int(11) NOT NULL,
+ `team` int(11) NOT NULL,
+ `created` datetime NOT NULL,
+ `technology` float NOT NULL,
+ `infrastructure` float NOT NULL,
+ `base_land` float NOT NULL,
+ `votes` int(11) NOT NULL,
+ `defcon` int(11) NOT NULL,
+ `base_soldiers` int(11) NOT NULL,
+ `tanks` int(11) NOT NULL,
+ `cruise_missiles` int(11) NOT NULL,
+ `nukes` int(11) NOT NULL,
+ `recent_activity` int(11) NOT NULL,
+ `audit_updated_on` datetime DEFAULT NULL,
+ `audit_updated_by` varchar(500) DEFAULT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+CREATE TABLE `audit_nation` (
+ �`id` int(11) NOT NULL AUTO_INCREMENT,
+ �`change_timestamp` datetime NOT NULL,
+ �`change_code` char(1) NOT NULL,
+ �`nation_id` int(11) NOT NULL,
+ �`nation_name` varchar(50) NOT NULL,
+ �`ruler_name` varchar(50) NOT NULL,
+ �`alliance_id` int(11) NOT NULL,
+ �`alliance_date` datetime NOT NULL,
+ �`alliance_status` varchar(25) NOT NULL,
+ �`government_type` int(11) NOT NULL,
+ �`religion` int(11) NOT NULL,
+ �`team` int(11) NOT NULL,
+ �`created` datetime NOT NULL,
+ �`technology` float NOT NULL,
+ �`infrastructure` float NOT NULL,
+ �`base_land` float NOT NULL,
+ �`votes` int(11) NOT NULL,
+ �`strength` float NOT NULL,
+ �`defcon` int(11) NOT NULL,
+ �`base_soldiers` int(11) NOT NULL,
+ �`tanks` int(11) NOT NULL,
+ �`cruise_missiles` int(11) NOT NULL,
+ �`nukes` int(11) NOT NULL,
+ �`recent_activity` int(11) NOT NULL,
+ �PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2050 DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `todays_file_nation` (
+ �`nation_id` int(11) NOT NULL,
+ �`nation_name` varchar(50) NOT NULL,
+ �`ruler_name` varchar(50) NOT NULL,
+ �`alliance_id` int(11) DEFAULT NULL,
+ �`alliance_date` datetime NOT NULL,
+ �`alliance_status` varchar(25) NOT NULL,
+ �`government_type` int(11) NOT NULL,
+ �`religion` int(11) NOT NULL,
+ �`team` int(11) NOT NULL,
+ �`created` datetime NOT NULL,
+ �`technology` float NOT NULL,
+ �`infrastructure` float NOT NULL,
+ �`base_land` float NOT NULL,
+ �`votes` int(11) NOT NULL,
+ �`strength` float NOT NULL,
+ �`defcon` int(11) NOT NULL,
+ �`base_soldiers` int(11) NOT NULL,
+ �`tanks` int(11) NOT NULL,
+ �`cruise_missiles` int(11) NOT NULL,
+ �`nukes` int(11) NOT NULL,
+ �`recent_activity` int(11) NOT NULL,
+ �`connected_resource_1` varchar(25) DEFAULT NULL,
+ �`connected_resource_2` varchar(25) DEFAULT NULL,
+ �`connected_resource_3` varchar(25) DEFAULT NULL,
+ �`connected_resource_4` varchar(25) DEFAULT NULL,
+ �`connected_resource_5` varchar(25) DEFAULT NULL,
+ �`connected_resource_6` varchar(25) DEFAULT NULL,
+ �`connected_resource_7` varchar(25) DEFAULT NULL,
+ �`connected_resource_8` varchar(25) DEFAULT NULL,
+ �`connected_resource_9` varchar(25) DEFAULT NULL,
+ �`connected_resource_10` varchar(25) DEFAULT NULL,
+ �`file_name` varchar(500) NOT NULL,
+ �PRIMARY KEY (`nation_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;	
+
+CREATE TRIGGER `tr_nations_update` AFTER UPDATE ON `nation`
+ FOR EACH ROW INSERT INTO `audit_nation`(
+    `change_timestamp`, 
+    `change_code`, 
+    `nation_id`, 
+    `nation_name`, 
+    `ruler_name`, 
+    `alliance_id`, 
+    `alliance_date`, 
+    `alliance_status`, 
+    `government_type`, 
+    `religion`, 
+    `team`, 
+    `created`, 
+    `technology`, 
+    `infrastructure`, 
+    `base_land`, 
+    `votes`, 
+    `strength`,
+    `defcon`, 
+    `base_soldiers`, 
+    `tanks`, 
+    `cruise_missiles`, 
+    `nukes`, 
+    `recent_activity`) 
+VALUES (
+    CURRENT_TIMESTAMP, 
+    'U', 
+    `OLD`.`id`, 
+    `OLD`.`nation_name`, 
+    `OLD`.`ruler_name`, 
+    `OLD`.`alliance_id`, 
+    `OLD`.`alliance_date`, 
+    `OLD`.`alliance_status`, 
+    `OLD`.`government_type`, 
+    `OLD`.`religion`, 
+    `OLD`.`team`, 
+    `OLD`.`created`, 
+    `OLD`.`technology`, 
+    `OLD`.`infrastructure`, 
+    `OLD`.`base_land`, 
+    `OLD`.`votes`, 
+    `OLD`.`strength`,
+    `OLD`.`defcon`, 
+    `OLD`.`base_soldiers`, 
+    `OLD`.`tanks`, 
+    `OLD`.`cruise_missiles`, 
+    `OLD`.`nukes`, 
+    `OLD`.`recent_activity`);
+
+CREATE TRIGGER `tr_nations_delete` AFTER DELETE ON `nation`
+ FOR EACH ROW INSERT INTO `audit_nation`(
+    `change_timestamp`, 
+    `change_code`, 
+    `nation_id`, 
+    `nation_name`, 
+    `ruler_name`, 
+    `alliance_id`, 
+    `alliance_date`, 
+    `alliance_status`, 
+    `government_type`, 
+    `religion`, 
+    `team`, 
+    `created`, 
+    `technology`, 
+    `infrastructure`, 
+    `base_land`, 
+    `votes`, 
+    `strength`,
+    `defcon`, 
+    `base_soldiers`, 
+    `tanks`, 
+    `cruise_missiles`, 
+    `nukes`, 
+    `recent_activity`) 
+VALUES (
+    CURRENT_TIMESTAMP, 
+    'D', 
+    `OLD`.`id`, 
+    `OLD`.`nation_name`, 
+    `OLD`.`ruler_name`, 
+    `OLD`.`alliance_id`, 
+    `OLD`.`alliance_date`, 
+    `OLD`.`alliance_status`, 
+    `OLD`.`government_type`, 
+    `OLD`.`religion`, 
+    `OLD`.`team`, 
+    `OLD`.`created`, 
+    `OLD`.`technology`, 
+    `OLD`.`infrastructure`, 
+    `OLD`.`base_land`, 
+    `OLD`.`votes`, 
+    `OLD`.`strength`,
+    `OLD`.`defcon`, 
+    `OLD`.`base_soldiers`, 
+    `OLD`.`tanks`, 
+    `OLD`.`cruise_missiles`, 
+    `OLD`.`nukes`, 
+    `OLD`.`recent_activity`);
+
+
+CREATE TABLE `aid` (
+  `id` int(11) NOT NULL,
+  `sending_nation_id` int(11) NOT NULL,
+  `sending_alliance_id` int(11) NOT NULL,
+  `sending_team` int(11) NOT NULL,
+  `receiving_nation_id` int(11) NOT NULL,
+  `receiving_alliance_id` int(11) NOT NULL,
+  `receiving_team` int(11) NOT NULL,
+  `status` int(11) NOT NULL,
+  `money` int(11) NOT NULL,
+  `technology` int(11) NOT NULL,
+  `soldiers` int(11) NOT NULL,
+  `date` datetime DEFAULT NULL,
+  `reason` varchar(25) NOT NULL,
+  `audit_updated_on` datetime DEFAULT NULL,
+  `audit_updated_by` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+CREATE TABLE `audit_aid` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `change_timestamp` datetime NOT NULL,
+  `change_code` char(1) NOT NULL,
+  `aid_id` int(11) NOT NULL,
+  `sending_nation_id` int(11) NOT NULL,
+  `sending_alliance_id` int(11) NOT NULL,
+  `sending_team` int(11) NOT NULL,
+  `receiving_nation_id` int(11) NOT NULL,
+  `receiving_alliance_id` int(11) NOT NULL,
+  `receiving_team` int(11) NOT NULL,
+  `status` int(11) NOT NULL,
+  `money` int(11) NOT NULL,
+  `technology` int(11) NOT NULL,
+  `soldiers` int(11) NOT NULL,
+  `date` datetime DEFAULT NULL,
+  `reason` varchar(25) NOT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2050 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `todays_file_aid` (
+  `aid_id` int(11) NOT NULL,
+  `sending_nation_id` int(11) NOT NULL,
+  `sending_alliance_id` int(11) NOT NULL,
+  `sending_team` int(11) NOT NULL,
+  `receiving_nation_id` int(11) NOT NULL,
+  `receiving_alliance_id` int(11) NOT NULL,
+  `receiving_team` int(11) NOT NULL,
+  `status` int(11) NOT NULL,
+  `money` int(11) NOT NULL,
+  `technology` int(11) NOT NULL,
+  `soldiers` int(11) NOT NULL,
+  `date` datetime DEFAULT NULL,
+  `reason` varchar(25) NOT NULL,
+  `file_name` varchar(500) NOT NULL,
+ PRIMARY KEY (`aid_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+CREATE TRIGGER `tr_aid_update` AFTER UPDATE ON `aid`
+ FOR EACH ROW INSERT INTO `audit_aid`(
+    `change_timestamp`,
+    `change_code`,
+    `aid_id`,
+    `sending_nation_id`,
+    `sending_alliance_id`,
+    `sending_team`,
+    `receiving_nation_id`,
+    `receiving_alliance_id`,
+    `receiving_team`,
+    `status`,
+    `money`,
+    `technology`,
+    `soldiers`,
+    `date`,
+    `reason`
+) VALUES (
+    CURRENT_TIMESTAMP,
+    'U',
+    `OLD`.`id`,
+    `OLD`.`sending_nation_id`,
+    `OLD`.`sending_alliance_id`,
+    `OLD`.`sending_team`,
+    `OLD`.`receiving_nation_id`,
+    `OLD`.`receiving_alliance_id`,
+    `OLD`.`receiving_team`,
+    `OLD`.`status`,
+    `OLD`.`money`,
+    `OLD`.`technology`,
+    `OLD`.`soldiers`,
+    `OLD`.`date`,
+    `OLD`.`reason`
+);
+
+CREATE TRIGGER `tr_aid_delete` AFTER DELETE ON `aid`
+ FOR EACH ROW INSERT INTO `audit_aid`(
+    `change_timestamp`,
+    `change_code`,
+    `aid_id`,
+    `sending_nation_id`,
+    `sending_alliance_id`,
+    `sending_team`,
+    `receiving_nation_id`,
+    `receiving_alliance_id`,
+    `receiving_team`,
+    `status`,
+    `money`,
+    `technology`,
+    `soldiers`,
+    `date`,
+    `reason`
+) VALUES (
+    CURRENT_TIMESTAMP,
+    'D',
+    `OLD`.`id`,
+    `OLD`.`sending_nation_id`,
+    `OLD`.`sending_alliance_id`,
+    `OLD`.`sending_team`,
+    `OLD`.`receiving_nation_id`,
+    `OLD`.`receiving_alliance_id`,
+    `OLD`.`receiving_team`,
+    `OLD`.`status`,
+    `OLD`.`money`,
+    `OLD`.`technology`,
+    `OLD`.`soldiers`,
+    `OLD`.`date`,
+    `OLD`.`reason`
+);
+
+
+CREATE TABLE `war` (
+  `id` int(11) NOT NULL,
+  `attacking_nation_id` int(11) NOT NULL,
+  `attacking_alliance_id` int(11) NOT NULL,
+  `attacking_team` int(11) NOT NULL,
+  `defending_nation_id` int(11) NOT NULL,
+  `defending_alliance_id` int(11) NOT NULL,
+  `defending_team` int(11) NOT NULL,
+  `war_status` int(11) NOT NULL,
+  `begin_date` datetime DEFAULT NULL,
+  `end_date` datetime DEFAULT NULL,
+  `reason` varchar(25) NOT NULL,
+  `destruction` float NOT NULL,
+  `attack_percent` int(11) NOT NULL,
+  `defend_percent` int(11) NOT NULL,
+  `audit_updated_on` datetime DEFAULT NULL,
+  `audit_updated_by` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+CREATE TRIGGER `tr_war_update` AFTER UPDATE ON `war`
+ FOR EACH ROW INSERT INTO `audit_war` (
+    `change_timestamp`,
+    `change_code`,
+    `war_id`,
+    `attacking_nation_id`,
+    `attacking_alliance_id`,
+    `attacking_team`,
+    `defending_nation_id`,
+    `defending_alliance_id`,
+    `defending_team`,
+    `war_status`,
+    `begin_date`,
+    `end_date`,
+    `reason`,
+    `destruction`,
+    `attack_percent`,
+    `defend_percent`)
+VALUES (
+    CURRENT_TIMESTAMP,
+    'U',
+    `OLD`.`id`,
+    `OLD`.`attacking_nation_id`,
+    `OLD`.`attacking_alliance_id`,
+    `OLD`.`attacking_team`,
+    `OLD`.`defending_nation_id`,
+    `OLD`.`defending_alliance_id`,
+    `OLD`.`defending_team`,
+    `OLD`.`war_status`,
+    `OLD`.`begin_date`,
+    `OLD`.`end_date`,
+    `OLD`.`reason`,
+    `OLD`.`destruction`,
+    `OLD`.`attack_percent`,
+    `OLD`.`defend_percent`);
+
+CREATE TRIGGER `tr_war_delete` AFTER DELETE ON `war`
+ FOR EACH ROW INSERT INTO `audit_war` (
+    `change_timestamp`,
+    `change_code`,
+    `war_id`,
+    `attacking_nation_id`,
+    `attacking_alliance_id`,
+    `attacking_team`,
+    `defending_nation_id`,
+    `defending_alliance_id`,
+    `defending_team`,
+    `war_status`,
+    `begin_date`,
+    `end_date`,
+    `reason`,
+    `destruction`,
+    `attack_percent`,
+    `defend_percent`)
+VALUES (
+    CURRENT_TIMESTAMP,
+    'D',
+    `OLD`.`id`,
+    `OLD`.`attacking_nation_id`,
+    `OLD`.`attacking_alliance_id`,
+    `OLD`.`attacking_team`,
+    `OLD`.`defending_nation_id`,
+    `OLD`.`defending_alliance_id`,
+    `OLD`.`defending_team`,
+    `OLD`.`war_status`,
+    `OLD`.`begin_date`,
+    `OLD`.`end_date`,
+    `OLD`.`reason`,
+    `OLD`.`destruction`,
+    `OLD`.`attack_percent`,
+    `OLD`.`defend_percent`);
+
+CREATE TABLE `audit_war` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `change_timestamp` datetime NOT NULL,
+  `change_code` char(1) NOT NULL,
+  `war_id` int(11) NOT NULL,
+  `attacking_nation_id` int(11) NOT NULL,
+  `attacking_alliance_id` int(11) NOT NULL,
+  `attacking_team` int(11) NOT NULL,
+  `defending_nation_id` int(11) NOT NULL,
+  `defending_alliance_id` int(11) NOT NULL,
+  `defending_team` int(11) NOT NULL,
+  `war_status` int(11) NOT NULL,
+  `begin_date` datetime DEFAULT NULL,
+  `end_date` datetime DEFAULT NULL,
+  `reason` varchar(25) NOT NULL,
+  `destruction` float NOT NULL,
+  `attack_percent` int(11) NOT NULL,
+  `defend_percent` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2050 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `todays_file_war` (
+  `war_id` int(11) NOT NULL,
+  `attacking_nation_id` int(11) NOT NULL,
+  `attacking_alliance_id` int(11) NOT NULL,
+  `attacking_team` int(11) NOT NULL,
+  `defending_nation_id` int(11) NOT NULL,
+  `defending_alliance_id` int(11) NOT NULL,
+  `defending_team` int(11) NOT NULL,
+  `war_status` int(11) NOT NULL,
+  `begin_date` datetime DEFAULT NULL,
+  `end_date` datetime DEFAULT NULL,
+  `reason` varchar(25) NOT NULL,
+  `destruction` float NOT NULL,
+  `attack_percent` int(11) NOT NULL,
+  `defend_percent` int(11) NOT NULL,
+  `file_name` varchar(500) NOT NULL,
+ PRIMARY KEY (`war_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+CREATE TABLE `alliance` (
+ `alliance` varchar(50) NOT NULL,
+ `alliance_id` int(11) NOT NULL,
+ `updated` datetime DEFAULT NULL,
+ `total_nations` int(11) NOT NULL,
+ `active_nations` int(11) NOT NULL,
+ `percent_active` int(11) NOT NULL,
+ `strength` int(11) NOT NULL,
+ `average strength` int(11) NOT NULL,
+ `score` int(11) NOT NULL,
+ `land` int(11) NOT NULL,
+ `infrastructure` int(11) NOT NULL,
+ `technology` int(11) NOT NULL,
+ `war` int(11) NOT NULL,
+ `peace` int(11) NOT NULL,
+ `soldiers` int(11) NOT NULL,
+ `tanks` int(11) NOT NULL,
+ `cruise` int(11) NOT NULL,
+ `nukes` int(11) NOT NULL,
+ `aircraft` int(11) NOT NULL,
+ `navy` int(11) NOT NULL,
+ `anarchy` int(11) NOT NULL, 
+ `audit_updated_on` datetime DEFAULT NULL,
+ `audit_updated_by` varchar(500) DEFAULT NULL,
+ PRIMARY KEY (`alliance_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+CREATE TABLE `audit_alliance` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `change_timestamp` datetime NOT NULL,
+ `change_code` char(1) NOT NULL,
+ `alliance` varchar(50) NOT NULL,
+ `alliance_id` int(11) NOT NULL,
+ `updated` datetime DEFAULT NULL,
+ `total_nations` int(11) NOT NULL,
+ `active_nations` int(11) NOT NULL,
+ `percent_active` int(11) NOT NULL,
+ `strength` int(11) NOT NULL,
+ `average strength` int(11) NOT NULL,
+ `score` int(11) NOT NULL,
+ `land` int(11) NOT NULL,
+ `infrastructure` int(11) NOT NULL,
+ `technology` int(11) NOT NULL,
+ `war` int(11) NOT NULL,
+ `peace` int(11) NOT NULL,
+ `soldiers` int(11) NOT NULL,
+ `tanks` int(11) NOT NULL,
+ `cruise` int(11) NOT NULL,
+ `nukes` int(11) NOT NULL,
+ `aircraft` int(11) NOT NULL,
+ `navy` int(11) NOT NULL,
+ `anarchy` int(11) NOT NULL, 
+ `audit_updated_on` datetime DEFAULT NULL,
+ `audit_updated_by` varchar(500) DEFAULT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+CREATE TABLE `todays_file_alliance` (
+ `alliance` varchar(50) NOT NULL,
+ `alliance_id` int(11) NOT NULL,
+ `updated` datetime DEFAULT NULL,
+ `total_nations` int(11) NOT NULL,
+ `active_nations` int(11) NOT NULL,
+ `percent_active` int(11) NOT NULL,
+ `strength` int(11) NOT NULL,
+ `average strength` int(11) NOT NULL,
+ `score` int(11) NOT NULL,
+ `land` int(11) NOT NULL,
+ `infrastructure` int(11) NOT NULL,
+ `technology` int(11) NOT NULL,
+ `war` int(11) NOT NULL,
+ `peace` int(11) NOT NULL,
+ `soldiers` int(11) NOT NULL,
+ `tanks` int(11) NOT NULL,
+ `cruise` int(11) NOT NULL,
+ `nukes` int(11) NOT NULL,
+ `aircraft` int(11) NOT NULL,
+ `navy` int(11) NOT NULL,
+ `anarchy` int(11) NOT NULL, 
+ `audit_updated_on` datetime DEFAULT NULL,
+ `audit_updated_by` varchar(500) DEFAULT NULL,
+ PRIMARY KEY (`alliance_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+DELIMITER $$
+CREATE PROCEDURE `update_nation_data`()
+    NOT DETERMINISTIC 
+    MODIFIES SQL DATA
+    SQL SECURITY DEFINER 
+BEGIN
+    
+    -- Add any nations that aren't in the main table
+    insert into nation (id, nation_name, ruler_name, alliance_id, alliance_date, alliance_status, government_type, religion, team, created, technology, infrastructure, base_land, votes, strength, defcon, base_soldiers, tanks, cruise_missiles, nukes, recent_activity, audit_updated_on, audit_updated_by)
+    select
+        nw.nation_id,
+        nw.nation_name,
+        nw.ruler_name,
+        nw.alliance_id,
+        nw.alliance_date,
+        nw.alliance_status,
+        nw.government_type,
+        nw.religion,
+        nw.team,
+        nw.created,
+        nw.technology,
+        nw.infrastructure,
+        nw.base_land,
+        nw.votes,
+        nw.strength,
+        nw.defcon,
+        nw.base_soldiers,
+        nw.tanks,
+        nw.cruise_missiles,
+        nw.nukes,
+        nw.recent_activity,
+        CURRENT_TIMESTAMP,
+        file_name
+    from todays_file_nation nw
+    left join nation cur on nw.nation_id = cur.id
+    where cur.id is null;
+
+    -- Updates (only nations that have changed somehow)
+    update nation cur
+    inner join todays_file_nation nw 
+        on nw.nation_id = cur.id AND (
+            nw.nation_name <> cur.nation_name OR 
+            nw.ruler_name <> cur.ruler_name OR 
+            nw.alliance_id <> cur.alliance_id OR 
+            nw.alliance_date <> cur.alliance_date OR 
+            nw.alliance_status <> cur.alliance_status OR 
+            nw.government_type <> cur.government_type OR 
+            nw.religion <> cur.religion OR 
+            nw.team <> cur.team OR 
+            nw.created <> cur.created OR 
+            nw.technology <> cur.technology OR 
+            nw.infrastructure <> cur.infrastructure OR 
+            nw.base_land <> cur.base_land OR 
+            nw.votes <> cur.votes OR 
+            nw.strength <> cur.strength OR 
+            nw.defcon <> cur.defcon OR 
+            nw.base_soldiers <> cur.base_soldiers OR 
+            nw.tanks <> cur.tanks OR 
+            nw.cruise_missiles <> cur.cruise_missiles OR 
+            nw.nukes <> cur.nukes OR 
+            nw.recent_activity <> cur.recent_activity)
+    set
+        cur.nation_name = nw.nation_name,
+        cur.ruler_name = nw.ruler_name,
+        cur.alliance_id = nw.alliance_id,
+        cur.alliance_date = nw.alliance_date,
+        cur.alliance_status = nw.alliance_status,
+        cur.government_type = nw.government_type,
+        cur.religion = nw.religion,
+        cur.team = nw.team,
+        cur.created = nw.created,
+        cur.technology = nw.technology,
+        cur.infrastructure = nw.infrastructure,
+        cur.base_land = nw.base_land,
+        cur.votes = nw.votes,
+        cur.strength = nw.strength,
+        cur.defcon = nw.defcon,
+        cur.base_soldiers = nw.base_soldiers,
+        cur.tanks = nw.tanks,
+        cur.cruise_missiles = nw.cruise_missiles,
+        cur.nukes = nw.nukes,
+        cur.recent_activity = nw.recent_activity,
+        cur.audit_updated_on = CURRENT_TIMESTAMP,
+        cur.audit_updated_by = nw.file_name;
+
+    -- Delete nations that aren't in today's file
+    delete cur
+    from nation cur
+    left join todays_file_nation nw on cur.id = nw.nation_id
+    where nw.nation_id is null;
+
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE `update_war_data`()
+    NOT DETERMINISTIC 
+    MODIFIES SQL DATA
+    SQL SECURITY DEFINER 
+BEGIN
+    
+    -- Add any wars that aren't in the main table
+    insert into war (id, attacking_nation_id, attacking_alliance_id, attacking_team, defending_nation_id, defending_alliance_id, defending_team, war_status, begin_date, end_date, reason, destruction, attack_percent, defend_percent, audit_updated_on, audit_updated_by)
+    select
+        nw.war_id,
+        nw.attacking_nation_id,
+        nw.attacking_alliance_id,
+        nw.attacking_team,
+        nw.defending_nation_id,
+        nw.defending_alliance_id,
+        nw.defending_team,
+        nw.war_status,
+        nw.begin_date,
+        nw.end_date,
+        nw.reason,
+        nw.destruction,
+        nw.attack_percent,
+        nw.defend_percent,
+        CURRENT_TIMESTAMP,
+        file_name
+    from todays_file_war nw
+    left join war cur on nw.war_id = cur.id
+    where cur.id is null;
+
+    -- Updates (only wars that have changed somehow)
+    update war cur
+    inner join todays_file_war nw 
+        on nw.war_id = cur.id AND (
+            nw.attacking_nation_id <> cur.attacking_nation_id OR
+            nw.attacking_alliance_id <> cur.attacking_alliance_id OR
+            nw.attacking_team <> cur.attacking_team OR
+            nw.defending_nation_id <> cur.defending_nation_id OR
+            nw.defending_alliance_id <> cur.defending_alliance_id OR
+            nw.defending_team <> cur.defending_team OR
+            nw.war_status <> cur.war_status OR
+            nw.begin_date <> cur.begin_date OR
+            nw.end_date <> cur.end_date OR
+            nw.reason <> cur.reason OR
+            nw.destruction <> cur.destruction OR
+            nw.attack_percent <> cur.attack_percent OR
+            nw.defend_percent <> cur.defend_percent)
+    set
+        cur.attacking_nation_id = nw.attacking_nation_id,
+        cur.attacking_alliance_id = nw.attacking_alliance_id,
+        cur.attacking_team = nw.attacking_team,
+        cur.defending_nation_id = nw.defending_nation_id,
+        cur.defending_alliance_id = nw.defending_alliance_id,
+        cur.defending_team = nw.defending_team,
+        cur.war_status = nw.war_status,
+        cur.begin_date = nw.begin_date,
+        cur.end_date = nw.end_date,
+        cur.reason = nw.reason,
+        cur.destruction = nw.destruction,
+        cur.attack_percent = nw.attack_percent,
+        cur.defend_percent = nw.defend_percent,
+        cur.audit_updated_on = CURRENT_TIMESTAMP,
+        cur.audit_updated_by = nw.file_name;
+
+    -- Don't delete wars that aren't in today's file; we want historical data to pile up
+    -- delete cur
+    -- from war cur
+    -- left join todays_file_war nw on cur.id = nw.war_id
+    -- where nw.war_id is null;
+
+END$$
+DELIMITER ;
+
+
+DELIMITER $$
+CREATE PROCEDURE `update_aid_data`()
+    NOT DETERMINISTIC 
+    MODIFIES SQL DATA
+    SQL SECURITY DEFINER 
+BEGIN
+    
+    -- Add any aid that isn't in the main table
+    insert into aid (id, sending_nation_id, sending_alliance_id, sending_team, receiving_nation_id, receiving_alliance_id, receiving_team, status, money, technology, soldiers, date, reason, audit_updated_on, audit_updated_by)
+    select
+        nw.aid_id,
+        nw.sending_nation_id,
+        nw.sending_alliance_id,
+        nw.sending_team,
+        nw.receiving_nation_id,
+        nw.receiving_alliance_id,
+        nw.receiving_team,
+        nw.status,
+        nw.money,
+        nw.technology,
+        nw.soldiers,
+        nw.date,
+        nw.reason,
+        CURRENT_TIMESTAMP,
+        file_name
+    from todays_file_aid nw
+    left join aid cur on nw.aid_id = cur.id
+    where cur.id is null;
+
+    -- Updates (only aid that has changed somehow)
+    update aid cur
+    inner join todays_file_aid nw 
+        on nw.aid_id = cur.id AND (
+            nw.sending_nation_id <> cur.sending_nation_id OR
+            nw.sending_alliance_id <> cur.sending_alliance_id OR
+            nw.sending_team <> cur.sending_team OR
+            nw.receiving_nation_id <> cur.receiving_nation_id OR
+            nw.receiving_alliance_id <> cur.receiving_alliance_id OR
+            nw.receiving_team <> cur.receiving_team OR
+            nw.status <> cur.status OR
+            nw.money <> cur.money OR
+            nw.technology <> cur.technology OR
+            nw.soldiers <> cur.soldiers OR
+            nw.date <> cur.date OR
+            nw.reason <> cur.reason)
+    set
+        cur.sending_nation_id = nw.sending_nation_id,
+        cur.sending_alliance_id = nw.sending_alliance_id,
+        cur.sending_team = nw.sending_team,
+        cur.receiving_nation_id = nw.receiving_nation_id,
+        cur.receiving_alliance_id = nw.receiving_alliance_id,
+        cur.receiving_team = nw.receiving_team,
+        cur.status = nw.status,
+        cur.money = nw.money,
+        cur.technology = nw.technology,
+        cur.soldiers = nw.soldiers,
+        cur.date = nw.date,
+        cur.reason = nw.reason,
+        cur.audit_updated_on = CURRENT_TIMESTAMP,
+        cur.audit_updated_by = nw.file_name;
+
+    -- Don't delete aid that isn't in today's file; we want historical data to pile up
+    -- delete cur
+    -- from aid cur
+    -- left join todays_file_aid nw on cur.id = nw.aid_id
+    -- where nw.aid_id is null;
+
+END$$
+DELIMITER ;
