@@ -14,7 +14,10 @@ namespace Braavos.Core.Grabbers
         {
             var dataStream = new MemoryStream();
 
-            var now = DateTime.Now;
+            // Make sure we're using the CST representation of "now"
+            var cstTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time");
+            var now = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, cstTimeZone);
+
             var fileName = $"{cnFileNameFactory(fileType)}{now.Month}{now.Day}{now.Year}{GetCnFileExtension(fileType, now)}";
 
             using (var client = new HttpClient())
