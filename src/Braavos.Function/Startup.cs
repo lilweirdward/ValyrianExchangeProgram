@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Braavos.Core.Grabbers;
 using Braavos.Core.Infrastructure;
 using Braavos.Core.Parsers;
 using Braavos.Core.Parsers.DataObjects;
@@ -22,6 +23,7 @@ namespace Braavos.Function
             builder.Services.AddScoped<IBraavosRepository, GoogleSheetsRepository>();
             builder.Services.AddScoped<IDataParser, CnFileParser>();
             builder.Services.AddScoped<ICnDbRepository, CnDbRepository>();
+            builder.Services.AddScoped<IDataGrabber, CnFileGrabber>();
 
             builder.Services.AddAutoMapper(typeof(Startup));
         }
