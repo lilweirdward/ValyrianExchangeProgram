@@ -3,6 +3,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
 using System.Threading.Tasks;
+using TimeZoneConverter;
 
 namespace Braavos.Core.Grabbers
 {
@@ -15,7 +16,7 @@ namespace Braavos.Core.Grabbers
             var dataStream = new MemoryStream();
 
             // Make sure we're using the CST representation of "now"
-            var cstTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time");
+            var cstTimeZone = TZConvert.GetTimeZoneInfo("Central Standard Time");
             var now = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, cstTimeZone);
 
             var fileName = $"{cnFileNameFactory(fileType)}{now.Month}{now.Day}{now.Year}{GetCnFileExtension(fileType, now)}";
