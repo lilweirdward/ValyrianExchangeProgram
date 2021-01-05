@@ -16,7 +16,7 @@ namespace Braavos.Function
 
         [FunctionName(nameof(CnAlliancesFileGrabber))]
         public async Task CnAlliancesFileGrabber(
-            [TimerTrigger("0 0 6,18 * * *")] TimerInfo myTimer,
+            [TimerTrigger("0 0 1,13 * * *")] TimerInfo myTimer,
             [Blob("alliances", Connection = "AzureWebJobsStorage")] CloudBlobContainer outputContainer,
             ILogger log)
         {
@@ -34,7 +34,7 @@ namespace Braavos.Function
 
         [FunctionName(nameof(CnNationsFileGrabber))]
         public async Task CnNationsFileGrabber(
-            [TimerTrigger("0 5 6,18 * * *")] TimerInfo myTimer,
+            [TimerTrigger("0 5 1,13 * * *")] TimerInfo myTimer,
             [Blob("nations", Connection = "AzureWebJobsStorage")] CloudBlobContainer outputContainer,
             ILogger log)
         {
@@ -52,7 +52,7 @@ namespace Braavos.Function
 
         [FunctionName(nameof(CnAidFileGrabber))]
         public async Task CnAidFileGrabber(
-            [TimerTrigger("0 10 6,18 * * *")] TimerInfo myTimer,
+            [TimerTrigger("0 10 1,13 * * *")] TimerInfo myTimer,
             [Blob("aid", Connection = "AzureWebJobsStorage")] CloudBlobContainer outputContainer,
             ILogger log)
         {
@@ -70,7 +70,7 @@ namespace Braavos.Function
 
         [FunctionName(nameof(CnWarFileGrabber))]
         public async Task CnWarFileGrabber(
-            [TimerTrigger("0 15 6,18 * * *")] TimerInfo myTimer,
+            [TimerTrigger("0 15 1,13 * * *")] TimerInfo myTimer,
             [Blob("war", Connection = "AzureWebJobsStorage")] CloudBlobContainer outputContainer,
             ILogger log)
         {
