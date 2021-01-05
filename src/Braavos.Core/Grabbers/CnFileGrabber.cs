@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
@@ -11,15 +12,21 @@ namespace Braavos.Core.Grabbers
     {
         const string cnUrl = "https://www.cybernations.net";
 
-        public async Task<(string FileName, Stream DataStream)> GetTodaysFileAsync(CnFileType fileType)
+        public async Task<(string FileName, Stream DataStream)> GetTodaysFileAsync(CnFileType fileType, ILogger logger)
         {
             var dataStream = new MemoryStream();
+
+            logger.LogInformation($"Looking for a {fileType} CN file at UTC {DateTime.UtcNow}");
 
             // Make sure we're using the CST representation of "now"
             var cstTimeZone = TZConvert.GetTimeZoneInfo("Central Standard Time");
             var now = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, cstTimeZone);
 
+            logger.LogInformation($"UTC time converted to {now} CST");
+
             var fileName = $"{cnFileNameFactory(fileType)}{now.Month}{now.Day}{now.Year}{GetCnFileExtension(fileType, now)}";
+
+            logger.LogInformation($"File name: {fileName}");
 
             using (var client = new HttpClient())
             {

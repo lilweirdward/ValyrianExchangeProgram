@@ -24,7 +24,7 @@ namespace Braavos.Function
 
             await outputContainer.CreateIfNotExistsAsync();
 
-            var cnResponse = await _cnFileGrabber.GetTodaysFileAsync(CnFileType.Alliances);
+            var cnResponse = await _cnFileGrabber.GetTodaysFileAsync(CnFileType.Alliances, log);
 
             var cloudBlockBlob = outputContainer.GetBlockBlobReference($"{cnResponse.FileName}.txt");
             await cloudBlockBlob.UploadFromStreamAsync(cnResponse.DataStream);
@@ -42,7 +42,7 @@ namespace Braavos.Function
 
             await outputContainer.CreateIfNotExistsAsync();
 
-            var cnResponse = await _cnFileGrabber.GetTodaysFileAsync(CnFileType.Nations);
+            var cnResponse = await _cnFileGrabber.GetTodaysFileAsync(CnFileType.Nations, log);
 
             var cloudBlockBlob = outputContainer.GetBlockBlobReference($"{cnResponse.FileName}.txt");
             await cloudBlockBlob.UploadFromStreamAsync(cnResponse.DataStream);
@@ -60,7 +60,7 @@ namespace Braavos.Function
 
             await outputContainer.CreateIfNotExistsAsync();
 
-            var cnResponse = await _cnFileGrabber.GetTodaysFileAsync(CnFileType.Aid);
+            var cnResponse = await _cnFileGrabber.GetTodaysFileAsync(CnFileType.Aid, log);
 
             var cloudBlockBlob = outputContainer.GetBlockBlobReference($"{cnResponse.FileName}.txt");
             await cloudBlockBlob.UploadFromStreamAsync(cnResponse.DataStream);
@@ -78,7 +78,7 @@ namespace Braavos.Function
 
             await outputContainer.CreateIfNotExistsAsync();
 
-            var cnResponse = await _cnFileGrabber.GetTodaysFileAsync(CnFileType.War);
+            var cnResponse = await _cnFileGrabber.GetTodaysFileAsync(CnFileType.War, log);
 
             var cloudBlockBlob = outputContainer.GetBlockBlobReference($"{cnResponse.FileName}.txt");
             await cloudBlockBlob.UploadFromStreamAsync(cnResponse.DataStream);
