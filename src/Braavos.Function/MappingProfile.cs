@@ -31,6 +31,15 @@ namespace Braavos.Function
 
                     return Team.None;
                 }))
+                .ForMember(dest => dest.WarStatus, opt => opt.MapFrom((src, dest) =>
+                {
+                    return src.WarStatus switch
+                    {
+                        "War Mode" => NationalWarStatus.War,
+                        "Peace Mode" => NationalWarStatus.Peace,
+                        _ => throw new ArgumentOutOfRangeException(nameof(src.WarStatus), $"{src.WarStatus} could not be parsed")
+                    };
+                }))
                 .ForMember(dest => dest.CruiseMissiles, opt => opt.MapFrom(src => src.Cruise))
                 .ForMember(dest => dest.RecentActivity, opt => opt.MapFrom((src, dest) =>
                 {

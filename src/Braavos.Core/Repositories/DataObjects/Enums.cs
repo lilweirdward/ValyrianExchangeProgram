@@ -55,6 +55,12 @@ namespace Braavos.Core.Repositories.DataObjects
         None = 13
     }
 
+    public enum NationalWarStatus
+    {
+        War = 1,
+        Peace = 2
+    }
+
     public enum RecentActivity
     {
         ActiveInTheLast3Days = 1,
