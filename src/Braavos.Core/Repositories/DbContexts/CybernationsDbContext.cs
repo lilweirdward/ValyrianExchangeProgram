@@ -48,6 +48,7 @@ namespace Braavos.Core.Repositories.DbContexts
                 entity.Property(e => e.Technology).HasColumnName("technology");
                 entity.Property(e => e.Infrastructure).HasColumnName("infrastructure");
                 entity.Property(e => e.BaseLand).HasColumnName("base_land");
+                entity.Property(e => e.WarStatus).HasColumnName("war_status");
                 entity.Property(e => e.Votes).HasColumnName("votes");
                 entity.Property(e => e.Strength).HasColumnName("strength");
                 entity.Property(e => e.Defcon).HasColumnName("defcon");
@@ -151,6 +152,7 @@ namespace Braavos.Core.Repositories.DbContexts
                 entity.Property(e => e.Technology).HasColumnName("technology");
                 entity.Property(e => e.Infrastructure).HasColumnName("infrastructure");
                 entity.Property(e => e.BaseLand).HasColumnName("base_land");
+                entity.Property(e => e.WarStatus).HasColumnName("war_status");
                 entity.Property(e => e.Votes).HasColumnName("votes");
                 entity.Property(e => e.Strength).HasColumnName("strength");
                 entity.Property(e => e.Defcon).HasColumnName("defcon");
