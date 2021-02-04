@@ -173,8 +173,11 @@ namespace Braavos.Core.Repositories
             async Task<IEnumerable<Account>> QuerySheetsForRulerNames(string sheetName, string column = "A", int startingRow = 5)
             {
                 var request = _sheetsService.Spreadsheets.Values.Get(_gSheetsSpreadsheetId, $"{sheetName}!{column}{startingRow}:{column}");
-                return (await request.ExecuteAsync()).Values.Where(row => row[0] != null)
-                    .Select(row => allAccounts.FirstOrDefault(account => account.RulerName == row[0].ToString()));
+                var response = await request.ExecuteAsync();
+                return response.Values?
+                    .Where(row => row[0] != null)
+                    .Select(row => allAccounts.FirstOrDefault(account => account.RulerName == row[0].ToString()))
+                    ?? new List<Account>();
             }
         }
 
