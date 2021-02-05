@@ -38,6 +38,7 @@ namespace Braavos.Core.Entities
     {
         Pending,
         Approved,
-        Expired
+        Expired,
+        Intraday
     }
 }
