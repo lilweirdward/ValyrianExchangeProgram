@@ -94,7 +94,7 @@
                                 @transaction.NationName
                             </td>
                             <td>
-                                @GetAllianceFullName(transaction.Alliance) <AllianceChip AllianceName="@transaction.Alliance" />
+                                @transaction.GetAllianceFullName() <AllianceChip AllianceName="@transaction.Alliance" />
                             </td>
                             <td>
                                 <AccountTypeChip AccountType="@transaction.Role" />
@@ -116,17 +116,5 @@
 
     [Parameter]
     public Account Account { get; set; }
-
-    private Func<string, string> GetAllianceFullName => allianceInitials => allianceInitials.Substring(1) switch
-    {
-        "FTW" => "Freehold of the Wolves",
-        "CCC" => "Christian Coalition of Countries",
-        "Haven" => "Haven",
-        "TOBR" => "The Order of the Black Rose",
-        "RELB" => "Revenge of the Liberal Entente",
-        "IRON" => "Independent Republic of Orange Nations",
-        "Sparta" => "Sparta",
-        _ => ""
-    };
 
 }

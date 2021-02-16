@@ -1,0 +1,77 @@
+﻿<div class="panel py-lg px-2 my-2">
+    @if (Account.AvailableSlots == 0)
+    {
+        <div class="empty bg-white">
+            <p class="empty-title h5">You are not expected to interact with VEP today</p>
+            <p>
+                Your nation does not have any free foreign aid slots, so you are not expected to receive any transactions today. Please
+                check again tomorrow for the updated status of your nation.
+            </p>
+        </div>
+    }
+    else
+    {
+        <div class="columns">
+            <div class="column col-auto" @onclick="@(() => isVisible = !isVisible)">
+                <i class="icon @(isVisible ? "icon-minus" : "icon-plus") c-hand"></i>
+            </div>
+            <div class="column col-auto">
+                <h4 class="m-0">Acceptable Recipients</h4>
+            </div>
+        </div>
+        @if (isVisible)
+        {
+            <p class="text-gray my-1">
+                Please use this tool to verify VEP enrollment of incoming aid senders that you don't recognize before accepting it.
+            </p>
+            <div class="divider my-2"></div>
+            <div class="form-group">
+                <input class="form-input" type="text" placeholder="Filter..." />
+                <label class="form-switch">
+                    <input type="checkbox" />
+                    <i class="form-icon"></i>
+                    Include All VEP Members
+                </label>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Ruler</th>
+                        <th>Nation</th>
+                        <th>Alliance</th>
+                        <th>Role</th>
+                        <th>Should Be Sending You Aid</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>lilweirdward</td>
+                        <td>Land of Too Much Fun</td>
+                        <td>@Account.GetAllianceFullName() <AllianceChip AllianceName="@Account.Alliance" /></td>
+                        <td>Seller</td>
+                        <td>
+                            @switch (Account)
+                            {
+                                case var account when account.IsBuyer():
+                                    <span>Yes</span>
+                                    break;
+                                default:
+                                    <span>No</span>
+                                    break;
+                            }
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+    }
+</div>
+
+@code {
+
+    private bool isVisible = true;
+
+    [Parameter]
+    public Account Account { get; set; }
+
+}

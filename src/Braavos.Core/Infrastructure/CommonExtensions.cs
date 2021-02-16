@@ -104,5 +104,17 @@ namespace Braavos.Core.Infrastructure
 
         public static bool HasCreditBalance(this Account account, Func<int, bool> balanceFunc)
             => account.Balance.Category == Category.Credit && balanceFunc(account.Balance.Amount);
+
+        public static string GetAllianceFullName(this Account account) => account.Alliance.Substring(1) switch
+        {
+            "FTW" => "Freehold of the Wolves",
+            "CCC" => "Christian Coalition of Countries",
+            "Haven" => "Haven",
+            "TOBR" => "The Order of the Black Rose",
+            "RELB" => "Revenge of the Liberal Entente",
+            "IRON" => "Independent Republic of Orange Nations",
+            "Sparta" => "Sparta",
+            _ => ""
+        };
     }
 }
