@@ -24,6 +24,10 @@
             <p class="text-gray my-1">
                 Please use this tool to verify VEP enrollment of incoming aid senders that you don't recognize before accepting it.
             </p>
+            <p class="text-gray my-1">
+                <span class="label label-error">IMPORTANT:</span> Do not use this list to send aid. It should only be used to verify 
+                that nations sending you aid are doing so legitimately.
+            </p>
             <div class="divider my-2"></div>
             <div class="form-group">
                 <input class="form-input" type="text" placeholder="Filter..." />
@@ -44,23 +48,33 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>lilweirdward</td>
-                        <td>Land of Too Much Fun</td>
-                        <td>@Account.GetAllianceFullName() <AllianceChip AllianceName="@Account.Alliance" /></td>
-                        <td>Seller</td>
-                        <td>
-                            @switch (Account)
-                            {
-                                case var account when account.IsBuyer():
+                    @foreach (var recipient in Account.AcceptableRecipients)
+                    {
+                        <tr>
+                            <td>
+                                @recipient.RulerName
+                            </td>
+                            <td>
+                                @recipient.NationName
+                            </td>
+                            <td>
+                                @recipient.GetAllianceFullName() <AllianceChip AllianceName="@recipient.Alliance" />
+                            </td>
+                            <td>
+                                <AccountTypeChip AccountType="@recipient.Role" />
+                            </td>
+                            <td>
+                                @if (recipient.ShouldBeSendingAid)
+                                {
                                     <span>Yes</span>
-                                    break;
-                                default:
+                                }
+                                else
+                                {
                                     <span>No</span>
-                                    break;
-                            }
-                        </td>
-                    </tr>
+                                }
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         }
