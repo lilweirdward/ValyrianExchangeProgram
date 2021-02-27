@@ -16,34 +16,33 @@
                 <i class="icon @(isVisible ? "icon-minus" : "icon-plus") c-hand"></i>
             </div>
             <div class="column col-auto">
-                <h4 class="m-0">Acceptable Recipients</h4>
+                <h4 class="m-0">Acceptable Senders</h4>
             </div>
         </div>
-        @if (isVisible)
-        {
-            <p class="text-gray my-1">
-                Please use this tool to verify VEP enrollment of incoming aid senders that you don't recognize before accepting it.
-            </p>
-            <p class="text-gray my-1">
-                <span class="label label-error">IMPORTANT:</span> <strong>Do not use this list to send aid.</strong> It should only be used to verify 
-                that nations sending you aid are doing so legitimately.
-            </p>
-            <div class="divider my-2"></div>
-            <div class="form-group">
-                <input class="form-input" type="text" placeholder="Filter..." @bind="filterPhrase" @bind:event="oninput" />
-                <label class="form-switch">
-                    <input 
-                        type="checkbox" 
-                        value="@includeAllOfVep" 
-                        @onchange="@(() =>
+        <p class="text-gray my-1">
+            Please use this tool to verify VEP enrollment of incoming aid senders that you don't recognize before accepting it.
+        </p>
+        <p class="text-gray my-1">
+            <span class="label label-error">IMPORTANT:</span> <strong>Do not use this list to send aid.</strong> It should only be used to verify
+            that nations sending you aid are doing so legitimately.
+        </p>
+        <div class="form-group">
+            <input class="form-input" type="text" placeholder="Filter..." @bind="FilterPhrase" @bind:event="oninput" />
+            <label class="form-switch">
+                <input type="checkbox"
+                       value="@includeAllOfVep"
+                       @onchange="@(() =>
                                     {
                                         includeAllOfVep = !includeAllOfVep;
                                         currentPage = 1;
                                     })" />
-                    <i class="form-icon"></i>
-                    Include All VEP Members
-                </label>
-            </div>
+                <i class="form-icon"></i>
+                Include All VEP Members
+            </label>
+        </div>
+        @if (isVisible)
+        {
+            <div class="divider my-2"></div>
             <table class="table">
                 <thead>
                     <tr>
@@ -153,20 +152,30 @@
 
 @code {
 
-    private bool isVisible = true;
+    private bool isVisible = false;
     private bool includeAllOfVep = false;
     private int currentPage = 1;
     private const int pageCount = 10;
-    private string filterPhrase = string.Empty;
+
+    private string _filterPhrase = string.Empty;
+    private string FilterPhrase
+    {
+        get => _filterPhrase;
+        set
+        {
+            _filterPhrase = value;
+            isVisible = !string.IsNullOrEmpty(value);
+        }
+    }
 
     private IEnumerable<ValidAccount> AllAvailableRecipients => Account.AcceptableRecipients
         .Where(r => includeAllOfVep || r.ShouldBeSendingAid)
-        .Where(r => 
-            r.RulerName.Contains(filterPhrase, StringComparison.OrdinalIgnoreCase)
-            || r.NationName.Contains(filterPhrase, StringComparison.OrdinalIgnoreCase)
-            || r.Alliance.Contains(filterPhrase, StringComparison.OrdinalIgnoreCase)
-            || r.GetAllianceFullName().Contains(filterPhrase, StringComparison.OrdinalIgnoreCase)
-            || r.Role.ToString().Contains(filterPhrase, StringComparison.OrdinalIgnoreCase)
+        .Where(r =>
+            r.RulerName.Contains(FilterPhrase, StringComparison.OrdinalIgnoreCase)
+            || r.NationName.Contains(FilterPhrase, StringComparison.OrdinalIgnoreCase)
+            || r.Alliance.Contains(FilterPhrase, StringComparison.OrdinalIgnoreCase)
+            || r.GetAllianceFullName().Contains(FilterPhrase, StringComparison.OrdinalIgnoreCase)
+            || r.Role.ToString().Contains(FilterPhrase, StringComparison.OrdinalIgnoreCase)
         );
 
     private IEnumerable<ValidAccount> CurrentVisibleRecipients => AllAvailableRecipients.Skip((currentPage - 1) * pageCount).Take(pageCount);
