@@ -25,14 +25,21 @@
                 Please use this tool to verify VEP enrollment of incoming aid senders that you don't recognize before accepting it.
             </p>
             <p class="text-gray my-1">
-                <span class="label label-error">IMPORTANT:</span> Do not use this list to send aid. It should only be used to verify 
+                <span class="label label-error">IMPORTANT:</span> <strong>Do not use this list to send aid.</strong> It should only be used to verify 
                 that nations sending you aid are doing so legitimately.
             </p>
             <div class="divider my-2"></div>
             <div class="form-group">
-                <input class="form-input" type="text" placeholder="Filter..." />
+                <input class="form-input" type="text" placeholder="Filter..." @bind="filterPhrase" @bind:event="oninput" />
                 <label class="form-switch">
-                    <input type="checkbox" />
+                    <input 
+                        type="checkbox" 
+                        value="@includeAllOfVep" 
+                        @onchange="@(() =>
+                                    {
+                                        includeAllOfVep = !includeAllOfVep;
+                                        currentPage = 1;
+                                    })" />
                     <i class="form-icon"></i>
                     Include All VEP Members
                 </label>
@@ -48,7 +55,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var recipient in Account.AcceptableRecipients)
+                    @foreach (var recipient in CurrentVisibleRecipients)
                     {
                         <tr>
                             <td>
@@ -77,6 +84,69 @@
                     }
                 </tbody>
             </table>
+            <div class="columns">
+                <div class="column" style="justify-content: center;">
+                    <ul class="pagination">
+                        <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                            <a href="" @onclick="@(() => currentPage = currentPage - 1)" @onclick:preventDefault>Previous</a>
+                        </li>
+                        @if (currentPage > 2)
+                        {
+                            <li class="page-item">
+                                <a href="" @onclick="@(() => currentPage = 1)" @onclick:preventDefault>1</a>
+                            </li>
+                        }
+                        @if (currentPage > 3)
+                        {
+                            <li class="page-item">
+                                <span>...</span>
+                            </li>
+                        }
+                        @if (currentPage == TotalPages && TotalPages != 1)
+                        {
+                            <li class="page-item">
+                                <a href="" @onclick="@(() => currentPage = currentPage - 2)" @onclick:preventDefault>@(currentPage - 2)</a>
+                            </li>
+                        }
+                        @if (currentPage > 1)
+                        {
+                            <li class="page-item">
+                                <a href="" @onclick="@(() => currentPage = currentPage - 1)" @onclick:preventDefault>@(currentPage - 1)</a>
+                            </li>
+                        }
+                        <li class="page-item disabled">
+                            <a href="" @onclick="@(() => { })" @onclick:preventDefault>@currentPage</a>
+                        </li>
+                        @if (currentPage < TotalPages)
+                        {
+                            <li class="page-item">
+                                <a href="" @onclick="@(() => currentPage = currentPage + 1)" @onclick:preventDefault>@(currentPage + 1)</a>
+                            </li>
+                        }
+                        @if (currentPage == 1 && TotalPages != 1)
+                        {
+                            <li class="page-item">
+                                <a href="" @onclick="@(() => currentPage = currentPage + 2)" @onclick:preventDefault>@(currentPage + 2)</a>
+                            </li>
+                        }
+                        @if (currentPage < TotalPages - 2)
+                        {
+                            <li class="page-item">
+                                <span>...</span>
+                            </li>
+                        }
+                        @if (currentPage < TotalPages - 1)
+                        {
+                            <li class="page-item">
+                                <a href="" @onclick="@(() => currentPage = TotalPages)" @onclick:preventDefault>@TotalPages</a>
+                            </li>
+                        }
+                        <li class="page-item @(currentPage == TotalPages ? "disabled" : "")">
+                            <a href="" @onclick="@(() => currentPage = currentPage + 1)" @onclick:preventDefault>Next</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         }
     }
 </div>
@@ -84,6 +154,24 @@
 @code {
 
     private bool isVisible = true;
+    private bool includeAllOfVep = false;
+    private int currentPage = 1;
+    private const int pageCount = 10;
+    private string filterPhrase = string.Empty;
+
+    private IEnumerable<ValidAccount> AllAvailableRecipients => Account.AcceptableRecipients
+        .Where(r => includeAllOfVep || r.ShouldBeSendingAid)
+        .Where(r => 
+            r.RulerName.Contains(filterPhrase, StringComparison.OrdinalIgnoreCase)
+            || r.NationName.Contains(filterPhrase, StringComparison.OrdinalIgnoreCase)
+            || r.Alliance.Contains(filterPhrase, StringComparison.OrdinalIgnoreCase)
+            || r.GetAllianceFullName().Contains(filterPhrase, StringComparison.OrdinalIgnoreCase)
+            || r.Role.ToString().Contains(filterPhrase, StringComparison.OrdinalIgnoreCase)
+        );
+
+    private IEnumerable<ValidAccount> CurrentVisibleRecipients => AllAvailableRecipients.Skip((currentPage - 1) * pageCount).Take(pageCount);
+
+    private int TotalPages => (int)Math.Ceiling(AllAvailableRecipients.Count() / (decimal)pageCount);
 
     [Parameter]
     public Account Account { get; set; }
