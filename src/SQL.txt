@@ -611,7 +611,41 @@ CREATE PROCEDURE `update_nation_data`()
 BEGIN
     
     -- Add any nations that aren't in the main table
-    insert into nation (id, nation_name, ruler_name, alliance_id, alliance_date, alliance_status, government_type, religion, team, created, technology, infrastructure, base_land, votes, strength, defcon, base_soldiers, tanks, cruise_missiles, nukes, recent_activity, audit_updated_on, audit_updated_by)
+    insert into nation (
+        id,
+        nation_name,
+        ruler_name,
+        alliance_id,
+        alliance_date,
+        alliance_status,
+        government_type,
+        religion,
+        team,
+        created,
+        technology,
+        infrastructure,
+        base_land,
+        war_status,
+        votes,
+        strength,
+        defcon,
+        base_soldiers,
+        tanks,
+        cruise_missiles,
+        nukes,
+        recent_activity,
+        connected_resource_1,
+        connected_resource_2,
+        connected_resource_3,
+        connected_resource_4,
+        connected_resource_5,
+        connected_resource_6,
+        connected_resource_7,
+        connected_resource_8,
+        connected_resource_9,
+        connected_resource_10,
+        audit_updated_on,
+        audit_updated_by)
     select
         nw.nation_id,
         nw.nation_name,
@@ -647,7 +681,7 @@ BEGIN
         nw.connected_resource_10,
         CURRENT_TIMESTAMP,
         file_name
-    from todays_file_nation nwf
+    from todays_file_nation nw
     left join nation cur on nw.nation_id = cur.id
     where cur.id is null;
 
