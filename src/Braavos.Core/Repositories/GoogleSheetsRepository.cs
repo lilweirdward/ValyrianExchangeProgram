@@ -64,6 +64,7 @@ namespace Braavos.Core.Repositories
             var account = authorizedAccount.Account;
             account.Metadata = await GetAdditionalMetadata();
             account.PotentialTransactions = await GetPotentialTransactions(data.Select(x => x.Account), account);
+            account.AcceptableRecipients = GetAcceptableRecipients(data.Select(x => x.Account), account);
             account.RecentTransactions = await GetRecentTransactions(account);
 
             // Cross reference to not suggest potential transactions that are also recent (active) transactions
@@ -179,6 +180,35 @@ namespace Braavos.Core.Repositories
                     .Select(row => allAccounts.FirstOrDefault(account => account.RulerName == row[0].ToString()))
                     ?? new List<Account>();
             }
+        }
+
+        private List<ValidAccount> GetAcceptableRecipients(IEnumerable<Account> allAccounts, Account currentAccount)
+        {
+            var results = new List<ValidAccount>();
+
+            // Exit early if account has no free aid slots
+            if (currentAccount.AvailableSlots == 0)
+                return results;
+
+            // Filter out accounts that are inactive or are the current account (can't deal with yourself lol)
+            var baseList = allAccounts
+                .Where(a => a.Id != currentAccount.Id && a.Role != Role.NotParticipating)
+                .Select(a => new Account(a) { Metadata = currentAccount.Metadata });
+
+            // Calculate whether each account should actually be sending the current account aid or not, and return
+            foreach (var otherVepAccount in baseList)
+            {
+                var shouldBeSendingCurrentAccountAid = currentAccount.Role switch
+                {
+                    Role.Buyer when otherVepAccount.OwesTech() => true,
+                    Role.Seller when otherVepAccount.OwesCash() => true,
+                    _ => false
+                };
+
+                results.Add(new ValidAccount(otherVepAccount) { ShouldBeSendingAid = shouldBeSendingCurrentAccountAid });
+            }
+
+            return results;
         }
 
         private async Task<List<Transaction>> GetRecentTransactions(Account currentAccount, int daysIncluded = 30)

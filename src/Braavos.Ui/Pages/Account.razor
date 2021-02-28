@@ -39,10 +39,17 @@ else
                     Open Slots: <strong>@(account.AvailableSlots ?? 0)</strong>
                 </div>
                 <div class="column text-right text-italic">
-                    
+
                 </div>
             </div>
-            <PotentialTransactions Account="@account" />
+            @if (account.ExpectsCash() || account.ExpectsTech())
+            {
+                <AcceptableRecipients Account="@account" />
+            }
+            else
+            {
+                <PotentialTransactions Account="@account" />
+            }
         </div>
         <div class="container py-xl">
             <RecentTransactions Account="@account" />

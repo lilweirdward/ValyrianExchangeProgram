@@ -15,7 +15,25 @@ namespace Braavos.Core.Entities
         public int? AvailableSlots { get; set; }
         public VepMeta Metadata { get; set; }
         public List<Account> PotentialTransactions { get; set; }
+        public List<ValidAccount> AcceptableRecipients { get; set; }
         public List<Transaction> RecentTransactions { get; set; }
+
+        public Account() { }
+
+        public Account(Account account)
+        {
+            Id = account.Id;
+            RulerName = account.RulerName;
+            NationName = account.NationName;
+            Role = account.Role;
+            Alliance = account.Alliance;
+            Balance = account.Balance;
+            AvailableSlots = account.AvailableSlots;
+            Metadata = account.Metadata;
+            PotentialTransactions = account.PotentialTransactions;
+            AcceptableRecipients = account.AcceptableRecipients;
+            RecentTransactions = account.RecentTransactions;
+        }
 
         public override bool Equals(object obj)
         {
