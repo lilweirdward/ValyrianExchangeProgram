@@ -80,9 +80,9 @@ namespace Braavos.Core.Infrastructure
         public static bool ExpectsCash(this Account account) =>
             account.IsSeller() && (
                 account.HasCreditBalance(amount => amount > 0) ||
-                account.HasDebtBalance(amount => amount <= account.Metadata.SellerDebtOverride)) ||
-            account.Role == Role.Collector && account.HasCreditBalance(amount => amount == 0) ||
-            account.Balance.Category == Category.Even;
+                account.HasDebtBalance(amount => amount <= account.Metadata.SellerDebtOverride) ||
+                account.Balance.Category == Category.Even) ||
+            account.Role == Role.Collector && account.HasCreditBalance(amount => amount == 0);
 
         public static bool OwesTech(this Account account) =>
             account.IsSeller() && account.HasDebtBalance(amount => amount > account.Metadata.SellerDebtOverride) ||
