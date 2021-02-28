@@ -5,6 +5,7 @@
         public int NationId { get; set; }
         public string RulerName { get; set; }
         public string UniqueCode { get; set; }
+        public string DiscordTag { get; set; }
 
         public AuthRequest() { }
 

@@ -41,12 +41,16 @@ namespace Braavos.Core.Repositories
                 {
                     NationId = Convert.ToInt32(row[0]),
                     RulerName = row[2].ToString(),
-                    UniqueCode = row[4].ToString()
+                    UniqueCode = row[4].ToString(),
+                    DiscordTag = row[3].ToString()
                 });
 
-            return users.FirstOrDefault(user => 
-                user.UniqueCode == authRequest.UniqueCode && 
-                (user.NationId == authRequest.NationId || user.RulerName.Equals(authRequest.RulerName, StringComparison.InvariantCultureIgnoreCase)));
+            if (string.IsNullOrEmpty(authRequest.DiscordTag))
+                return users.FirstOrDefault(user =>
+                    user.UniqueCode == authRequest.UniqueCode &&
+                    (user.NationId == authRequest.NationId || user.RulerName.Equals(authRequest.RulerName, StringComparison.InvariantCultureIgnoreCase)));
+
+            return users.FirstOrDefault(user => !string.IsNullOrEmpty(user.DiscordTag) && user.DiscordTag.Equals(authRequest.DiscordTag));
         }
 
         public async Task<Account> GetAccountDetails(AuthorizedUser user)
@@ -81,7 +85,8 @@ namespace Braavos.Core.Repositories
             {
                 NationId = Convert.ToInt32(row[1]),
                 RulerName = row[3].ToString(),
-                UniqueCode = row[5].ToString()
+                UniqueCode = row[5].ToString(),
+                DiscordTag = row[4].ToString()
             };
 
             var account = new Account
