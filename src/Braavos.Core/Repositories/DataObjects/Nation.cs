@@ -28,6 +28,16 @@ namespace Braavos.Core.Repositories.DataObjects
         public int CruiseMissiles { get; set; }
         public int Nukes { get; set; }
         public RecentActivity RecentActivity { get; set; }
+        public string ConnectedResource1 { get; set; }
+        public string ConnectedResource2 { get; set; }
+        public string ConnectedResource3 { get; set; }
+        public string ConnectedResource4 { get; set; }
+        public string ConnectedResource5 { get; set; }
+        public string ConnectedResource6 { get; set; }
+        public string ConnectedResource7 { get; set; }
+        public string ConnectedResource8 { get; set; }
+        public string ConnectedResource9 { get; set; }
+        public string ConnectedResource10 { get; set; }
         public DateTime? UpdatedOn { get; set; }
         public string UpdatedBy { get; set; }
 

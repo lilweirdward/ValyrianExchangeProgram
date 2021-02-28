@@ -84,5 +84,42 @@ namespace Braavos.Core.Parsers.DataObjects
 
         [Name("Activity")]
         public string Activity { get; set; }
+
+        [Name("Connected Resource 1")]
+        public string ConnectedResource1 { get; set; }
+
+        [Name("Connected Resource 2")]
+        public string ConnectedResource2 { get; set; }
+
+        [Name("Connected Resource 3")]
+        public string ConnectedResource3 { get; set; }
+
+        [Name("Connected Resource 4")]
+        public string ConnectedResource4 { get; set; }
+
+        [Name("Connected Resource 5")]
+        public string ConnectedResource5 { get; set; }
+
+        [Name("Connected Resource 6")]
+        public string ConnectedResource6 { get; set; }
+
+        [Name("Connected Resource 7")]
+        public string ConnectedResource7 { get; set; }
+
+        [Name("Connected Resource 8")]
+        public string ConnectedResource8 { get; set; }
+
+        [Name("Connected Resource 9")]
+        public string ConnectedResource9 { get; set; }
+
+        [Name("Connected Resource 10")]
+        public string ConnectedResource10 { get; set; }
+
+
+
+
+
+
+
     }
 }

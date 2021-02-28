@@ -12,81 +12,106 @@ CREATE TABLE `nation` (
  `technology` float NOT NULL,
  `infrastructure` float NOT NULL,
  `base_land` float NOT NULL,
+ `war_status` int(11) NOT NULL,
  `votes` int(11) NOT NULL,
+ `strength` float NOT NULL,
  `defcon` int(11) NOT NULL,
  `base_soldiers` int(11) NOT NULL,
  `tanks` int(11) NOT NULL,
  `cruise_missiles` int(11) NOT NULL,
  `nukes` int(11) NOT NULL,
  `recent_activity` int(11) NOT NULL,
+ `connected_resource_1` varchar(25) NOT NULL,
+ `connected_resource_2` varchar(25) NOT NULL,
+ `connected_resource_3` varchar(25) NOT NULL,
+ `connected_resource_4` varchar(25) NOT NULL,
+ `connected_resource_5` varchar(25) NOT NULL,
+ `connected_resource_6` varchar(25) NOT NULL,
+ `connected_resource_7` varchar(25) NOT NULL,
+ `connected_resource_8` varchar(25) NOT NULL,
+ `connected_resource_9` varchar(25) NOT NULL,
+ `connected_resource_10` varchar(25) NOT NULL,
  `audit_updated_on` datetime DEFAULT NULL,
  `audit_updated_by` varchar(500) DEFAULT NULL,
  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 CREATE TABLE `audit_nation` (
- �`id` int(11) NOT NULL AUTO_INCREMENT,
- �`change_timestamp` datetime NOT NULL,
- �`change_code` char(1) NOT NULL,
- �`nation_id` int(11) NOT NULL,
- �`nation_name` varchar(50) NOT NULL,
- �`ruler_name` varchar(50) NOT NULL,
- �`alliance_id` int(11) NOT NULL,
- �`alliance_date` datetime NOT NULL,
- �`alliance_status` varchar(25) NOT NULL,
- �`government_type` int(11) NOT NULL,
- �`religion` int(11) NOT NULL,
- �`team` int(11) NOT NULL,
- �`created` datetime NOT NULL,
- �`technology` float NOT NULL,
- �`infrastructure` float NOT NULL,
- �`base_land` float NOT NULL,
- �`votes` int(11) NOT NULL,
- �`strength` float NOT NULL,
- �`defcon` int(11) NOT NULL,
- �`base_soldiers` int(11) NOT NULL,
- �`tanks` int(11) NOT NULL,
- �`cruise_missiles` int(11) NOT NULL,
- �`nukes` int(11) NOT NULL,
- �`recent_activity` int(11) NOT NULL,
- �PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2050 DEFAULT CHARSET=latin1;
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `change_timestamp` datetime NOT NULL,
+ `change_code` char(1) NOT NULL,
+ `nation_id` int(11) NOT NULL,
+ `nation_name` varchar(50) NOT NULL,
+ `ruler_name` varchar(50) NOT NULL,
+ `alliance_id` int(11) NOT NULL,
+ `alliance_date` datetime NOT NULL,
+ `alliance_status` varchar(25) NOT NULL,
+ `government_type` int(11) NOT NULL,
+ `religion` int(11) NOT NULL,
+ `team` int(11) NOT NULL,
+ `created` datetime NOT NULL,
+ `technology` float NOT NULL,
+ `infrastructure` float NOT NULL,
+ `base_land` float NOT NULL,
+ `war_status` int(11) DEFAULT NULL,
+ `votes` int(11) NOT NULL,
+ `strength` float NOT NULL,
+ `defcon` int(11) NOT NULL,
+ `base_soldiers` int(11) NOT NULL,
+ `tanks` int(11) NOT NULL,
+ `cruise_missiles` int(11) NOT NULL,
+ `nukes` int(11) NOT NULL,
+ `recent_activity` int(11) NOT NULL,
+ `connected_resource_1` varchar(25) NOT NULL,
+ `connected_resource_2` varchar(25) NOT NULL,
+ `connected_resource_3` varchar(25) NOT NULL,
+ `connected_resource_4` varchar(25) NOT NULL,
+ `connected_resource_5` varchar(25) NOT NULL,
+ `connected_resource_6` varchar(25) NOT NULL,
+ `connected_resource_7` varchar(25) NOT NULL,
+ `connected_resource_8` varchar(25) NOT NULL,
+ `connected_resource_9` varchar(25) NOT NULL,
+ `connected_resource_10` varchar(25) NOT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=36049 DEFAULT CHARSET=latin1;
+
 
 
 CREATE TABLE `todays_file_nation` (
- �`nation_id` int(11) NOT NULL,
- �`nation_name` varchar(50) NOT NULL,
- �`ruler_name` varchar(50) NOT NULL,
- �`alliance_id` int(11) DEFAULT NULL,
- �`alliance_date` datetime NOT NULL,
- �`alliance_status` varchar(25) NOT NULL,
- �`government_type` int(11) NOT NULL,
- �`religion` int(11) NOT NULL,
- �`team` int(11) NOT NULL,
- �`created` datetime NOT NULL,
- �`technology` float NOT NULL,
- �`infrastructure` float NOT NULL,
- �`base_land` float NOT NULL,
- �`votes` int(11) NOT NULL,
- �`strength` float NOT NULL,
- �`defcon` int(11) NOT NULL,
- �`base_soldiers` int(11) NOT NULL,
- �`tanks` int(11) NOT NULL,
- �`cruise_missiles` int(11) NOT NULL,
- �`nukes` int(11) NOT NULL,
- �`recent_activity` int(11) NOT NULL,
- �`connected_resource_1` varchar(25) DEFAULT NULL,
- �`connected_resource_2` varchar(25) DEFAULT NULL,
- �`connected_resource_3` varchar(25) DEFAULT NULL,
- �`connected_resource_4` varchar(25) DEFAULT NULL,
- �`connected_resource_5` varchar(25) DEFAULT NULL,
- �`connected_resource_6` varchar(25) DEFAULT NULL,
- �`connected_resource_7` varchar(25) DEFAULT NULL,
- �`connected_resource_8` varchar(25) DEFAULT NULL,
- �`connected_resource_9` varchar(25) DEFAULT NULL,
- �`connected_resource_10` varchar(25) DEFAULT NULL,
- �`file_name` varchar(500) NOT NULL,
- �PRIMARY KEY (`nation_id`)
+ `nation_id` int(11) NOT NULL,
+ `nation_name` varchar(50) NOT NULL,
+ `ruler_name` varchar(50) NOT NULL,
+ `alliance_id` int(11) DEFAULT NULL,
+ `alliance_date` datetime NOT NULL,
+ `alliance_status` varchar(25) NOT NULL,
+ `government_type` int(11) NOT NULL,
+ `religion` int(11) NOT NULL,
+ `team` int(11) NOT NULL,
+ `created` datetime NOT NULL,
+ `technology` float NOT NULL,
+ `infrastructure` float NOT NULL,
+ `base_land` float NOT NULL,
+ `war_status` int(11) NOT NULL,
+ `votes` int(11) NOT NULL,
+ `strength` float NOT NULL,
+ `defcon` int(11) NOT NULL,
+ `base_soldiers` int(11) NOT NULL,
+ `tanks` int(11) NOT NULL,
+ `cruise_missiles` int(11) NOT NULL,
+ `nukes` int(11) NOT NULL,
+ `recent_activity` int(11) NOT NULL,
+ `connected_resource_1` varchar(25) NOT NULL,
+ `connected_resource_2` varchar(25) NOT NULL,
+ `connected_resource_3` varchar(25) NOT NULL,
+ `connected_resource_4` varchar(25) NOT NULL,
+ `connected_resource_5` varchar(25) NOT NULL,
+ `connected_resource_6` varchar(25) NOT NULL,
+ `connected_resource_7` varchar(25) NOT NULL,
+ `connected_resource_8` varchar(25) NOT NULL,
+ `connected_resource_9` varchar(25) NOT NULL,
+ `connected_resource_10` varchar(25) NOT NULL,
+ `file_name` varchar(500) NOT NULL,
+ PRIMARY KEY (`nation_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;	
 
 CREATE TRIGGER `tr_nations_update` AFTER UPDATE ON `nation`
@@ -106,6 +131,7 @@ CREATE TRIGGER `tr_nations_update` AFTER UPDATE ON `nation`
     `technology`, 
     `infrastructure`, 
     `base_land`, 
+    `war_status`,
     `votes`, 
     `strength`,
     `defcon`, 
@@ -113,7 +139,17 @@ CREATE TRIGGER `tr_nations_update` AFTER UPDATE ON `nation`
     `tanks`, 
     `cruise_missiles`, 
     `nukes`, 
-    `recent_activity`) 
+    `recent_activity`,
+    `connected_resource_1`, 
+    `connected_resource_2`, 
+    `connected_resource_3`, 
+    `connected_resource_4`, 
+    `connected_resource_5`, 
+    `connected_resource_6`, 
+    `connected_resource_7`, 
+    `connected_resource_8`, 
+    `connected_resource_9`, 
+    `connected_resource_10`) 
 VALUES (
     CURRENT_TIMESTAMP, 
     'U', 
@@ -130,6 +166,7 @@ VALUES (
     `OLD`.`technology`, 
     `OLD`.`infrastructure`, 
     `OLD`.`base_land`, 
+    `OLD`.`war_status`,
     `OLD`.`votes`, 
     `OLD`.`strength`,
     `OLD`.`defcon`, 
@@ -137,7 +174,17 @@ VALUES (
     `OLD`.`tanks`, 
     `OLD`.`cruise_missiles`, 
     `OLD`.`nukes`, 
-    `OLD`.`recent_activity`);
+    `OLD`.`recent_activity`,
+    `OLD`.`connected_resource_1`, 
+    `OLD`.`connected_resource_2`, 
+    `OLD`.`connected_resource_3`, 
+    `OLD`.`connected_resource_4`, 
+    `OLD`.`connected_resource_5`, 
+    `OLD`.`connected_resource_6`, 
+    `OLD`.`connected_resource_7`, 
+    `OLD`.`connected_resource_8`, 
+    `OLD`.`connected_resource_9`, 
+    `OLD`.`connected_resource_10`)
 
 CREATE TRIGGER `tr_nations_delete` AFTER DELETE ON `nation`
  FOR EACH ROW INSERT INTO `audit_nation`(
@@ -156,6 +203,7 @@ CREATE TRIGGER `tr_nations_delete` AFTER DELETE ON `nation`
     `technology`, 
     `infrastructure`, 
     `base_land`, 
+    `war_status`,
     `votes`, 
     `strength`,
     `defcon`, 
@@ -163,7 +211,17 @@ CREATE TRIGGER `tr_nations_delete` AFTER DELETE ON `nation`
     `tanks`, 
     `cruise_missiles`, 
     `nukes`, 
-    `recent_activity`) 
+    `recent_activity`, 
+    `connected_resource_1`, 
+    `connected_resource_2`, 
+    `connected_resource_3`, 
+    `connected_resource_4`, 
+    `connected_resource_5`, 
+    `connected_resource_6`, 
+    `connected_resource_7`, 
+    `connected_resource_8`, 
+    `connected_resource_9`, 
+    `connected_resource_10`) 
 VALUES (
     CURRENT_TIMESTAMP, 
     'D', 
@@ -180,6 +238,7 @@ VALUES (
     `OLD`.`technology`, 
     `OLD`.`infrastructure`, 
     `OLD`.`base_land`, 
+    `OLD`.`war_status`,
     `OLD`.`votes`, 
     `OLD`.`strength`,
     `OLD`.`defcon`, 
@@ -187,7 +246,17 @@ VALUES (
     `OLD`.`tanks`, 
     `OLD`.`cruise_missiles`, 
     `OLD`.`nukes`, 
-    `OLD`.`recent_activity`);
+    `OLD`.`recent_activity`, 
+    `OLD`.`connected_resource_1`, 
+    `OLD`.`connected_resource_2`, 
+    `OLD`.`connected_resource_3`, 
+    `OLD`.`connected_resource_4`, 
+    `OLD`.`connected_resource_5`, 
+    `OLD`.`connected_resource_6`, 
+    `OLD`.`connected_resource_7`, 
+    `OLD`.`connected_resource_8`, 
+    `OLD`.`connected_resource_9`, 
+    `OLD`.`connected_resource_10`)
 
 
 CREATE TABLE `aid` (
@@ -542,7 +611,41 @@ CREATE PROCEDURE `update_nation_data`()
 BEGIN
     
     -- Add any nations that aren't in the main table
-    insert into nation (id, nation_name, ruler_name, alliance_id, alliance_date, alliance_status, government_type, religion, team, created, technology, infrastructure, base_land, votes, strength, defcon, base_soldiers, tanks, cruise_missiles, nukes, recent_activity, audit_updated_on, audit_updated_by)
+    insert into nation (
+        id,
+        nation_name,
+        ruler_name,
+        alliance_id,
+        alliance_date,
+        alliance_status,
+        government_type,
+        religion,
+        team,
+        created,
+        technology,
+        infrastructure,
+        base_land,
+        war_status,
+        votes,
+        strength,
+        defcon,
+        base_soldiers,
+        tanks,
+        cruise_missiles,
+        nukes,
+        recent_activity,
+        connected_resource_1,
+        connected_resource_2,
+        connected_resource_3,
+        connected_resource_4,
+        connected_resource_5,
+        connected_resource_6,
+        connected_resource_7,
+        connected_resource_8,
+        connected_resource_9,
+        connected_resource_10,
+        audit_updated_on,
+        audit_updated_by)
     select
         nw.nation_id,
         nw.nation_name,
@@ -557,6 +660,7 @@ BEGIN
         nw.technology,
         nw.infrastructure,
         nw.base_land,
+        nw.war_status,
         nw.votes,
         nw.strength,
         nw.defcon,
@@ -565,6 +669,16 @@ BEGIN
         nw.cruise_missiles,
         nw.nukes,
         nw.recent_activity,
+        nw.connected_resource_1,
+        nw.connected_resource_2,
+        nw.connected_resource_3,
+        nw.connected_resource_4,
+        nw.connected_resource_5,
+        nw.connected_resource_6,
+        nw.connected_resource_7,
+        nw.connected_resource_8,
+        nw.connected_resource_9,
+        nw.connected_resource_10,
         CURRENT_TIMESTAMP,
         file_name
     from todays_file_nation nw
@@ -587,6 +701,7 @@ BEGIN
             nw.technology <> cur.technology OR 
             nw.infrastructure <> cur.infrastructure OR 
             nw.base_land <> cur.base_land OR 
+            nw.war_status <> cur.war_status OR 
             nw.votes <> cur.votes OR 
             nw.strength <> cur.strength OR 
             nw.defcon <> cur.defcon OR 
@@ -594,7 +709,17 @@ BEGIN
             nw.tanks <> cur.tanks OR 
             nw.cruise_missiles <> cur.cruise_missiles OR 
             nw.nukes <> cur.nukes OR 
-            nw.recent_activity <> cur.recent_activity)
+            nw.recent_activity <> cur.recent_activity OR
+            nw.connected_resource_1 <> cur.connected_resource_1 OR
+            nw.connected_resource_2 <> cur.connected_resource_2 OR
+            nw.connected_resource_3 <> cur.connected_resource_3 OR
+            nw.connected_resource_4 <> cur.connected_resource_4 OR
+            nw.connected_resource_5 <> cur.connected_resource_5 OR
+            nw.connected_resource_6 <> cur.connected_resource_6 OR
+            nw.connected_resource_7 <> cur.connected_resource_7 OR
+            nw.connected_resource_8 <> cur.connected_resource_8 OR
+            nw.connected_resource_9 <> cur.connected_resource_9 OR
+            nw.connected_resource_10 <> cur.connected_resource_10)
     set
         cur.nation_name = nw.nation_name,
         cur.ruler_name = nw.ruler_name,
@@ -608,6 +733,7 @@ BEGIN
         cur.technology = nw.technology,
         cur.infrastructure = nw.infrastructure,
         cur.base_land = nw.base_land,
+        cur.war_status = nw.war_status,
         cur.votes = nw.votes,
         cur.strength = nw.strength,
         cur.defcon = nw.defcon,
@@ -616,6 +742,16 @@ BEGIN
         cur.cruise_missiles = nw.cruise_missiles,
         cur.nukes = nw.nukes,
         cur.recent_activity = nw.recent_activity,
+        cur.connected_resource_1 = nw.connected_resource_1,
+        cur.connected_resource_2 = nw.connected_resource_2,
+        cur.connected_resource_3 = nw.connected_resource_3,
+        cur.connected_resource_4 = nw.connected_resource_4,
+        cur.connected_resource_5 = nw.connected_resource_5,
+        cur.connected_resource_6 = nw.connected_resource_6,
+        cur.connected_resource_7 = nw.connected_resource_7,
+        cur.connected_resource_8 = nw.connected_resource_8,
+        cur.connected_resource_9 = nw.connected_resource_9,
+        cur.connected_resource_10 = nw.connected_resource_10,
         cur.audit_updated_on = CURRENT_TIMESTAMP,
         cur.audit_updated_by = nw.file_name;
 

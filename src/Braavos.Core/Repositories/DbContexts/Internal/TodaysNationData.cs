@@ -67,6 +67,16 @@ namespace Braavos.Core.Repositories.DbContexts.Internal
             CruiseMissiles = realNationObject.CruiseMissiles;
             Nukes = realNationObject.Nukes;
             RecentActivity = (int)realNationObject.RecentActivity;
+            ConnectedResource1 = realNationObject.ConnectedResource1;
+            ConnectedResource2 = realNationObject.ConnectedResource2;
+            ConnectedResource3 = realNationObject.ConnectedResource3;
+            ConnectedResource4 = realNationObject.ConnectedResource4;
+            ConnectedResource5 = realNationObject.ConnectedResource5;
+            ConnectedResource6 = realNationObject.ConnectedResource6;
+            ConnectedResource7 = realNationObject.ConnectedResource7;
+            ConnectedResource8 = realNationObject.ConnectedResource8;
+            ConnectedResource9 = realNationObject.ConnectedResource9;
+            ConnectedResource10 = realNationObject.ConnectedResource10;
             FileName = fileName;
         }
     }

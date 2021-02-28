@@ -57,6 +57,16 @@ namespace Braavos.Core.Repositories.DbContexts
                 entity.Property(e => e.CruiseMissiles).HasColumnName("cruise_missiles");
                 entity.Property(e => e.Nukes).HasColumnName("nukes");
                 entity.Property(e => e.RecentActivity).HasColumnName("recent_activity");
+                entity.Property(e => e.RecentActivity).HasColumnName("connected_resource_1");
+                entity.Property(e => e.RecentActivity).HasColumnName("connected_resource_2");
+                entity.Property(e => e.RecentActivity).HasColumnName("connected_resource_3");
+                entity.Property(e => e.RecentActivity).HasColumnName("connected_resource_4");
+                entity.Property(e => e.RecentActivity).HasColumnName("connected_resource_5");
+                entity.Property(e => e.RecentActivity).HasColumnName("connected_resource_6");
+                entity.Property(e => e.RecentActivity).HasColumnName("connected_resource_7");
+                entity.Property(e => e.RecentActivity).HasColumnName("connected_resource_8");
+                entity.Property(e => e.RecentActivity).HasColumnName("connected_resource_9");
+                entity.Property(e => e.RecentActivity).HasColumnName("connected_resource_10");
                 entity.Property(e => e.UpdatedBy).HasColumnName("audit_updated_by");
                 entity.Property(e => e.UpdatedOn).HasColumnName("audit_updated_on");
             });
