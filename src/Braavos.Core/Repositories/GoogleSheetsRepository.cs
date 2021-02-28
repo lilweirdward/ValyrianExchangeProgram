@@ -85,8 +85,7 @@ namespace Braavos.Core.Repositories
             {
                 NationId = Convert.ToInt32(row[1]),
                 RulerName = row[3].ToString(),
-                UniqueCode = row[5].ToString(),
-                DiscordTag = row[4].ToString()
+                UniqueCode = row[5].ToString()
             };
 
             var account = new Account

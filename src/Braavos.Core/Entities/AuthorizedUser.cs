@@ -19,8 +19,7 @@ namespace Braavos.Core.Entities
             return
                 NationId == otherUser.NationId &&
                 RulerName == otherUser.RulerName &&
-                UniqueCode == otherUser.UniqueCode &&
-                DiscordTag == otherUser.DiscordTag;
+                UniqueCode == otherUser.UniqueCode;
         }
 
         public override int GetHashCode()
@@ -30,7 +29,6 @@ namespace Braavos.Core.Entities
                 var hashCode = NationId.GetHashCode();
                 hashCode = (hashCode * 397) ^ RulerName.GetHashCode();
                 hashCode = (hashCode * 397) ^ UniqueCode.GetHashCode();
-                hashCode = (hashCode * 397) ^ DiscordTag.GetHashCode();
                 return hashCode;
             }
         }
