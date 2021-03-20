@@ -5,7 +5,16 @@
 
 <NavBar BackgroundIsVisible="true" NavigationIsVisible="true" />
 
-@if (account is null)
+@if (exception != null)
+{
+    <div class="wrapper hero bg-gray" style="margin-top: 100px">
+        <div class="hero-body">
+            <h1>Account Error</h1>
+            <p>@exception.Message</p>
+        </div>
+    </div>
+}
+else if (account is null)
 {
     <div id="loading-wrapper">
         <!-- I know this is ugly but it's from here: https://loading.io/css/ -->
@@ -61,6 +70,7 @@ else
 @code {
 
     private Braavos.Core.Entities.Account account = null;
+    private PageException exception = null;
 
     protected override async Task OnInitializedAsync()
     {
@@ -73,15 +83,22 @@ else
         {
             account = await backendService.GetAccountAsync(authorizedUser);
         }
-        catch (KeyNotFoundException)
+        catch (KeyNotFoundException e)
         {
             Console.WriteLine($"{authorizedUser.ToString()} does not have a valid account.");
-            navManager.NavigateTo("");
+            exception = new PageException(
+                "Your account could not be found under your current credentials. " +
+                "Please log out and try again, or contact VEP management for help.",
+                e);
         }
         catch (Exception e)
         {
             Console.WriteLine(e.Message);
-            navManager.NavigateTo("");
+            exception = new PageException(
+                "A fatal error occurred while trying to load your account. Please refresh " +
+                "your page and try again. If the error persists, please contact VEP management " +
+                "for help.",
+                e);
         }
     }
 
