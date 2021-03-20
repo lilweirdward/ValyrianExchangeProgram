@@ -204,8 +204,11 @@ namespace Braavos.Core.Repositories
             {
                 var shouldBeSendingCurrentAccountAid = currentAccount.Role switch
                 {
-                    Role.Buyer when otherVepAccount.OwesTech() => true,
-                    Role.Seller when otherVepAccount.OwesCash() => true,
+                    // Accounts that send tech (for credit or free) are valid senders for a Buyer
+                    Role.Buyer when otherVepAccount.IsSeller() || otherVepAccount.IsFarm() => true,
+
+                    // Accounts that send cash (for credit or free) are valid senders for a Seller
+                    Role.Seller when otherVepAccount.IsBuyer() || otherVepAccount.IsDonor() => true,
                     _ => false
                 };
 
