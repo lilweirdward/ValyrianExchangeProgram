@@ -20,6 +20,8 @@ namespace Braavos.Core.Repositories.DataObjects
         public decimal Infrastructure { get; set; }
         public decimal BaseLand { get; set; }
         public NationalWarStatus WarStatus { get; set; }
+        public string Resource1 { get; set; }
+        public string Resource2 { get; set; }
         public int Votes { get; set; }
         public decimal Strength { get; set; }
         public int Defcon { get; set; }
