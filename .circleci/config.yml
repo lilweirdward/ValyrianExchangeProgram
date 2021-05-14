@@ -31,8 +31,6 @@ jobs:
           name: Publish client 
           command: |
             dotnet publish src/Braavos.Ui/Braavos.Ui.csproj --configuration Release --output build
-          
-            
 
 workflows:
   # Below is the definition of your workflow.
@@ -42,3 +40,8 @@ workflows:
   sample: 
     jobs:
       - build-and-deploy
+      - gh-pages/deploy:
+          build-dir: build
+          requires:
+            - build-and-deploy
+          ssh-fingerprints: ab:e5:1e:c4:cf:84:3f:83:78:ea:4a:f2:4c:10:92:7c
