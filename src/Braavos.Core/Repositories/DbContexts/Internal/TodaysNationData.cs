@@ -21,6 +21,8 @@ namespace Braavos.Core.Repositories.DbContexts.Internal
         public decimal Infrastructure { get; set; }
         public decimal BaseLand { get; set; }
         public int WarStatus { get; set; }
+        public string Resource1 { get; set; }
+        public string Resource2 { get; set; }
         public int Votes { get; set; }
         public decimal Strength { get; set; }
         public int Defcon { get; set; }
@@ -59,6 +61,8 @@ namespace Braavos.Core.Repositories.DbContexts.Internal
             Infrastructure = realNationObject.Infrastructure;
             BaseLand = realNationObject.BaseLand;
             WarStatus = (int)realNationObject.WarStatus;
+            Resource1 = realNationObject.Resource1;
+            Resource2 = realNationObject.Resource2;
             Votes = realNationObject.Votes;
             Strength = realNationObject.Strength;
             Defcon = realNationObject.Defcon;

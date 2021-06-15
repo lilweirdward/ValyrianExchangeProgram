@@ -1,3 +1,13 @@
+CREATE TABLE `discord_servers` (
+ `server_id` bigint(25) NOT NULL,
+ `alert_channel` bigint(25) DEFAULT NULL,
+ `admin_role` varchar(50) NOT NULL,
+ `alliance_id` int(11) NOT NULL,
+ PRIMARY KEY (`server_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1
+
+
+	
 CREATE TABLE `nation` (
  `id` int(11) NOT NULL,
  `nation_name` varchar(50) NOT NULL,
@@ -13,6 +23,8 @@ CREATE TABLE `nation` (
  `infrastructure` float NOT NULL,
  `base_land` float NOT NULL,
  `war_status` int(11) NOT NULL,
+ `resource_1` varchar(25) NOT NULL,
+ `resource_2` varchar(25) NOT NULL,
  `votes` int(11) NOT NULL,
  `strength` float NOT NULL,
  `defcon` int(11) NOT NULL,
@@ -34,7 +46,7 @@ CREATE TABLE `nation` (
  `audit_updated_on` datetime DEFAULT NULL,
  `audit_updated_by` varchar(500) DEFAULT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1
 
 CREATE TABLE `audit_nation` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -54,6 +66,8 @@ CREATE TABLE `audit_nation` (
  `infrastructure` float NOT NULL,
  `base_land` float NOT NULL,
  `war_status` int(11) DEFAULT NULL,
+ `resource_1` varchar(25) NOT NULL,
+ `resource_2` varchar(25) NOT NULL,
  `votes` int(11) NOT NULL,
  `strength` float NOT NULL,
  `defcon` int(11) NOT NULL,
@@ -92,6 +106,8 @@ CREATE TABLE `todays_file_nation` (
  `infrastructure` float NOT NULL,
  `base_land` float NOT NULL,
  `war_status` int(11) NOT NULL,
+ `resource_1` varchar(25) NOT NULL,
+ `resource_2` varchar(25) NOT NULL,
  `votes` int(11) NOT NULL,
  `strength` float NOT NULL,
  `defcon` int(11) NOT NULL,
@@ -132,6 +148,8 @@ CREATE TRIGGER `tr_nations_update` AFTER UPDATE ON `nation`
     `infrastructure`, 
     `base_land`, 
     `war_status`,
+    `resource_1`,
+    `resource_2`,
     `votes`, 
     `strength`,
     `defcon`, 
@@ -167,6 +185,8 @@ VALUES (
     `OLD`.`infrastructure`, 
     `OLD`.`base_land`, 
     `OLD`.`war_status`,
+    `OLD`.`resource_1`,
+    `OLD`.`resource_2`,
     `OLD`.`votes`, 
     `OLD`.`strength`,
     `OLD`.`defcon`, 
@@ -204,6 +224,8 @@ CREATE TRIGGER `tr_nations_delete` AFTER DELETE ON `nation`
     `infrastructure`, 
     `base_land`, 
     `war_status`,
+    `resource_1`,
+    `resource_2`,
     `votes`, 
     `strength`,
     `defcon`, 
@@ -239,6 +261,8 @@ VALUES (
     `OLD`.`infrastructure`, 
     `OLD`.`base_land`, 
     `OLD`.`war_status`,
+    `OLD`.`resource_1`,
+    `OLD`.`resource_2`,
     `OLD`.`votes`, 
     `OLD`.`strength`,
     `OLD`.`defcon`, 
@@ -626,6 +650,8 @@ BEGIN
         infrastructure,
         base_land,
         war_status,
+        resource_1,
+        resource_2,
         votes,
         strength,
         defcon,
@@ -661,6 +687,8 @@ BEGIN
         nw.infrastructure,
         nw.base_land,
         nw.war_status,
+        nw.resource_1,
+        nw.resource_2,
         nw.votes,
         nw.strength,
         nw.defcon,
@@ -702,6 +730,8 @@ BEGIN
             nw.infrastructure <> cur.infrastructure OR 
             nw.base_land <> cur.base_land OR 
             nw.war_status <> cur.war_status OR 
+            nw.resource_1 <> cur.resource_1 OR
+            nw.resource_2 <> cur.resource_2 OR
             nw.votes <> cur.votes OR 
             nw.strength <> cur.strength OR 
             nw.defcon <> cur.defcon OR 
@@ -734,6 +764,8 @@ BEGIN
         cur.infrastructure = nw.infrastructure,
         cur.base_land = nw.base_land,
         cur.war_status = nw.war_status,
+        cur.resource_1 = nw.resource_1,
+        cur.resource_2 = nw.resource_2,
         cur.votes = nw.votes,
         cur.strength = nw.strength,
         cur.defcon = nw.defcon,
