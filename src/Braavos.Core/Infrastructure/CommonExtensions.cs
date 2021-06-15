@@ -45,21 +45,21 @@ namespace Braavos.Core.Infrastructure
 
         public static bool IsNotFoundStatusCode(this HttpResponseMessage responseMessage) => responseMessage.StatusCode == HttpStatusCode.NotFound;
 
-        public static Role ToRoleFromCode(this string value)
+        public static Role ToRoleFromCode(this string value) => value switch
         {
-            switch (value)
-            {
-                case "S": return Role.Seller;
-                case "B": return Role.Buyer;
-                case "D": return Role.Donor;
-                case "F": return Role.Farm;
-                case "C": return Role.Collector;
-                case "R": return Role.Receiver;
-                case "N": return Role.ProbationarySeller;
-                default:
-                    return Role.NotParticipating;
-            }
-        }
+            "S" => Role.Seller,
+            "B" => Role.Buyer,
+            "D" => Role.Donor,
+            "F" => Role.Farm,
+            "C" => Role.Collector,
+            "R" => Role.Receiver,
+            "N" => Role.ProbationarySeller,
+            "P" => Role.TemporaryDonor,
+            "Q" => Role.TemporaryCollector,
+            "V" => Role.TemporaryFarm,
+            "W" => Role.TemporaryReceiver,
+            _ => Role.NotParticipating,
+        };
 
         public static string ToCode(this Role value) => value switch
         {
@@ -70,7 +70,25 @@ namespace Braavos.Core.Infrastructure
             Role.Collector => "C",
             Role.Receiver => "R",
             Role.ProbationarySeller => "N",
+            Role.TemporaryDonor => "P",
+            Role.TemporaryCollector => "Q",
+            Role.TemporaryFarm => "V",
+            Role.TemporaryReceiver => "W",
             _ => "H"
+        };
+
+        public static string ToReadableText(this Role role) => role switch
+        {
+            Role.ProbationarySeller => "Seller (Probationary)",
+            Role.Donor => "Cash Donor",
+            Role.Farm => "Tech Farm",
+            Role.Collector => "Cash Collector",
+            Role.Receiver => "Tech Receiver",
+            Role.TemporaryDonor => $"Temporary {Role.Donor.ToReadableText()}",
+            Role.TemporaryFarm => $"Temporary {Role.Farm.ToReadableText()}",
+            Role.TemporaryCollector => $"Temporary {Role.Collector.ToReadableText()}",
+            Role.TemporaryReceiver => $"Temporary {Role.Receiver.ToReadableText()}",
+            _ => role.ToString()
         };
 
         public static bool OwesCash(this Account account) => 

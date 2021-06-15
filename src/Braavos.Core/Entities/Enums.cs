@@ -12,7 +12,11 @@ namespace Braavos.Core.Entities
         Farm,
         Collector,
         Receiver,
-        ProbationarySeller
+        ProbationarySeller,
+        TemporaryDonor,
+        TemporaryCollector,
+        TemporaryFarm,
+        TemporaryReceiver
     }
 
     public enum BalanceType

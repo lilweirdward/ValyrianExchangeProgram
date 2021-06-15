@@ -131,12 +131,16 @@ namespace Braavos.Core.Repositories
                     break;
                 // Donors and Collectors are always exchanging cash
                 case Role.Donor:
+                case Role.TemporaryDonor:
                 case Role.Collector:
+                case Role.TemporaryCollector:
                     balance.Type = BalanceType.Cash;
                     break;
                 // Farms and Receivers are always exchanging tech
                 case Role.Farm:
+                case Role.TemporaryFarm:
                 case Role.Receiver:
+                case Role.TemporaryReceiver:
                     balance.Type = BalanceType.Tech;
                     break;
             }
