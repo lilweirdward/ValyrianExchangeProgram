@@ -165,6 +165,8 @@ namespace Braavos.Core.Repositories.DbContexts
                 entity.Property(e => e.Infrastructure).HasColumnName("infrastructure");
                 entity.Property(e => e.BaseLand).HasColumnName("base_land");
                 entity.Property(e => e.WarStatus).HasColumnName("war_status");
+                entity.Property(e => e.Resource1).HasColumnName("resource_1");
+                entity.Property(e => e.Resource2).HasColumnName("resource_2");
                 entity.Property(e => e.Votes).HasColumnName("votes");
                 entity.Property(e => e.Strength).HasColumnName("strength");
                 entity.Property(e => e.Defcon).HasColumnName("defcon");
