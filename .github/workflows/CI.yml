@@ -4,9 +4,7 @@ on:
   push:
     branches:
     - master
-  pull_request:
-    branches:
-    - master
+  workflow_dispatch:
 
 env:
   AZURE_FUNCTIONAPP_NAME: braavos-tech-exchange
