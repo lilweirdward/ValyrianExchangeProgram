@@ -5,6 +5,7 @@ using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using Microsoft.Extensions.Options;
+using Org.BouncyCastle.Asn1.Crmf;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -152,8 +153,17 @@ namespace Braavos.Core.Repositories
         {
             var request = _sheetsService.Spreadsheets.Values.Get(_gSheetsSpreadsheetId, "Lists!D5");
             var data = (await request.ExecuteAsync()).Values.FirstOrDefault();
+            var sellerDebtOverride = data is null ? (int?)null : Convert.ToInt32(data[0]);
 
-            return data is null ? null : new VepMeta(Convert.ToInt32(data[0]));
+            request = _sheetsService.Spreadsheets.Values.Get(_gSheetsSpreadsheetId, "Lists!C16");
+            data = (await request.ExecuteAsync()).Values.FirstOrDefault();
+            var siteIsUnderMaintenance = data is null ? (bool?)null : Convert.ToBoolean(data[0]);
+
+            return new VepMeta
+            {
+                SellerDebtOverride = sellerDebtOverride,
+                SiteIsUnderMaintenance = siteIsUnderMaintenance
+            };
         }
 
         private async Task<List<Account>> GetPotentialTransactions(IEnumerable<Account> allAccounts, Account currentAccount)

@@ -6,7 +6,8 @@ namespace Braavos.Core.Entities
 {
     public class VepMeta
     {
-        public int SellerDebtOverride { get; set; }
+        public int? SellerDebtOverride { get; set; }
+        public bool? SiteIsUnderMaintenance { get; set; }
 
         public VepMeta() { }
 
