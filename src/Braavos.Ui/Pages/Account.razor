@@ -21,6 +21,18 @@ else if (account is null)
         <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
     </div>
 }
+else if (account.Metadata?.SiteIsUnderMaintenance ?? false)
+{
+    <div class="wrapper hero bg-gray" style="margin-top: 100px">
+        <div class="hero-body">
+            <h1>Under Maintenance</h1>
+            <p>
+                VEP is currently undergoing some maintenance, and will be back online soon. Please check with Lord Draculea
+                or lilweirdward on Discord or in-game for any questions or further instructions.
+            </p>
+        </div>
+    </div>
+}
 else
 {
 
